@@ -1,4 +1,5 @@
-
+# import pip
+# pip install transformers
 
 def main():
     print("testing the project-tomer")
