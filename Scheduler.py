@@ -47,9 +47,10 @@ class Scheduler:
     def sort_requests_list(self):
         pass
 
-    def eval_request(self, request):
-        # Implement request evaluation, send to eval engine
-        pass
+    def eval_request(self):
+        next_eval_req = self.get_next_request()
+        result_val = self.eval_engine.run_eval_request(next_eval_req)
+        self.remove_next_request()
 
     def save(self):
         # Implement save functionality
