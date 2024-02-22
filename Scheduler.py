@@ -55,7 +55,7 @@ class Scheduler:
                 deltaTime = curDt - ur[2]
                 ur[3] = len(ur[0]) * deltaTime.total_seconds()
         update_score_in_users_list()
-        self.users_requests_list.sort( lambda ur: ur[3], reverse=True)
+        self.users_requests_list.sort(key= lambda ur: ur[3], reverse=True)
         self.save()
     
 
@@ -64,6 +64,7 @@ class Scheduler:
         result_val = self.eval_engine.run_eval_request(next_eval_req)
         self.remove_next_request()
         self.save()
+        return result_val
 
     def save(self):
         # Implement save functionality
