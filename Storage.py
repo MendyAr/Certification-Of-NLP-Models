@@ -18,17 +18,17 @@ class Storage:
         try:
             with open("agent_requests_scheduler.json", "r") as f:
                 agent_requests_data = json.load(f)
-                return [self._deserialize_agent_request(agent_request_data) for agent_request_data in agent_requests_data]
+                return [self._deserialize_agent_request_scheduler_list(agent_request_data) for agent_request_data in agent_requests_data]
         except FileNotFoundError:
             return []  # Return an empty list if the file does not exist
 
-    def save_agent_requests_to_file(self, agent_requests_scheduler_list_new):
+    def save_agent_requests_scheduler_list_to_file(self, agent_requests_scheduler_list_new):
         self.agent_requests_scheduler_list = agent_requests_scheduler_list_new
-        agent_requests_data = [self._serialize_agent_request(agent_request) for agent_request in self.agent_requests_scheduler_list]
+        agent_requests_data = [self._serialize_agent_request_scheduler_list(agent_request) for agent_request in self.agent_requests_scheduler_list]
         with open("agent_requests_scheduler.json", "w") as f:
             json.dump(agent_requests_data, f)
 
-    def _serialize_agent_request(self, agent_request: Request):
+    def _serialize_agent_request_scheduler_list(self, agent_request: Request):
         return {
                 "model": {
                     "name": agent_request.model.name,
@@ -41,7 +41,7 @@ class Storage:
                 }
         }
 
-    def _deserialize_agent_request(self, agent_request_data):
+    def _deserialize_agent_request_scheduler_list(self, agent_request_data):
         model_data = agent_request_data["model"]
         questionnaire_data = agent_request_data["questionnaire"]
         model = Model(model_data["name"], model_data["url"], model_data["version"])
