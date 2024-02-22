@@ -34,6 +34,12 @@ class Scheduler:
             self.save()
             
     def get_next_request(self):
+        if len(self.users_requests_list) == 0 and len(self.agent_requests_list) == 0:
+            return -1
+        if len(self.users_requests_list) == 0 and len(self.agent_requests_list) > 0:
+            return self.agent_requests_list[0]
+        if len(self.users_requests_list) > 0 and len(self.agent_requests_list) == 0:
+            return self.users_requests_list[0][1]
         if self.user_requests_counter == self.users_2_agent_ratio:
             return self.agent_requests_list[0]
         return self.users_requests_list[0][1]
@@ -46,7 +52,6 @@ class Scheduler:
             return self.agent_requests_list.pop(0)
         self.user_requests_counter +=1
         return self.users_requests_list.pop(0)
-            
 
     def sort_requests_list(self):
         def update_score_in_users_list():
@@ -55,15 +60,18 @@ class Scheduler:
                 deltaTime = curDt - ur[2]
                 ur[3] = len(ur[0]) * deltaTime.total_seconds()
         update_score_in_users_list()
-        self.users_requests_list.sort( lambda ur: ur[3], reverse=True)
+        self.users_requests_list.sort(key= lambda ur: ur[3], reverse=True)
         self.save()
     
 
     def eval_request(self):
         next_eval_req = self.get_next_request()
+        if next_eval_req == -1:
+            return "No requests have been found!"
         result_val = self.eval_engine.run_eval_request(next_eval_req)
         self.remove_next_request()
         self.save()
+        return result_val
 
     def save(self):
         # Implement save functionality
@@ -84,3 +92,12 @@ class UserRequest:
         if self.request == __value.request:
             return True
         return False
+    
+
+class Tests:
+    def __init__(self):
+        self.scheduler = Scheduler()
+
+    def AddRequests(self):
+        self.scheduler.add_request()
+    
