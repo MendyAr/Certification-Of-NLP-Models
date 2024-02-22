@@ -27,9 +27,11 @@ class Scheduler:
                 if ur.request == eval_request:
                     return
             self.agent_requests_list.append(eval_request)
+            self.save()
         else:
             dt = datetime.datetime.now()
             self.users_requests_list.append([{user_name},eval_request,dt,1])
+            self.save()
             
     def get_next_request(self):
         if self.user_requests_counter == self.users_2_agent_ratio:
@@ -45,15 +47,15 @@ class Scheduler:
             
 
     def sort_requests_list(self):
-        pass
+        self.save()
 
     def eval_request(self):
         next_eval_req = self.get_next_request()
         result_val = self.eval_engine.run_eval_request(next_eval_req)
         self.remove_next_request()
+        self.save()
 
     def save(self):
-        print("as")
         # Implement save functionality
         pass
 
