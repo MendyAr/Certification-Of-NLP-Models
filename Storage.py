@@ -2,17 +2,95 @@ import json
 
 from Request import Questionnaire, Model, Request
 from Result import Result
+from Scheduler import UserRequest
 
 
 class Storage:
     def __init__(self):
         self.users = self.load_users_from_file()
-        self.results = self.load_results_from_file()  # model, questionnaire, result(float) - Result
-        self.requests_list = []  # model, questionnaire
-        self.user_requests = []  # name,(model, questionnaire) - Requst list
+        self.results = self.load_results_from_file()  # model, questionnaire, result_score(float) - Result
+        self.user_requests_scheduler_list = self.load_user_requests_from_file()  #for each: Request, users_list, start time, score
+        self.agent_requests_scheduler_list = self.load_agent_requests_from_file()  # requests
+        self.user_requests = []  # name,(model, questionnaire) - Request list
+
+    # ........................agent_requests...............................
+    def load_agent_requests_from_file(self):
+        try:
+            with open("agent_requests_scheduler.json", "r") as f:
+                agent_requests_data = json.load(f)
+                return [self._deserialize_agent_request(agent_request_data) for agent_request_data in agent_requests_data]
+        except FileNotFoundError:
+            return []  # Return an empty list if the file does not exist
+
+    def save_agent_requests_to_file(self, agent_requests_scheduler_list_new):
+        self.agent_requests_scheduler_list = agent_requests_scheduler_list_new
+        agent_requests_data = [self._serialize_agent_request(agent_request) for agent_request in self.agent_requests_scheduler_list]
+        with open("agent_requests_scheduler.json", "w") as f:
+            json.dump(agent_requests_data, f)
+
+    def _serialize_agent_request(self, agent_request: Request):
+        return {
+                "model": {
+                    "name": agent_request.model.name,
+                    "url": agent_request.model.url,
+                    "version": agent_request.model.version
+                },
+                "questionnaire": {
+                    "name": agent_request.questionnaire.name,
+                    "version": agent_request.questionnaire.version
+                }
+        }
+
+    def _deserialize_agent_request(self, agent_request_data):
+        model_data = agent_request_data["model"]
+        questionnaire_data = agent_request_data["questionnaire"]
+        model = Model(model_data["name"], model_data["url"], model_data["version"])
+        questionnaire = Questionnaire(questionnaire_data["name"], questionnaire_data["version"])
+        return Request(model, questionnaire)
+
+    # ........................user_requests...............................
+    def load_user_requests_from_file(self):
+        try:
+            with open("user_requests_scheduler.json", "r") as f:
+                user_requests_data = json.load(f)
+                return [self._deserialize_user_request(user_request_data) for user_request_data in user_requests_data]
+        except FileNotFoundError:
+            return []  # Return an empty list if the file does not exist
+
+    def save_user_requests_to_file(self, user_requests_scheduler_list_new):
+        self.user_requests_scheduler_list = user_requests_scheduler_list_new
+        user_requests_data = [self._serialize_user_request(user_request) for user_request in self.user_requests_scheduler_list]
+        with open("user_requests_scheduler.json", "w") as f:
+            json.dump(user_requests_data, f)
+
+    def _serialize_user_request(self, user_request: UserRequest):
+        return {
+            "users": user_request.users,
+            "request": {
+                "model": {
+                    "name": user_request.request.model.name,
+                    "url": user_request.request.model.url,
+                    "version": user_request.request.model.version
+                },
+                "questionnaire": {
+                    "name": user_request.request.questionnaire.name,
+                    "version": user_request.request.questionnaire.version
+                }
+            },
+            "starttime": user_request.starttime,
+            "score": user_request.score
+        }
+
+    def _deserialize_user_request(self, user_request_data):
+        model_data = user_request_data["request"]["model"]
+        questionnaire_data = user_request_data["request"]["questionnaire"]
+        model = Model(model_data["name"], model_data["url"], model_data["version"])
+        questionnaire = Questionnaire(questionnaire_data["name"], questionnaire_data["version"])
+        request = Request(model, questionnaire)
+        return UserRequest(user_request_data["users"], request, user_request_data["starttime"],
+                           user_request_data["score"])
 
     # ........................RESULTS...............................
-
     def load_results_from_file(self):
         try:
             with open("results.json", "r") as f:
