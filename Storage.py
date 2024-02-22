@@ -9,12 +9,12 @@ class Storage:
     def __init__(self):
         self.users = self.load_users_from_file()
         self.results = self.load_results_from_file()  # model, questionnaire, result_score(float) - Result
-        self.user_requests_scheduler_list = self.load_user_requests_from_file()  #for each: Request, users_list, start time, score
-        self.agent_requests_scheduler_list = self.load_agent_requests_from_file()  # requests
-        self.user_requests = []  # name,(model, questionnaire) - Request list
+        self.user_requests_scheduler_list = self.load_user_requests_scheduler_list_from_file()  #for each: Request, users_list, start time, score
+        self.agent_requests_scheduler_list = self.load_agent_requests_scheduler_list_from_file()  # requests
+        self.user_requests = self.load_user_requests_from_file()  #taple(user_name, request)
 
-    # ........................agent_requests...............................
-    def load_agent_requests_from_file(self):
+    # ........................agent_requests_scheduler_list...............................
+    def load_agent_requests_scheduler_list_from_file(self):
         try:
             with open("agent_requests_scheduler.json", "r") as f:
                 agent_requests_data = json.load(f)
@@ -48,22 +48,22 @@ class Storage:
         questionnaire = Questionnaire(questionnaire_data["name"], questionnaire_data["version"])
         return Request(model, questionnaire)
 
-    # ........................user_requests...............................
-    def load_user_requests_from_file(self):
+    # ........................user_requests_scheduler_list...............................
+    def load_user_requests_scheduler_list_from_file(self):
         try:
             with open("user_requests_scheduler.json", "r") as f:
                 user_requests_data = json.load(f)
-                return [self._deserialize_user_request(user_request_data) for user_request_data in user_requests_data]
+                return [self._deserialize_user_request_scheduler_list(user_request_data) for user_request_data in user_requests_data]
         except FileNotFoundError:
             return []  # Return an empty list if the file does not exist
 
-    def save_user_requests_to_file(self, user_requests_scheduler_list_new):
+    def save_user_requests_scheduler_list_to_file(self, user_requests_scheduler_list_new):
         self.user_requests_scheduler_list = user_requests_scheduler_list_new
-        user_requests_data = [self._serialize_user_request(user_request) for user_request in self.user_requests_scheduler_list]
+        user_requests_data = [self._serialize_user_request_scheduler_list(user_request) for user_request in self.user_requests_scheduler_list]
         with open("user_requests_scheduler.json", "w") as f:
             json.dump(user_requests_data, f)
 
-    def _serialize_user_request(self, user_request: UserRequest):
+    def _serialize_user_request_scheduler_list(self, user_request: UserRequest):
         return {
             "users": user_request.users,
             "request": {
@@ -81,7 +81,7 @@ class Storage:
             "score": user_request.score
         }
 
-    def _deserialize_user_request(self, user_request_data):
+    def _deserialize_user_request_scheduler_list(self, user_request_data):
         model_data = user_request_data["request"]["model"]
         questionnaire_data = user_request_data["request"]["questionnaire"]
         model = Model(model_data["name"], model_data["url"], model_data["version"])
@@ -168,21 +168,21 @@ class Storage:
         else:
             return f"Error: User '{user_name}' not found, please sign-in."
 
-    # .................................. USER REQUEST.......................................
-    def load_user_requests_list_from_file(self):
+    # .................................. user_requests.......................................
+    def load_user_requests_from_file(self):
         try:
-            with open("user_requests_mendy.json", "r") as f:
+            with open("user_requests.json", "r") as f:
                 user_requests_list = json.load(f)
-                return [self._deserialize_result(user_request) for user_request in user_requests_list]
+                return [self._deserialize_user_request(user_request_and_name) for user_request_and_name in user_requests_list]
         except FileNotFoundError:
             return []  # Return an empty list if the file does not exist
 
-    def save_user_requests_list_to_file(self):
-        user_requests_list = [self._serialize_result(user_request) for user_request in self.user_requests]
-        with open("results.json", "w") as f:
+    def save_user_requests_to_file(self):
+        user_requests_list = [self._serialize_user_request(user_name, user_request) for (user_name, user_request) in self.user_requests]
+        with open("user_requests.json", "w") as f:
             json.dump(user_requests_list, f)
 
-    def _serialize_user_requests_list(self, user_name, request: Request):
+    def _serialize_user_request(self, user_name, request: Request):
         return {
             "user_name": user_name,
             "request": {
@@ -198,7 +198,7 @@ class Storage:
             }
         }
 
-    def _deserialize_user_requests(self, user_request):
+    def _deserialize_user_request(self, user_request):
         model_data = user_request["request"]["model"]
         questionnaire_data = user_request["request"]["questionnaire"]
         model = Model(model_data["name"], model_data["url"], model_data["version"])
@@ -209,15 +209,14 @@ class Storage:
     def add_user_request(self, user_name, request: Request):
         for user_request in self.user_requests:
             if user_request[0] == user_name and user_request[1] == request:
-                return "Error: user_request already saved in the database."
+                return f"Error: this user_request for '{user_name}' already saved in the database."
         self.user_requests.append((user_name, request))
-        self.save_results_to_file()
-        return "User request added successfully."
+        self.save_user_requests_to_file()
+        return f"User request for '{user_name}' added successfully."
 
     def get_user_request(self, user_name):
         requests = []
-        for user_request in self.user_requests:
-            if user_request[0] == user_name:
-                requests.append(user_request[1])
-
+        for user_request_and_name in self.user_requests:
+            if user_request_and_name[0] == user_name:
+                requests.append(user_request_and_name[1])
         return requests
