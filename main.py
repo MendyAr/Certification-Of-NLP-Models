@@ -1,3 +1,6 @@
+# import pip
+# pip install transformers
+
 from Request import Model, Questionnaire, Request
 from Result import Result
 from Storage import Storage
