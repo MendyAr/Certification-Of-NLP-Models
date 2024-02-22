@@ -52,7 +52,6 @@ class Scheduler:
             return self.agent_requests_list.pop(0)
         self.user_requests_counter +=1
         return self.users_requests_list.pop(0)
-            
 
     def sort_requests_list(self):
         def update_score_in_users_list():
@@ -72,6 +71,7 @@ class Scheduler:
         result_val = self.eval_engine.run_eval_request(next_eval_req)
         self.remove_next_request()
         self.save()
+        return result_val
 
     def save(self):
         # Implement save functionality
