@@ -1,6 +1,7 @@
 import Request
 import EvaluationEngine
 import Agent
+import datetime
 
 class Scheduler:
     def __init__(self):
@@ -14,16 +15,34 @@ class Scheduler:
         pass
 
     def add_request(self, eval_request : Request, user_name):
-        foundit = None
         for ur in self.users_requests_list:
             if ur.request == eval_request:
                 if not user_name in ur[0]:
-                    ur[0].add(user_name)
+                    ur[0].add(user_name)    
                     self.sort_requests_list()
+                    return
+        # there is no user that want that request so add it to the agent list
+        if user_name == "agent":
+            for ar in self.agent_requests_list:
+                if ur.request == eval_request:
+                    return
+            self.agent_requests_list.append(eval_request)
+        else:
+            dt = datetime.datetime.now()
+            self.users_requests_list.append([{user_name},eval_request,dt,1])
+            
+    def get_next_request(self):
+        if self.user_requests_counter == self.users_2_agent_ratio:
+            return self.agent_requests_list[0]
+        return self.users_requests_list[0].request
 
-    def next_request(self):
-        # remove the next eval request and return it
-        pass
+    def remove_next_request(self):
+        if self.user_requests_counter == self.users_2_agent_ratio:
+            self.user_requests_counter=0
+            return self.agent_requests_list.pop(0)
+        self.user_requests_counter +=1
+        return self.users_requests_list.pop(0)
+            
 
     def sort_requests_list(self):
         pass
