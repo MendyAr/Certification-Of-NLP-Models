@@ -6,7 +6,7 @@ class Agent:
     def __init__(self):
         self.api = HfApi()
 
-    def __get_models_from_HfApi(self, model_name):
+    def __get_models_from_hfapi(self, model_name):
         models = self.api.list_models(
             filter=ModelFilter(
                 model_name=model_name
@@ -20,8 +20,8 @@ class Agent:
         return model_list
 
     def get_models(self, amount, filter_by="downloads"):
-        models = self.__get_models_from_HfApi("mnli")
-        sorted_models = sorted(models, key=lambda x: x[filter], reverse=True)
+        models = self.__get_models_from_hfapi("mnli")
+        sorted_models = sorted(models, key=lambda x: x[filter_by], reverse=True)
         return sorted_models[:amount]
 
 
