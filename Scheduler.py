@@ -1,11 +1,11 @@
-import Request
-import EvaluationEngine
-import Agent
+from Request import Request
+from EvaluationEngine import EvaluationEngine
+from Agent import Agent
 import datetime
 
 class Scheduler:
     def __init__(self):
-        self.users_requests_list = [] # for each : users: set, Request, start time, score
+        self.users_requests_list = [] # for each : users: set, Request, start time, priority_score:float
         self.agent_requests_list = [] # Requests object
         self.user_requests_counter = 0
         self.users_2_agent_ratio = 10 # for num of request eval agent req
@@ -53,6 +53,7 @@ class Scheduler:
         self.remove_next_request()
 
     def save(self):
+        print("as")
         # Implement save functionality
         pass
 
