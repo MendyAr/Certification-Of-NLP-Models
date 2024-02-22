@@ -34,6 +34,12 @@ class Scheduler:
             self.save()
             
     def get_next_request(self):
+        if len(self.users_requests_list) == 0 and len(self.agent_requests_list) == 0:
+            return -1
+        if len(self.users_requests_list) == 0 and len(self.agent_requests_list) > 0:
+            return self.agent_requests_list[0]
+        if len(self.users_requests_list) > 0 and len(self.agent_requests_list) == 0:
+            return self.users_requests_list[0][1]
         if self.user_requests_counter == self.users_2_agent_ratio:
             return self.agent_requests_list[0]
         return self.users_requests_list[0][1]
@@ -61,6 +67,8 @@ class Scheduler:
 
     def eval_request(self):
         next_eval_req = self.get_next_request()
+        if next_eval_req == -1:
+            return "No requests have been found!"
         result_val = self.eval_engine.run_eval_request(next_eval_req)
         self.remove_next_request()
         self.save()
@@ -84,3 +92,12 @@ class UserRequest:
         if self.request == __value.request:
             return True
         return False
+    
+
+class Tests:
+    def __init__(self):
+        self.scheduler = Scheduler()
+
+    def AddRequests(self):
+        self.scheduler.add_request()
+    
