@@ -1,9 +1,5 @@
 
-from qlatent.qmnli.qmnli import *
-from qlatent.qmnli.qmnli import _QMNLI, QMNLI
-
-
-
+from questionaire.qlatent.qmnli.qmnli import *
 
 def split_question(Q, index, scales, softmax, filters):
   result = []
