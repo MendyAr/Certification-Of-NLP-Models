@@ -994,6 +994,15 @@ class ASI:
     def __init__(self):
         pass
 
+    def make_qmnli(self,model_name):
+        # p = "typeform/distilbert-base-uncased-mnli"
+        # mnli = pipeline("zero-shot-classification",device=device, model=p)
+        # mnli.model_identifier = p
+        p = model_name
+        mnli = pipeline("zero-shot-classification",device=device, model=p)
+        mnli.model_identifier = p
+        return mnli
+    
     def eval_q22(self,qmnli):
         Q22s = split_question(ASIQ22,
                         index=["index"],
@@ -1006,10 +1015,10 @@ class ASI:
         score = q.run(qmnli).mean_score()
         return score
 
-    def eval_questionaire(self,qmnli):
+    def eval_questionaire(self,model_name):
         num_of_q = 22
         sum = 0
-
+        qmnli = make_qmnli(model_name)
         q22 = self.eval_q22(qmnli)
         sum += q22
         q22 = self.eval_q22(qmnli)

@@ -30,6 +30,8 @@ frequency_weights:SCALE = {
     'always':4,    
 }
 
+device = 0 if torch.cuda.is_available() else -1
+
 mnli_models_names_array = [
                   'typeform/distilbert-base-uncased-mnli',
                   'ishan/distilbert-base-uncased-mnli',
