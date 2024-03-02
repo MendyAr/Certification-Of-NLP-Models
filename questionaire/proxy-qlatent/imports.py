@@ -30,4 +30,29 @@ frequency_weights:SCALE = {
     'always':4,    
 }
 
+mnli_models_names_array = [
+                  'typeform/distilbert-base-uncased-mnli',
+                  'ishan/distilbert-base-uncased-mnli',
+                  'typeform/mobilebert-uncased-mnli',
+                  'typeform/squeezebert-mnli',
+                  'cross-encoder/nli-roberta-base',
+                  'cross-encoder/nli-deberta-base',
+                  'cross-encoder/nli-distilroberta-base',
+                  'cross-encoder/nli-MiniLM2-L6-H768',
+                  'navteca/bart-large-mnli',
+                  'digitalepidemiologylab/covid-twitter-bert-v2-mnli',
+                  'joeddav/bart-large-mnli-yahoo-answers',
+                  'Narsil/deberta-large-mnli-zero-cls',
+                  'seduerr/paiintent',
+                  'microsoft/deberta-large-mnli',
+                  'microsoft/deberta-base-mnli',
+                  'ishan/bert-base-uncased-mnli',
+                  'Alireza1044/albert-base-v2-mnli',
+                  'Intel/bert-base-uncased-mnli-sparse-70-unstructured',
+                  'yoshitomo-matsubara/bert-large-uncased-mnli',
+                  'yoshitomo-matsubara/bert-base-uncased-mnli',
+                  'yoshitomo-matsubara/bert-base-uncased-mnli_from_bert-large-uncased-mnli',
+                  'valhalla/distilbart-mnli-12-6',
+]
+
 softmax_files = [True, False]

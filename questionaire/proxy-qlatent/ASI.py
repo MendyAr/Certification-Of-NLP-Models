@@ -1003,12 +1003,8 @@ class ASI:
                                 "positiveonly":ASIQ22().get_filter_for_postive_keywords()},
                         )
         q = Q22s[0]
-        score = q.run(qmnli).get_mean_score()
+        score = q.run(qmnli).mean_score()
         return score
-        # print_permutations(q)
-        # df = linguistic_acceptabilities(q, q._index, q._scale, 'ASIQ5', 'student_id', output_path=Path(''))
-        # cols = ['semantic_similarity', 'cola_score', 'silhouette_score']
-        # df[cols].mean(axis=0)
 
     def eval_questionaire(self,qmnli):
         num_of_q = 22
@@ -1016,8 +1012,30 @@ class ASI:
 
         q22 = self.eval_q22(qmnli)
         sum += q22
-
+        q22 = self.eval_q22(qmnli)
+        sum += q22
+        q22 = self.eval_q22(qmnli)
+        sum += q22
+        q22 = self.eval_q22(qmnli)
+        sum += q22
+        q22 = self.eval_q22(qmnli)
+        sum += q22
 
         avg = sum / num_of_q
         return avg
     
+    def delete_model_from_memory(self):
+        # TO DO !!!!!!!!!!!!
+        print("TO DO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        pass
+    
+
+def test_main():
+    print("start")
+    asi = ASI()
+    for model_name in mnli_models_names_array:
+        print(model_name)
+        print(model_name + ":" + asi.eval_questionaire(model_name))
+        
+
+test_main()
