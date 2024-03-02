@@ -3,6 +3,9 @@ from EvaluationEngine import EvaluationEngine
 from Agent import Agent
 import datetime
 
+from Storage import Storage
+
+
 class Scheduler:
     def __init__(self):
         self.users_requests_list = [] # for each : users: set, Request, start time, score
@@ -11,6 +14,7 @@ class Scheduler:
         self.users_2_agent_ratio = 10 # for num of request eval agent req
         self.agent_min_restock_requests = 10 # len(agent_requests_list) < this val then restock
         self.agent = Agent()
+        self.storage = Storage.get_instance()
         self.eval_engine = EvaluationEngine()
 
     def add_request(self, eval_request : Request, user_name):
@@ -74,10 +78,8 @@ class Scheduler:
         return result_val
 
     def save(self):
-        # Implement save functionality
-        pass
-
-
+        self.storage.save_agent_requests_scheduler_list_to_file(self.agent_requests_list)
+        self.storage.save_user_requests_scheduler_list_to_file(self.users_requests_list)
 
 class UserRequest:
     def __init__(self, users, request : Request, starttime, score : float):

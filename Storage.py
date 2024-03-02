@@ -6,12 +6,24 @@ from Scheduler import UserRequest
 
 
 class Storage:
+    _instance = None #Singelton
+
     def __init__(self):
-        self.users = self.load_users_from_file()
-        self.results = self.load_results_from_file()  # model, questionnaire, result_score(float) - Result
-        self.user_requests_scheduler_list = self.load_user_requests_scheduler_list_from_file()  #for each: Request, users_list, start time, score
-        self.agent_requests_scheduler_list = self.load_agent_requests_scheduler_list_from_file()  # requests
-        self.user_requests = self.load_user_requests_from_file()  #taple(user_name, request)
+        if self._instance is not None:
+            raise Exception("Singleton class cannot be instantiated multiple times")
+        else:
+            self.users = self.load_users_from_file()
+            self.results = self.load_results_from_file()  # model, questionnaire, result_score(float) - Result
+            self.user_requests_scheduler_list = self.load_user_requests_scheduler_list_from_file()  #for each: Request, users_list, start time, score
+            self.agent_requests_scheduler_list = self.load_agent_requests_scheduler_list_from_file()  # requests
+            self.user_requests = self.load_user_requests_from_file()  #taple(user_name, request)
+
+    @staticmethod
+    def get_instance():
+        # If the instance does not exist, create it
+        if Storage._instance is None:
+            Storage._instance = Storage()
+        return Storage._instance
 
     # ........................agent_requests_scheduler_list...............................
     def load_agent_requests_scheduler_list_from_file(self):
