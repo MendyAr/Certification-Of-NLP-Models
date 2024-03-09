@@ -2,7 +2,7 @@ import json
 
 from Request import Questionnaire, Model, Request
 from Result import Result
-from Scheduler import UserRequest
+from User_Request import UserRequest
 
 
 class Storage:
@@ -38,7 +38,7 @@ class Storage:
         self.agent_requests_scheduler_list = agent_requests_scheduler_list_new
         agent_requests_data = [self._serialize_agent_request_scheduler_list(agent_request) for agent_request in self.agent_requests_scheduler_list]
         with open("agent_requests_scheduler.json", "w") as f:
-            json.dump(agent_requests_data, f)
+            json.dump(agent_requests_data, f, indent=4)
 
     def _serialize_agent_request_scheduler_list(self, agent_request: Request):
         return {
@@ -73,7 +73,7 @@ class Storage:
         self.user_requests_scheduler_list = user_requests_scheduler_list_new
         user_requests_data = [self._serialize_user_request_scheduler_list(user_request) for user_request in self.user_requests_scheduler_list]
         with open("user_requests_scheduler.json", "w") as f:
-            json.dump(user_requests_data, f)
+            json.dump(user_requests_data, f, indent=4)
 
     def _serialize_user_request_scheduler_list(self, user_request: UserRequest):
         return {
@@ -89,7 +89,7 @@ class Storage:
                     "version": user_request.request.questionnaire.version
                 }
             },
-            "starttime": user_request.starttime,
+            "starttime": user_request.starttime.strftime("%H:%M %d:%m:%Y"),
             "score": user_request.score
         }
 
@@ -114,7 +114,7 @@ class Storage:
     def save_results_to_file(self):
         results_data = [self._serialize_result(result) for result in self.results]
         with open("results.json", "w") as f:
-            json.dump(results_data, f)
+            json.dump(results_data, f, indent=4)
 
     def _serialize_result(self, result: Result):
         return {
@@ -164,7 +164,7 @@ class Storage:
 
     def save_users_to_file(self):
         with open("users.json", "w") as f:
-            json.dump(self.users, f)
+            json.dump(self.users, f, indent=4)
 
     def add_user(self, user_name):  # sign-in
         if user_name in self.users:
@@ -192,7 +192,7 @@ class Storage:
     def save_user_requests_to_file(self):
         user_requests_list = [self._serialize_user_request(user_name, user_request) for (user_name, user_request) in self.user_requests]
         with open("user_requests.json", "w") as f:
-            json.dump(user_requests_list, f)
+            json.dump(user_requests_list, f, indent=4)
 
     def _serialize_user_request(self, user_name, request: Request):
         return {
@@ -232,3 +232,9 @@ class Storage:
             if user_request_and_name[0] == user_name:
                 requests.append(user_request_and_name[1])
         return requests
+    
+    def check_if_has_result(self,request : Request):
+        for result in self.results:
+            if result.request == request:
+                return True
+        return False

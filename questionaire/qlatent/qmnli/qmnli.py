@@ -17,8 +17,8 @@ from transformers import pipeline
 import os
 from transformers.tokenization_utils import TruncationStrategy
 
-from ..qabstract.qabstract import *
-from ..qabstract.qabstract import SCALE, DIMENSIONS, FILTER, IDXSELECT, _filter_data_frame
+from questionaire.qlatent.qabstract.qabstract import *
+from questionaire.qlatent.qabstract.qabstract import SCALE, DIMENSIONS, FILTER, IDXSELECT, _filter_data_frame
 
 ## Wait for colab to upgrade to Python 3.11
 ##IDXSELECT_for_consistency_checks = Annotated[Tuple[Union[slice,Annotated[List[int], MinLen(2)]], MinLen(2)]
@@ -79,7 +79,9 @@ class QMNLI(QABSTRACT):
                 truncation=TruncationStrategy.ONLY_FIRST,
             )
         
-        model_inputs = {k: inputs[k].cuda() for k in self.model.tokenizer.model_input_names}
+        # model_inputs = {k: inputs[k].cuda() for k in self.model.tokenizer.model_input_names}
+        model_inputs = {k: inputs[k].to('cpu') for k in self.model.tokenizer.model_input_names}
+
         results = self.model.model(**model_inputs)
         
         ## Apply softmax on logits
