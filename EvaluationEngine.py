@@ -17,7 +17,10 @@ class EvaluationEngine:
         score = 0
         q = self.get_questionaire_by_name(request.questionnaire.name)
         model_name = request.model.name
-        score = q.eval_questionaire(model_name)
+        try:
+            score = q.eval_questionaire(model_name)
+        except:
+            score = -999
         self.save(score,request)
         q.delete_model_from_memory()
         return score

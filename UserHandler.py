@@ -149,6 +149,7 @@ def test_scheduler(user_handler : UserHandler):
     questionnaire_versions = ["1","2"]
     my_scores = []
 
+    added_counter = 0
     print_num = 5
     print_num_counter = 0
     inclusion_chance_decimal = 40 / 100.0
@@ -163,7 +164,9 @@ def test_scheduler(user_handler : UserHandler):
             request = Request(model, questionnaire)
             for user in users:
                 if random.random() <= inclusion_chance_decimal:
-                    user_handler.scheduler.add_request(request, user)
+                    added =  user_handler.scheduler.add_request(request, user)
+                    if not added:
+                        added_counter += 1
             if random.random() <= run_eval_chance:
                 score, model_name, questionnaire_name = user_handler.scheduler.eval_request()
                 my_scores.append([score, model_name, questionnaire_name])
@@ -184,6 +187,7 @@ def test_scheduler(user_handler : UserHandler):
                 score, model_name, questionnaire_name = ms
                 print("Model: ",model_name," ,questionnaire: ", questionnaire_name, " ,score:",score)
             my_scores = []
+        r , list_num = user_handler.scheduler.get_next_request()
 
 def test_agent(user_handler : UserHandler):
     num_of_models = 25

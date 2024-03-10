@@ -3,7 +3,7 @@ import json
 from Request import Questionnaire, Model, Request
 from Result import Result
 from User_Request import UserRequest
-
+import datetime
 
 class Storage:
     _instance = None #Singelton
@@ -65,7 +65,10 @@ class Storage:
         try:
             with open("user_requests_scheduler.json", "r") as f:
                 user_requests_data = json.load(f)
-                return [self._deserialize_user_request_scheduler_list(user_request_data) for user_request_data in user_requests_data]
+                user_requests_data_array = [self._deserialize_user_request_scheduler_list(user_request_data) for user_request_data in user_requests_data]
+                for ur in user_requests_data_array:
+                    ur.starttime = datetime.datetime.strptime(ur.starttime, "%H:%M %d:%m:%Y")
+                return user_requests_data_array
         except FileNotFoundError:
             return []  # Return an empty list if the file does not exist
 

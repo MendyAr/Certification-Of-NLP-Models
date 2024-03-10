@@ -21,18 +21,18 @@ class Scheduler:
     def add_request(self, eval_request : Request, user_name):
         has_result = self.storage.check_if_has_result(eval_request)
         if has_result:
-            return
+            return False
         for ur in self.users_requests_list:
             if ur.request == eval_request:
                 if not user_name in ur.users:
                     ur.users.append(user_name)
                     self.sort_requests_list()
-                    return
+                    return True
         # there is no user that want that request so add it to the agent list
         if user_name == "agent":
             for ar in self.agent_requests_list:
                 if ar == eval_request:
-                    return
+                    return True
             self.agent_requests_list.append(eval_request)
             self.save()
         else:
@@ -41,6 +41,7 @@ class Scheduler:
             self.users_requests_list.append(ur)
             self.sort_requests_list()
             self.save()
+        return True
         
     def get_next_request(self):
         if len(self.users_requests_list) == 0 and len(self.agent_requests_list) == 0:
