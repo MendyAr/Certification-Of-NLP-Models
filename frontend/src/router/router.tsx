@@ -5,6 +5,7 @@ import CustomHeader from "../components/CustomHeader";
 import PathBreadcrumbs from "../components/PathBreadcrumbs/PathBreadcrumbs";
 import HomePage from "../pages/HomePage";
 import EvalRequests from "../pages/EvalRequestsPage";
+import MyProjects from "../pages/MyProjectsPage";
 
 export default function Root() {
     const {
@@ -61,7 +62,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "my-projects",
-        element: <div>my rojects</div>,
+        element: <MyProjects />,
       },
       {
         path: "EvalRequests",
