@@ -50,6 +50,18 @@ export const router = createBrowserRouter([
         path: "my-account",
         element: <div>My Account</div>,
       },
+      {
+        path: "login",
+        element: <div>Login</div>,
+      },
+      {
+        path: "new-project",
+        element: <div>new project</div>,
+      },
+      {
+        path: "my-projects",
+        element: <div>my rojects</div>,
+      },
     ],
   },
 ]);
