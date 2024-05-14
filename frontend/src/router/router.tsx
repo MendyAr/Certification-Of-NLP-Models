@@ -3,37 +3,38 @@ import { Outlet, createBrowserRouter } from "react-router-dom";
 import { Layout, Result, theme } from "antd";
 import CustomHeader from "../components/CustomHeader";
 import PathBreadcrumbs from "../components/PathBreadcrumbs/PathBreadcrumbs";
-import HomePage from "../pages/HomePage/HomePage";
+import HomePage from "../pages/HomePage";
+import EvalRequests from "../pages/EvalRequestsPage";
 
 export default function Root() {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
 
-  return (
-    <Layout style={{ height: "100vh" }}>
-      <Header style={{ display: "flex", alignItems: "center" }}>
-        <CustomHeader />
-      </Header>
-      <Layout>
-        <Layout style={{ padding: "0px 12px 12px 12px" }}>
-          <PathBreadcrumbs />
-          <Content
-            style={{
-              overflowY: "auto",
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            <Outlet />
-          </Content>
+    return (
+        <Layout style={{ height: "100vh" }}>
+            <Header style={{ display: "flex", alignItems: "center" }}>
+                <CustomHeader />
+            </Header>
+            <Layout>
+                <Layout style={{ padding: "0px 12px 12px 12px" }}>
+                    <PathBreadcrumbs />
+                    <Content
+                        style={{
+                            overflowY: "auto",
+                            padding: 24,
+                            margin: 0,
+                            minHeight: 280,
+                            background: colorBgContainer,
+                            borderRadius: borderRadiusLG,
+                        }}
+                    >
+                        <Outlet />
+                    </Content>
+                </Layout>
+            </Layout>
         </Layout>
-      </Layout>
-    </Layout>
-  );
+    );
 }
 
 export const router = createBrowserRouter([
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: "my-projects",
         element: <div>my rojects</div>,
+      },
+      {
+        path: "EvalRequests",
+        element: <EvalRequests />,
       },
     ],
   },

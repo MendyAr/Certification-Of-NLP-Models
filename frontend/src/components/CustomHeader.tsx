@@ -8,17 +8,17 @@ import { getMenuItem } from "../utils/Utils";
 import { useNavigate } from "react-router-dom";
 
 function getSwitchBackgroundColor(isLight: boolean) {
-  return isLight ? "#dcb92b" : "#4469cb";
+    return isLight ? "#dcb92b" : "#4469cb";
 }
 
 export default function CustomHeader() {
-  const { isLight } = useSelector((state: RootState) => state.theme);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+    const { isLight } = useSelector((state: RootState) => state.theme);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  const items: MenuItem[] = [
-    // getMenuItem({ key: "myAccount", label: "My Account", icon: <UserOutlined /> })
-  ];
+    const items: MenuItem[] = [
+        // getMenuItem({ key: "myAccount", label: "My Account", icon: <UserOutlined /> })
+    ];
 
   const itemsMyAccount: MenuProps['items'] = [
     {
