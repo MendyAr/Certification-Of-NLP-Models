@@ -6,6 +6,7 @@ import PathBreadcrumbs from "../components/PathBreadcrumbs/PathBreadcrumbs";
 import HomePage from "../pages/HomePage";
 import EvalRequests from "../pages/EvalRequestsPage";
 import MyProjects from "../pages/MyProjectsPage";
+import Project from "../pages/projectPage";
 
 export default function Root() {
     const {
@@ -39,35 +40,53 @@ export default function Root() {
 }
 
 export const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    errorElement: <Result status="404" title="404" subTitle="Sorry, the page you visited does not exist." />,
-    children: [
-      {
-        path: "",
-        element: <HomePage />,
-      },
-      {
-        path: "my-account",
-        element: <div>My Account</div>,
-      },
-      {
-        path: "login",
-        element: <div>Login</div>,
-      },
-      {
-        path: "new-project",
-        element: <div>new project</div>,
-      },
-      {
-        path: "my-projects",
-        element: <MyProjects />,
-      },
-      {
-        path: "EvalRequests",
-        element: <EvalRequests />,
-      },
-    ],
-  },
+    {
+        path: "/",
+        element: <Root />,
+        errorElement: (
+            <Result
+                status="404"
+                title="404"
+                subTitle="Sorry, the page you visited does not exist."
+            />
+        ),
+        children: [
+            {
+                path: "",
+                element: <HomePage />,
+            },
+            {
+                path: "my-account",
+                element: <div>My Account</div>,
+            },
+            {
+                path: "login",
+                element: <div>Login</div>,
+            },
+            {
+                path: "new-project",
+                element: <div>new project</div>,
+            },
+            {
+                path: "my-projects",
+                element: <MyProjects />,
+                children: [
+                    {
+                        path: "project",
+                        element: <Project />,
+                        children: [
+                            {
+                                path: "EvalRequests",
+                                element: <EvalRequests />,
+                            },
+                            {
+                                path: "NewEvalReq",
+                                element: <EvalRequests />,
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    },
 ]);
