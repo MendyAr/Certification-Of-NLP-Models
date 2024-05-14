@@ -38,29 +38,35 @@ export default function Root() {
 }
 
 export const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Root />,
-        errorElement: (
-            <Result
-                status="404"
-                title="404"
-                subTitle="Sorry, the page you visited does not exist."
-            />
-        ),
-        children: [
-            {
-                path: "",
-                element: <HomePage />,
-            },
-            {
-                path: "my-account",
-                element: <div>My Account</div>,
-            },
-            {
-                path: "EvalRequests",
-                element: <EvalRequests />,
-            },
-        ],
-    },
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <Result status="404" title="404" subTitle="Sorry, the page you visited does not exist." />,
+    children: [
+      {
+        path: "",
+        element: <HomePage />,
+      },
+      {
+        path: "my-account",
+        element: <div>My Account</div>,
+      },
+      {
+        path: "login",
+        element: <div>Login</div>,
+      },
+      {
+        path: "new-project",
+        element: <div>new project</div>,
+      },
+      {
+        path: "my-projects",
+        element: <div>my rojects</div>,
+      },
+      {
+        path: "EvalRequests",
+        element: <EvalRequests />,
+      },
+    ],
+  },
 ]);
