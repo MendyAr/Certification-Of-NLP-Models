@@ -1,52 +1,58 @@
-import { Table, TableProps } from "antd";
-import React from "react";
+import { Table } from "antd";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-export default function MainPageTable() {
-    function generateColumns() {
-        //const columns: TableProps["columns"] = [];
-        const columns: { title: string; dataIndex: string; key: string }[] = [];
+export default function EvalRequestsTable() {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true); // Ensure loading state is defined
 
-        columns.push(
-            {
-                title: "Model",
-                dataIndex: "model",
-                key: "model",
-            },
-            {
-                title: "Questionnaire",
-                dataIndex: "questionnaire",
-                key: "questionnaire",
-            },
-            {
-                title: "Result",
-                dataIndex: "result",
-                key: "result",
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    "http://127.0.0.1:5001/api/eval-requests",
+                    {
+                        params: {
+                            project: "ProjectA",
+                            email: "user1@example.com",
+                        },
+                    }
+                );
+                console.log("Response data:", response.data); // Debugging line
+                setData(response.data);
+                setLoading(false); // Update loading state
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                setLoading(false); // Update loading state in case of error
             }
-        );
+        };
+        fetchData();
+    }, []);
 
-        return columns;
-    }
+    const columns = [
+        {
+            title: "Model",
+            dataIndex: "model",
+            key: "model",
+        },
+        {
+            title: "Questionnaire",
+            dataIndex: "questionnaire",
+            key: "questionnaire",
+        },
+        {
+            title: "Result",
+            dataIndex: "result",
+            key: "result",
+        },
+    ];
 
     return (
         <Table
-            columns={generateColumns()}
-            dataSource={[
-                {
-                    model: "NLP1",
-                    questionnaire: "ASI",
-                    result: "0.8",
-                },
-                {
-                    model: "NLP2",
-                    questionnaire: "BIG5",
-                    result: "0.56",
-                },
-                {
-                    model: "NLP3",
-                    questionnaire: "ASI",
-                    result: "0.9",
-                },
-            ]}
+            columns={columns}
+            dataSource={data}
+            loading={loading} // Pass loading state to Table component
+            rowKey="model"
             style={{ width: "100%", height: "100%" }}
         />
     );
