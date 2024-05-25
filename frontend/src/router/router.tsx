@@ -7,6 +7,7 @@ import HomePage from "../pages/HomePage";
 import EvalRequests from "../pages/EvalRequestsPage";
 import MyProjects from "../pages/MyProjectsPage";
 import Project from "../pages/projectPage";
+import AddNewProject from "../pages/AddNewProjectPage";
 
 export default function Root() {
     const {
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "new-project",
-                element: <div>new project</div>,
+                element: <AddNewProject/>,
             },
             {
                 path: "my-projects",
