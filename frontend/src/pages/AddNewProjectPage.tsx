@@ -1,13 +1,17 @@
+
 import React, { useState, ChangeEvent } from 'react';
-import { Checkbox, Col, Row, Button, Input, Form, Modal } from 'antd';
+import { Checkbox, Col, Row, Button, Input, Form, Modal, Flex } from 'antd';
 import MainTitle from './MainTitle';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
+import MainPageTable from "./MainPageTable";
+
 
 const onChange = (checkedValues: CheckboxValueType[]) => {
-  console.log('checked = ', checkedValues);
+    console.log("checked = ", checkedValues);
 };
 
 const AddNewProject = () => {
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [modelUrl, setModelUrl] = useState('');
 
@@ -35,7 +39,9 @@ const AddNewProject = () => {
     <div style={{ padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <div style={{ width: '45%' }}>
-          <MainTitle title1="Select Model" title2="" />
+           <Flex align="left">
+                        <MainTitle title1="Select Model" title2="" />
+                    </Flex>
 
           <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
             <Row>
@@ -58,7 +64,9 @@ const AddNewProject = () => {
           </Button>
         </div>
         <div style={{ width: '45%' }}>
-          <MainTitle title1="Select Questionnaire" title2="" />
+           <Flex align="left">
+                        <MainTitle title1="Select Questionnaire" title2="" />
+                    </Flex>
           <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
             <Row>
               <Col span={12}>

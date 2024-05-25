@@ -56,36 +56,28 @@ export const router = createBrowserRouter([
                 element: <HomePage />,
             },
             {
-                path: "my-account",
-                element: <div>My Account</div>,
-            },
-            {
                 path: "login",
                 element: <div>Login</div>,
             },
             {
                 path: "new-project",
-                element: <div>new project</div>,
+                element: <AddNewProject />,
             },
             {
                 path: "my-projects",
                 element: <MyProjects />,
-                children: [
-                    {
-                        path: "project",
-                        element: <Project />,
-                        children: [
-                            {
-                                path: "EvalRequests",
-                                element: <EvalRequests />,
-                            },
-                            {
-                                path: "NewEvalReq",
-                                element: <EvalRequests />,
-                            },
-                        ],
-                    },
-                ],
+            },
+            {
+                path: "my-projects/project",
+                element: <Project />,
+            },
+            {
+                path: "my-projects/project/Eval-Requests",
+                element: <EvalRequests />,
+            },
+            {
+                path: "my-projects/project/new-Eva-lReq",
+                element: <AddNewEvaluationRequest />,
             },
         ],
     },
