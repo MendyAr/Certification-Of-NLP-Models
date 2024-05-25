@@ -312,12 +312,12 @@ class QABSTRACT(ABC):
         assert torch.all(torch.eq(p, p_vals))
         assert torch.all(torch.eq(coo, p_coos))
 
-        print(p_dense.shape)
+        # print(p_dense.shape)
         for d in dim:
-            print(d)
+            # print(d)
 #             p_dense = torch.nn.functional.softmax(p_dense, dim=d)
             p_dense = p_dense / torch.max(p_dense, dim=d).to_sparse().repeat(*list(set(dim) - set([d])))
-            print(p_dense.shape)
+            # print(p_dense.shape)
 
         p_vals = p_dense.to_sparse().values()
 
@@ -343,11 +343,11 @@ class QABSTRACT(ABC):
 
         select = _filter_data_frame(self._pdf, filter)
         df = self._pdf[select]
-        print(f"index = {index}")
-        print(set(self._field_names), set([scale]), set(index) )
+        # print(f"index = {index}")
+        # print(set(self._field_names), set([scale]), set(index) )
         aggregated_fields = set(self._field_names) - set([scale]) - set(index)
         aggregated_fields = list(aggregated_fields)
-        print(aggregated_fields)
+        # print(aggregated_fields)
         if len(aggregated_fields)>0:
             W = self._weights_grid[select]
             W = W[aggregated_fields]
@@ -459,9 +459,10 @@ class QABSTRACT(ABC):
             else:
                 index = list(set(self._field_names) - set([scale, "P", "W"]))
 
-        print(f"Query time: {self._T}")
+        # print(f"Query time: {self._T}")
         for label, filter_dict in filters.items():
-            print(f"Mean score {label} [{self._weights_flat.min()}..{self._weights_flat.max()}]: {self.mean_score(filter=filter_dict)}")
+            # print(f"Mean score {label} [{self._weights_flat.min()}..{self._weights_flat.max()}]: {self.mean_score(filter=filter_dict)}")
+            pass
 
          # Add default grouping for the index field
         if grouping is not None and len(grouping) == 0:
@@ -471,14 +472,15 @@ class QABSTRACT(ABC):
         for label, filter_dict in filters.items():
             if self._grouping_suitable_for_consistency_check(grouping, filter=filter_dict):
                 partial_internal_consistency = partial(self.internal_consistency, grouping=grouping,filter=filter_dict, index=index , scale=scale)
-                print(f"Internal consistency (silhouette, correlation) for {label}: {partial_internal_consistency(measure='silhouette_score', metric='correlation')}")
-                print(f"Internal consistency (Calinski&Harabasz)  for {label}: {partial_internal_consistency(measure='calinski_harabasz_score')}")
-                print(f"Internal consistency (Davies&Bouldin) for {label}: {partial_internal_consistency(measure='davies_bouldin_score')}")
+                # print(f"Internal consistency (silhouette, correlation) for {label}: {partial_internal_consistency(measure='silhouette_score', metric='correlation')}")
+                # print(f"Internal consistency (Calinski&Harabasz)  for {label}: {partial_internal_consistency(measure='calinski_harabasz_score')}")
+                # print(f"Internal consistency (Davies&Bouldin) for {label}: {partial_internal_consistency(measure='davies_bouldin_score')}")
             else:
-                print("At least two groups with at least two vectors in each group should be specified to check for internal consistency.")
+                # print("At least two groups with at least two vectors in each group should be specified to check for internal consistency.")
+                pass
 
         for label, filter_dict in filters.items():
-            print("\n")
+            # print("\n")
             display(
               print_gradient(
                   self.to_dataframe(
