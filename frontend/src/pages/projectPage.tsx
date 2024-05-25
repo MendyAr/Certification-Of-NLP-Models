@@ -1,6 +1,6 @@
 import { Button, Flex } from "antd";
 import MainTitle from "./MainTitle";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 export default function Project() {
     const navigate = useNavigate();
@@ -17,14 +17,16 @@ export default function Project() {
             <Flex vertical gap={30}>
                 <Button
                     type="primary"
-                    onClick={() => navigate("/my-projects/project/NewEvalReq")}
+                    onClick={() =>
+                        navigate("/my-projects/project/new-Eva-lReq")
+                    }
                 >
                     Add new evaluation request
                 </Button>
                 <Button
                     type="primary"
                     onClick={() =>
-                        navigate("/my-projects/project/EvalRequests")
+                        navigate("/my-projects/project/Eval-Requests")
                     }
                 >
                     Show Previous evaluation requests

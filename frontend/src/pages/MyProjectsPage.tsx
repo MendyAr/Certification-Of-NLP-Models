@@ -1,6 +1,6 @@
 import { Button, Flex } from "antd";
 import MainTitle from "./MainTitle";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 export default function MyProjects() {
     const navigate = useNavigate();
