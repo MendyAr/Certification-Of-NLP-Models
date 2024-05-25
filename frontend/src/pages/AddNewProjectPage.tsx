@@ -1,8 +1,6 @@
-import React from 'react';
-import { Checkbox, Col, Row, Button, Input, Form } from 'antd';
-import { Flex } from 'antd';
+import React, { useState, ChangeEvent } from 'react';
+import { Checkbox, Col, Row, Button, Input, Form, Modal } from 'antd';
 import MainTitle from './MainTitle';
-import MainPageTable from './MainPageTable';
 import { CheckboxValueType } from 'antd/es/checkbox/Group';
 
 const onChange = (checkedValues: CheckboxValueType[]) => {
@@ -10,14 +8,35 @@ const onChange = (checkedValues: CheckboxValueType[]) => {
 };
 
 const AddNewProject = () => {
-  return  (
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modelUrl, setModelUrl] = useState('');
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    console.log('Model URL:', modelUrl);
+    // Handle adding the model URL to the project here
+    setIsModalVisible(false); 
+    setModelUrl('');
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+    setModelUrl('');
+  };
+
+  const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setModelUrl(e.target.value);
+  };
+
+  return (
     <div style={{ padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
         <div style={{ width: '45%' }}>
-          <MainTitle 
-          title1="Select Model" 
-          title2="" /> 
-          
+          <MainTitle title1="Select Model" title2="" />
+
           <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
             <Row>
               <Col span={12}>
@@ -34,12 +53,12 @@ const AddNewProject = () => {
               </Col>
             </Row>
           </Checkbox.Group>
-          <Button type="dashed" style={{ marginTop: '10px' }}>
+          <Button type="dashed" style={{ marginTop: '10px' }} onClick={showModal}>
             Click to add more models
           </Button>
         </div>
-        <div  style={{ width: '45%' }}>
-          <MainTitle title1="Select Questionnaire" title2=""></MainTitle>
+        <div style={{ width: '45%' }}>
+          <MainTitle title1="Select Questionnaire" title2="" />
           <Checkbox.Group style={{ width: '100%' }} onChange={onChange}>
             <Row>
               <Col span={12}>
@@ -62,7 +81,7 @@ const AddNewProject = () => {
               </Col>
             </Row>
           </Checkbox.Group>
-          <Button type="dashed" style={{ marginTop: '10px' }}>
+          <Button type="dashed" style={{ marginTop: '10px' }} onClick={showModal}>
             Click to add more Questionnaire
           </Button>
         </div>
@@ -77,6 +96,24 @@ const AddNewProject = () => {
           </Button>
         </Form.Item>
       </Form>
+
+      <Modal
+        title="Add Model"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Form layout="vertical">
+          <Form.Item label="Model URL">
+            <Input placeholder="Enter model URL" value={modelUrl} onChange={handleUrlChange} />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" onClick={handleOk}>
+              Add to Project
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

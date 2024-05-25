@@ -7,8 +7,6 @@ import HomePage from "../pages/HomePage";
 import EvalRequests from "../pages/EvalRequestsPage";
 import MyProjects from "../pages/MyProjectsPage";
 import Project from "../pages/projectPage";
-import AddNewProject from "../pages/AddNewProjectPage";
-import AddNewEvaluationRequest from "../pages/AddNewEvaluationRequestPage";
 
 export default function Root() {
     const {
@@ -67,7 +65,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "new-project",
-                element: <AddNewProject/>,
+                element: <div>new project</div>,
             },
             {
                 path: "my-projects",
@@ -83,7 +81,7 @@ export const router = createBrowserRouter([
                             },
                             {
                                 path: "NewEvalReq",
-                                element: <AddNewEvaluationRequest />,
+                                element: <EvalRequests />,
                             },
                         ],
                     },
