@@ -78,7 +78,7 @@ export const router = createBrowserRouter([
                 element: <EvalRequests />,
             },
             {
-                path: "my-projects/project/new-Eva-lReq",
+                path: "my-projects/project/new-eval-request",
                 element: <AddNewEvaluationRequest />,
             },
         ],

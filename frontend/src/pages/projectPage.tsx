@@ -18,7 +18,7 @@ export default function Project() {
                 <Button
                     type="primary"
                     onClick={() =>
-                        navigate("/my-projects/project/new-Eva-lReq")
+                        navigate("/my-projects/project/new-eval-request")
                     }
                 >
                     Add new evaluation request
