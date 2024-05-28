@@ -20,12 +20,12 @@ class User:
         self.projects[project_name] = Project()
 
     def add_model(self, project_name, model):
-        self.projects[project_name].add_models(models)
-        self.storage.add_model(self.userId, project_name, model, )
+        self.projects[project_name].add_model(model)
+        self.storage.add_model(self.userId, project_name, model, self.projects[project_name].records)
 
-    def add_questionnaires(self, project_name, questionnaires):
-        self.storage.add_model(self.userId, project_name, questionnaires)
-        self.projects[project_name].add_questionnaires(questionnaires)
+    def add_questionnaires(self, project_name, questionnaire):
+        self.projects[project_name].add_questionnaire(questionnaire)
+        self.storage.add_model(self.userId, project_name, questionnaire, self.projects[project_name].records)
 
     # load the projects of the user from db
     def __load_user(self):
