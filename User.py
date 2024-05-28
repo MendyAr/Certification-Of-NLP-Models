@@ -14,12 +14,14 @@ class User:
         self.__check_evaluations()
 
     def add_project(self, project_name):
+        if project_name in self.projects.keys():
+            raise ValueError(f"project: {project_name} is already exist.")
         self.storage.add_project(self.userId, project_name)
         self.projects[project_name] = Project()
 
-    def add_models(self, project_name, models):
-        self.storage.add_model(self.userId, project_name, models)
+    def add_model(self, project_name, model):
         self.projects[project_name].add_models(models)
+        self.storage.add_model(self.userId, project_name, model, )
 
     def add_questionnaires(self, project_name, questionnaires):
         self.storage.add_model(self.userId, project_name, questionnaires)
@@ -32,12 +34,12 @@ class User:
     # check if any model-questionnaire pair have not sent for evaluation and send them
     # part of the FailOver mechanism
     def __check_evaluations(self):
-        for p in self.projects:
+        for p in self.projects.values():
             for r in p.records:
                 if not self.__is_evaluate(r.model_name, r.questionnaire):
                     self.evaluate(r.model_name, r.questionnaire)
 
-    # check in the evaluation status db if the evaluation is registered
+    # check in the evaluations db if the evaluation is registered
     def __is_evaluate(self, model, questionnaire):
         # todo
         raise NotImplementedError
@@ -62,5 +64,5 @@ class User:
             dic[name] = []
             for r in p.records:
                 status = self.storage.get_status(r.model_name, r.questionnaire)
-                dic[name].append([r.request_time, r.model_name, r.questionnaire, status])
+                dic[name].append(r.append(status))
         return dic

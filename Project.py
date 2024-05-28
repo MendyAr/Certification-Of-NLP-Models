@@ -15,28 +15,40 @@ class Project:
         self.questionnaires = set()
         self.records = []
 
-    # receive model name, and add it to the project
-    def add_model(self, model):
-        if model in self.models:
-            raise ValueError(f"model: {model} is already added.")
+    # receive model name, and add it to the project, also add records of (Questionnaires * model)
+    def add_model(self, model_name):
+        if model_name in self.models:
+            raise ValueError(f"model: {model_name} is already added to this project.")
         # todo: update self.models and the new records in the db
-        self.models.update(model)
+        self.models.update(model_name)
         current_datetime = datetime.now()
         for q in self.questionnaires:
-            self.records.append(Record(current_datetime, model, q))
+            self.records.append(Record(current_datetime, model_name, q))
 
-    # receive any iterable object of questionnaires' name and add them to the project
+    # receive questionnaires name, and add it to the project, also add records of (Models * questionnaire)
     def add_questionnaire(self, questionnaire):
         if questionnaire in self.questionnaires:
-            raise ValueError(f"questionnaire: {questionnaire} is already added.")
+            raise ValueError(f"questionnaire: {questionnaire} is already added to this project.")
         # todo: update self.questionnaires and the new records in the db
         self.questionnaires.update(questionnaire)
         current_datetime = datetime.now()
         for m in self.models:
             self.records.append(Record(current_datetime, m, questionnaire))
 
+    # receive model name, and remove it and its records from the project
     def remove_model(self, model_name):
-        raise NotImplementedError
+        if model_name not in self.models:
+            raise ValueError(f"model: {model_name} doesn't exist in this project.")
+        # todo: update self.models and the new records in the db
+        self.models.discard(model_name)
+        filtered_records = [r for r in self.records if r.model_name != model_name]
+        self.records = filtered_records
 
+    # receive questionnaires name, and remove it and its records from the project
     def remove_questionnaire(self, questionnaire):
-        raise NotImplementedError
+        if questionnaire not in self.questionnaires:
+            raise ValueError(f"questionnaire: {questionnaire} doesn't exist in this project.")
+        # todo: update self.models and the new records in the db
+        self.questionnaires.discard(questionnaire)
+        filtered_records = [r for r in self.records if r.questionnaire != questionnaire]
+        self.records = filtered_records
