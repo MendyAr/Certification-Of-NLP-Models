@@ -17,6 +17,7 @@ class Storage:
             self.user_requests_scheduler_list = self.load_user_requests_scheduler_list_from_file()  #for each: Request, users_list, start time, score
             self.agent_requests_scheduler_list = self.load_agent_requests_scheduler_list_from_file()  # requests
             self.user_requests = self.load_user_requests_from_file()  #taple(user_name, request)
+            pass
 
     @staticmethod
     def get_instance():
