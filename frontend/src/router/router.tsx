@@ -70,15 +70,15 @@ export const router = createBrowserRouter([
                 element: <MyProjects />,
             },
             {
-                path: "my-projects/project",
+                path: "my-projects/:projectName",
                 element: <Project />,
             },
             {
-                path: "my-projects/project/Eval-Requests",
+                path: "my-projects/:projectName/Eval-Requests",
                 element: <EvalRequests />,
             },
             {
-                path: "my-projects/project/new-eval-request",
+                path: "my-projects/:projectName/new-eval-request",
                 element: <AddNewEvaluationRequest />,
             },
         ],
