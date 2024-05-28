@@ -1,6 +1,6 @@
 import { Flex } from "antd";
 import MainTitle from "./MainTitle";
-import MainPageTable from "./MainPageTable";
+import TopRequestsTable from "./TopRequestsTable";
 
 export default function HomePage() {
     return (
@@ -9,7 +9,7 @@ export default function HomePage() {
                 title1="Top Evaluations"
                 title2="All system evaluations requests"
             />
-            <MainPageTable />
+            <TopRequestsTable />
         </Flex>
     );
 }

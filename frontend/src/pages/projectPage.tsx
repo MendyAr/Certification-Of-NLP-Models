@@ -1,9 +1,10 @@
 import { Button, Flex } from "antd";
 import MainTitle from "./MainTitle";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 
 export default function Project() {
     const navigate = useNavigate();
+    const { projectName } = useParams();
 
     return (
         <Flex
@@ -13,12 +14,12 @@ export default function Project() {
             gap={50}
             style={{ height: "100%" }}
         >
-            <MainTitle title1="Project 1: ASI + NLP1 " title2="" />
+            <MainTitle title1={`Project: ${projectName}`} title2="" />
             <Flex vertical gap={30}>
                 <Button
                     type="primary"
                     onClick={() =>
-                        navigate("/my-projects/project/new-eval-request")
+                        navigate(`/my-projects/${projectName}/new-eval-request`)
                     }
                 >
                     Add new evaluation request
@@ -26,7 +27,7 @@ export default function Project() {
                 <Button
                     type="primary"
                     onClick={() =>
-                        navigate("/my-projects/project/Eval-Requests")
+                        navigate(`/my-projects/${projectName}/eval-requests`)
                     }
                 >
                     Show Previous evaluation requests
