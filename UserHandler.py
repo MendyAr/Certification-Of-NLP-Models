@@ -204,5 +204,5 @@ def run_by_user(user_handler: UserHandler):
 if __name__ == "__main__":
     user_handler = UserHandler()
     # test_agent(user_handler)
-    test_scheduler(user_handler)
-    # run_by_user(user_handler)
+    # test_scheduler(user_handler)
+    run_by_user(user_handler)
