@@ -15,17 +15,29 @@ class User:
 
     def add_project(self, project_name):
         if project_name in self.projects.keys():
-            raise ValueError(f"project: {project_name} is already exist.")
+            raise ValueError(f"project: {project_name} already exist.")
         self.storage.add_project(self.userId, project_name)
         self.projects[project_name] = Project()
 
     def add_model(self, project_name, model):
-        self.projects[project_name].add_model(model)
-        self.storage.add_model(self.userId, project_name, model, self.projects[project_name].records)
+        self.__validate_project(project_name)
+        new_records = self.projects[project_name].add_model(model)
+        self.storage.add_model(self.userId, project_name, model, new_records)
 
     def add_questionnaires(self, project_name, questionnaire):
-        self.projects[project_name].add_questionnaire(questionnaire)
-        self.storage.add_model(self.userId, project_name, questionnaire, self.projects[project_name].records)
+        self.__validate_project(project_name)
+        new_records = self.projects[project_name].add_questionnaire(questionnaire)
+        self.storage.add_model(self.userId, project_name, questionnaire, new_records)
+
+    def remove_model(self, project_name, model_name):
+        self.__validate_project(project_name)
+        self.projects[project_name].remove_model(model_name)
+        self.storage.remove_model(self.userId, project_name, model_name)
+
+    def remove_questionnaire(self, project_name, questionnaire_name):
+        self.__validate_project(project_name)
+        self.projects[project_name].remove_questionnaire(questionnaire_name)
+        self.storage.remove_questionnaire(self.userId, project_name, questionnaire_name)
 
     # load the projects of the user from db
     def __load_user(self):
@@ -41,8 +53,7 @@ class User:
 
     # check in the evaluations db if the evaluation is registered
     def __is_evaluate(self, model, questionnaire):
-        # todo
-        raise NotImplementedError
+        return self.storage.is_evaluated(model, questionnaire)
 
     # send a model-questionnaire pair for evaluation
     def evaluate(self, model_name, questionnaire_name):
@@ -66,3 +77,7 @@ class User:
                 status = self.storage.get_status(r.model_name, r.questionnaire)
                 dic[name].append(r.append(status))
         return dic
+
+    def __validate_project(self, project_name):
+        if project_name not in self.projects.keys():
+            raise ValueError(f"project: {project_name} doesn't exist.")
