@@ -2,7 +2,7 @@ import { Table } from "antd";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function EvalRequestsTable() {
+export default function TopRequestsTable() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true); // Ensure loading state is defined
 
@@ -10,15 +10,9 @@ export default function EvalRequestsTable() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    "http://127.0.0.1:5001/api/eval-requests",
-                    {
-                        params: {
-                            project: "ProjectA",
-                            email: "user1@example.com",
-                        },
-                    }
+                    "http://127.0.0.1:5001/top-requests",{}
                 );
-                console.log("Response data:", response.data); // Debugging line
+                console.log("Response data top requests:", response.data); // Debugging line
                 setData(response.data);
                 setLoading(false); // Update loading state
             } catch (error) {

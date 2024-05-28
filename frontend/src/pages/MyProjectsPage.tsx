@@ -1,10 +1,36 @@
+import React, { useState, useEffect } from 'react';
 import { Button, Flex } from "antd";
 import MainTitle from "./MainTitle";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 export default function MyProjects() {
+    const [projects, setProjects] = useState<string[]>([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const location = useLocation();
+
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const response = await axios.get("http://127.0.0.1:5001/get-projects", {
+                    params: {
+                        email: "user1@example.com"  // Replace with dynamic email if needed
+                    },
+                });
+                console.log("Projects response data:", response.data); // Debugging line
+                setProjects(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching projects");
+                setLoading(false);
+            }
+        };
+        fetchProjects();
+    }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <Flex
@@ -16,29 +42,16 @@ export default function MyProjects() {
         >
             <MainTitle title1="My Projects" title2="" />
             <Flex vertical gap={30}>
-                <Button
-                    type="primary"
-                    onClick={() => navigate("/my-projects/project")}
-                >
-                    Project 1: ASI + NLP1
-                </Button>
-
-                <Button
-                    type="primary"
-                    onClick={() => navigate("/my-projects/project")}
-                >
-                    Project 2: ASI + NLP1
-                </Button>
-
-                <Button
-                    type="primary"
-                    onClick={() => navigate("/my-projects/project")}
-                >
-                    Project 3: ASI + NLP1
-                </Button>
+                {projects.map((project, index) => (
+                    <Button
+                        key={index}
+                        type="primary"
+                        onClick={() => navigate(`/my-projects/${project}`)}
+                    >
+                        {project}
+                    </Button>
+                ))}
             </Flex>
         </Flex>
     );
 }
-
-// export {};

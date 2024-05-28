@@ -1,15 +1,19 @@
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import { Flex } from "antd";
 import MainTitle from "./MainTitle";
-import MainPageTable from "./MainPageTable";
+import EvalRequestsTable from "./EvalRequestsTable";
 
 export default function EvalRequests() {
+    const { projectName } = useParams();
+
     return (
         <Flex vertical justify="center" gap={50} style={{ height: "100%" }}>
             <MainTitle
-                title1="Project1: aci + nlp"
+                title1={`Project: ${projectName}`}
                 title2="Previous Evaluation Requests"
             />
-            <MainPageTable />
+            <EvalRequestsTable />
         </Flex>
     );
 }
