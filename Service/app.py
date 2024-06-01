@@ -1,18 +1,72 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, session, redirect, url_for
+from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user
 # from flask_cors import CORS
 from GoogleAutoSign import google_auto_sign, client_id
 from Service import Service
 
-service = Service()
+
 
 
 def create_app():
+    service = Service()
     app = Flask(__name__)
-    # CORS(app)
+    app.config['SECRET_KEY'] = 'your_secret_key'  # Replace with a strong secret key
+
+    # Configure Flask-Login
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'login'
     # start scheduler-eval thread
     # each client get a new session/thread
     app.register_blueprint(google_auto_sign)
     return app
+
+
+# User model (replace with your User model if needed)
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    # Replace with logic to retrieve user from database/storage (if applicable)
+    # In this example, we just return a dummy User object based on user_id
+    return User(user_id)
+
+
+@app.route('/login')
+def login():
+    # Login logic (e.g., Google Sign-in)
+    # ...
+    if successful_login:
+        user = User(user_id)  # Assuming user_id retrieved from login process
+        login_user(user)
+        return redirect(url_for('home'))
+    else:
+        return 'Login failed'
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.route('/home')
+@login_required
+def home():
+    # Access user information from the logged-in user
+    user = current_user
+
+    # Session resources (example: shopping cart items)
+    if 'cart_items' not in session:
+        session['cart_items'] = []
+    cart_items = session['cart_items']
+
+    # ... rest of your application logic for home page
+
+    return f'Welcome, user with ID: {user.id}. Your cart has {len(cart_items)} items.'
 
 
 # HomePage: get top requested model-questionnaire
