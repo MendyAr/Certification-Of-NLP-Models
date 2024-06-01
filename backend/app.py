@@ -7,7 +7,7 @@ CORS(app)
 
 
 # get all evaluation requests for a project - for specific user
-# TODO: need a function that get projects name and user returning all evaluation request with results.
+# TODO: need a function that get project name and user returning all evaluation request with results.
 data1 = [
     {
         "model": "NLP4",
