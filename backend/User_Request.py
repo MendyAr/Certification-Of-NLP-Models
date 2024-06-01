@@ -3,7 +3,7 @@ from Request import Request
 class UserRequest:
     def __init__(self, users, request : Request, starttime, score : float):
         self.users = users
-        self.request = request
+        self.requests = [request]
         self.starttime = starttime
         self.score = score
     

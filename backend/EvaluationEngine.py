@@ -22,7 +22,6 @@ class EvaluationEngine:
         except:
             score = -999
         self.save(score,request)
-        q.delete_model_from_memory()
         return score
     
     def get_questionaire_by_name(self,name):
@@ -43,7 +42,6 @@ class EvaluationEngine:
         res = Result(request, score) #need to change beacuse it update result and not add
         self.storage.add_result(res); #same
         self.storage.save_results_to_file(); #same
-        pass
 
 def test_eval():
     e = EvaluationEngine()
