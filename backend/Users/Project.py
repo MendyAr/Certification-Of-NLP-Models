@@ -1,11 +1,4 @@
-from datetime import datetime
-
-
-class Record:
-    def __init__(self, request_time, model_name, questionnaire):
-        self.request_time = request_time
-        self.model_name = model_name
-        self.questionnaire = questionnaire
+from ..Result import Result
 
 
 class Project:
@@ -20,11 +13,9 @@ class Project:
         if model_name in self.models:
             raise ValueError(f"model: {model_name} is already added to this project.")
         self.models.update(model_name)
-        current_datetime = datetime.now()
         new_records = []
         for q in self.questionnaires:
-            new_records.append(Record(current_datetime, model_name, q))
-        self.records.append(new_records)
+            new_records.append(Result(model_name, q))
         return new_records
 
     # receive questionnaires name, and add it to the project, also add records of (Models * questionnaire)
