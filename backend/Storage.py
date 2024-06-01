@@ -2,7 +2,7 @@ import json
 
 from Request import Questionnaire, Model, Request
 from Result import Result
-from backend.User_Request import UserRequest
+from User_Request import UserRequest
 import datetime
 
 class Storage:

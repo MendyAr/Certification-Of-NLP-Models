@@ -1,8 +1,10 @@
 # import sys
-# sys.path.append('C:/Users/drort/Documents/BGU/פרויקט סיום/code/Certifications-Of-NLP-Models/questionaire/proxy-qlatent/')
+# sys.path.append('C:/Users/drort/Documents/BGU/פרויקט סיום/code/Certifications-Of-NLP-Models/questionaire/proxy_qlatent/')
+
 
 from questionaire.proxy_qlatent.ASI import *
 from questionaire.proxy_qlatent.BIG5 import *
+
 
 def test_main():
     print("start")
@@ -15,5 +17,6 @@ def test_main():
         scores.append((model_name,model_score))
     for ms in scores:
         print(ms)
-        
+
+
 test_main()

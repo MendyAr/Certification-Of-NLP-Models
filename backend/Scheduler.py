@@ -1,5 +1,5 @@
 from EvaluationEngine import EvaluationEngine
-from Service.Agent import Agent
+from ..Service.Agent import Agent
 
 from Cache_Manager import *
 from Storage import *

@@ -5,8 +5,6 @@ from GoogleAutoSign import google_auto_sign, client_id
 from Service import Service
 
 
-
-
 def create_app():
     service = Service()
     app = Flask(__name__)

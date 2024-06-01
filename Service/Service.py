@@ -1,4 +1,4 @@
-from ..Users.UserHandler import UserHandler
+from ..backend.Users.UserHandler import UserHandler
 
 
 class Service:
