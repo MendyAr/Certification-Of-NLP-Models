@@ -1,0 +1,572 @@
+[
+    {
+        "users": [
+            "ta",
+            "td",
+            "malo",
+            "rami",
+            "hagit",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+                "url": "zero-shot-classification|189333",
+                "version": "12:37 08:01:2024|194"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "18:01 11:03:2024",
+        "score": 444014.52937799995
+    },
+    {
+        "users": [
+            "ta",
+            "malo",
+            "shir",
+            "shani",
+            "dony",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+                "url": "zero-shot-classification|130958",
+                "version": "12:37 08:01:2024|74"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:02 11:03:2024",
+        "score": 443654.52937799995
+    },
+    {
+        "users": [
+            "shir",
+            "mendi",
+            "dony",
+            "rami",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-1",
+                "url": "zero-shot-classification|42964",
+                "version": "10:27 14:06:2021|46"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "18:02 11:03:2024",
+        "score": 443654.52937799995
+    },
+    {
+        "users": [
+            "ta",
+            "shani",
+            "mendi",
+            "hagit",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-3",
+                "url": "zero-shot-classification|26513",
+                "version": "10:29 14:06:2021|17"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 442934.52937799995
+    },
+    {
+        "users": [
+            "malo",
+            "shani",
+            "avi",
+            "hagit",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "squeezebert/squeezebert-mnli",
+                "url": "None|19703",
+                "version": "22:02 11:12:2020|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 442934.52937799995
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "malo",
+            "mendi",
+            "rami",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "squeezebert/squeezebert-mnli",
+                "url": "None|19703",
+                "version": "22:02 11:12:2020|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "18:06 11:03:2024",
+        "score": 442214.52937799995
+    },
+    {
+        "users": [
+            "malo",
+            "shani",
+            "mendi",
+            "rami",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:01 11:03:2024",
+        "score": 370012.107815
+    },
+    {
+        "users": [
+            "ta",
+            "malo",
+            "mendi",
+            "avi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+                "url": "zero-shot-classification|130958",
+                "version": "12:37 08:01:2024|74"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "18:01 11:03:2024",
+        "score": 370012.107815
+    },
+    {
+        "users": [
+            "td",
+            "malo",
+            "shani",
+            "mendi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-xlarge-mnli",
+                "url": "text-classification|93244",
+                "version": "15:47 27:06:2022|15"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "18:02 11:03:2024",
+        "score": 369712.107815
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shani",
+            "dony",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "NbAiLab/nb-bert-base-mnli",
+                "url": "zero-shot-classification|26060",
+                "version": "11:32 24:03:2023|9"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 369112.107815
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shir",
+            "dony",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "potsawee/deberta-v3-large-mnli",
+                "url": "text-classification|20165",
+                "version": "16:37 30:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 369112.107815
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "avi",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "18:09 11:03:2024",
+        "score": 367612.107815
+    },
+    {
+        "users": [
+            "td",
+            "malo",
+            "shir",
+            "shani"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:01 11:03:2024",
+        "score": 296009.686252
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shir",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-xlarge-mnli",
+                "url": "text-classification|93244",
+                "version": "15:47 27:06:2022|15"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:02 11:03:2024",
+        "score": 295769.686252
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "shir",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                "url": "text-classification|59606",
+                "version": "23:17 20:05:2021|11"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:02 11:03:2024",
+        "score": 295769.686252
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "dony",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "NbAiLab/nb-bert-base-mnli",
+                "url": "zero-shot-classification|26060",
+                "version": "11:32 24:03:2023|9"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 295289.686252
+    },
+    {
+        "users": [
+            "td",
+            "mendi",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "typeform/distilbert-base-uncased-mnli",
+                "url": "zero-shot-classification|24825",
+                "version": "08:49 22:03:2023|36"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 295289.686252
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shani",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "18:08 11:03:2024",
+        "score": 294329.686252
+    },
+    {
+        "users": [
+            "shir",
+            "dony",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-1",
+                "url": "zero-shot-classification|42964",
+                "version": "10:27 14:06:2021|46"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "18:02 11:03:2024",
+        "score": 221827.26468899997
+    },
+    {
+        "users": [
+            "td",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-3",
+                "url": "zero-shot-classification|26513",
+                "version": "10:29 14:06:2021|17"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 221467.26468899997
+    },
+    {
+        "users": [
+            "td",
+            "mendi",
+            "dony"
+        ],
+        "request": {
+            "model": {
+                "name": "typeform/distilbert-base-uncased-mnli",
+                "url": "zero-shot-classification|24825",
+                "version": "08:49 22:03:2023|36"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "18:04 11:03:2024",
+        "score": 221467.26468899997
+    },
+    {
+        "users": [
+            "ta",
+            "rami",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "zero-shot-classification|3512899",
+                "version": "11:58 28:12:2023|152"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "18:08 11:03:2024",
+        "score": 220747.26468899997
+    },
+    {
+        "users": [
+            "malo",
+            "shani",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "18:08 11:03:2024",
+        "score": 220747.26468899997
+    },
+    {
+        "users": [
+            "tt",
+            "malo"
+        ],
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "18:08 11:03:2024",
+        "score": 147164.843126
+    },
+    {
+        "users": [
+            "shir",
+            "shani"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "18:08 11:03:2024",
+        "score": 147164.843126
+    },
+    {
+        "users": [
+            "ta"
+        ],
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "23",
+                "version": "4"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "10:10 12:03:2024",
+        "score": 15862.421563
+    },
+    {
+        "users": [
+            "ta"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "www.werwer.com",
+                "version": "45"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "14:34 12:03:2024",
+        "score": 0.0
+    }
+]

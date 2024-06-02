@@ -1,10 +1,12 @@
 from Request import Request
-
+from datetime import datetime
 
 class Result:
-    def __init__(self, request : Request, result_score: float):
-        self.request = request
+    def __init__(self, request : Request, result_score: float , start_time : datetime):
+        self.request = request # primary
         self.result_score = result_score
+        self.start_time = start_time # primary
+        self.end_time = None
 
     def __eq__(self, __value: object) -> bool:
         if type(__value) == Result:

@@ -8,7 +8,7 @@ class User:
     def __init__(self, user_id):
         self.scheduler = Scheduler()
         self.storage = Storage.get_instance()
-        self.userId = user_id
+        self.userId = user_id # primary
         self.projects = {}  # the key is the name of the project and the value is the project object
         self.__load_user()
         self.__check_evaluations()

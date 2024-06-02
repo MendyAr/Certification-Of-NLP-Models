@@ -1,19 +1,17 @@
 from Request import *
 from Result import Result
 from Storage import *
+from Storage2 import *
 
 from questionaire.proxy_qlatent.ASI import *
 from questionaire.proxy_qlatent.BIG5 import *
 
 class EvaluationEngine:
     def __init__(self):
-        self.storage = Storage.get_instance()
+        self.storage = Storage2.get_instance()
         pass
 
     def run_eval_request(self, request : Request):
-        # Implement request running
-        # run req
-        # score = random.random()
         score = 0
         q = self.get_questionaire_by_name(request.questionnaire.name)
         model_name = request.model.name
@@ -21,7 +19,12 @@ class EvaluationEngine:
             score = q.eval_questionaire(model_name)
         except:
             score = -999
-        self.save(score,request)
+        last_result = self.storage.check_if_has_result_2_eval(request)
+        if last_result is not None:
+            last_result.score = score
+        else:
+            last_result = Result(request, score)
+        self.storage.update_result_in_db(last_result)
         return score
     
     def get_questionaire_by_name(self,name):
@@ -40,6 +43,7 @@ class EvaluationEngine:
     def save(self,score,request):
         # Implement save functionality
         res = Result(request, score) #need to change beacuse it update result and not add
+        # TODO: update the last opened result in the database
         self.storage.add_result(res); #same
         self.storage.save_results_to_file(); #same
 

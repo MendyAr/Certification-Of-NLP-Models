@@ -1,0 +1,128 @@
+[
+    {
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0020376779028170163
+    },
+    {
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0008088728686217433
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "zero-shot-classification|3512899",
+                "version": "11:58 28:12:2023|152"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.00031429283424384055
+    },
+    {
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0005316609501494983
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "zero-shot-classification|3512899",
+                "version": "11:58 28:12:2023|152"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.00017562332425940502
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                "url": "text-classification|59606",
+                "version": "23:17 20:05:2021|11"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.000324821963900913
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.00013862243821759806
+    },
+    {
+        "request": {
+            "model": {
+                "name": "potsawee/deberta-v3-large-mnli",
+                "url": "text-classification|20165",
+                "version": "16:37 30:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+                "url": "zero-shot-classification|189333",
+                "version": "12:37 08:01:2024|194"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.000884343336384527
+    }
+]

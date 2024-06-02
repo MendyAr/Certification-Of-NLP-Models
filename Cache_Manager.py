@@ -1,8 +1,6 @@
 from questionaire.proxy_qlatent.imports import *
 from questionaire.proxy_qlatent.ASI import *
 
-import shutil
-
 class Cache_Manager:
     def __init__(self, queue_size_limit = 5, size_limit = 10**6):
         try:
