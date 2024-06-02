@@ -6,7 +6,7 @@ from questionaire.proxy_qlatent.imports import *
 from Request import Questionnaire, Model, Request
 from Result import Result
 from User_Request import UserRequest
-from User import User
+from .Users.User import User
 from datetime import datetime 
 
 Base = declarative_base()
