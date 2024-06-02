@@ -1,0 +1,2210 @@
+[
+    {
+        "users": [
+            "tt",
+            "malo",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/xlm-v-base-mnli-xnli",
+                "url": "zero-shot-classification|28",
+                "version": "21:51 09:02:2023|19"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:46 10:03:2024",
+        "score": 9606.702708
+    },
+    {
+        "users": [
+            "shani",
+            "rami",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/ernie-m-large-mnli-xnli",
+                "url": "zero-shot-classification|515",
+                "version": "08:28 20:03:2023|18"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:46 10:03:2024",
+        "score": 9606.037464
+    },
+    {
+        "users": [
+            "td",
+            "mendi",
+            "avi",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v2",
+                "url": "None|0",
+                "version": "18:59 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:56 10:03:2024",
+        "score": 9108.94967
+    },
+    {
+        "users": [
+            "tt",
+            "ta",
+            "shir",
+            "mendi",
+            "dony",
+            "rami",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "rdp99/deberta-v3-small-finetuned-mnli",
+                "url": "text-classification|0",
+                "version": "00:42 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 9041.335576
+    },
+    {
+        "users": [
+            "ta",
+            "shani",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c",
+                "url": "text-classification|2383",
+                "version": "20:40 05:04:2023|10"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:50 10:03:2024",
+        "score": 8744.151708
+    },
+    {
+        "users": [
+            "shir",
+            "mendi",
+            "rami",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:29 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:50 10:03:2024",
+        "score": 8587.02886
+    },
+    {
+        "users": [
+            "malo",
+            "mendi",
+            "avi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "rdp99/deberta-v3-small-finetuned-mnli",
+                "url": "text-classification|0",
+                "version": "00:42 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "12:51 10:03:2024",
+        "score": 8485.740072
+    },
+    {
+        "users": [
+            "td",
+            "malo",
+            "shir",
+            "mendi",
+            "dony",
+            "avi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/Microsoft_reberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:31 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:06 10:03:2024",
+        "score": 8414.332185
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "mendi",
+            "rami"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/Microsoft_reberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:31 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:51 10:03:2024",
+        "score": 8347.370748
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "malo",
+            "shani",
+            "mendi",
+            "rami",
+            "avi",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "pritamdeka/PubMedBERT-MNLI-MedNLI",
+                "url": "text-classification|1105",
+                "version": "02:58 01:03:2024|2"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:12 10:03:2024",
+        "score": 7944.802839
+    },
+    {
+        "users": [
+            "ta",
+            "malo",
+            "shir",
+            "mendi",
+            "dony",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/mobilebert-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:27 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 7761.683826
+    },
+    {
+        "users": [
+            "tt",
+            "shani",
+            "mendi",
+            "dony",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "rdp99/deberta-v3-small-finetuned-mnli",
+                "url": "text-classification|0",
+                "version": "00:42 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 7750.74438
+    },
+    {
+        "users": [
+            "td",
+            "malo",
+            "rami",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "anamelchor/tner-xlm-roberta-base-uncased-all-english-finetuned-mnli",
+                "url": "None|0",
+                "version": "07:51 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:54 10:03:2024",
+        "score": 7693.3146
+    },
+    {
+        "users": [
+            "dony",
+            "avi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb",
+                "url": "sentence-similarity|5320",
+                "version": "12:40 03:11:2022|26"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:46 10:03:2024",
+        "score": 7270.040838000001
+    },
+    {
+        "users": [
+            "shir",
+            "dony",
+            "rami"
+        ],
+        "request": {
+            "model": {
+                "name": "alan-turing-institute/mt5-large-finetuned-mnli-xtreme-xnli",
+                "url": "text2text-generation|2322",
+                "version": "11:12 16:05:2023|12"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:47 10:03:2024",
+        "score": 7072.293876000001
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "joeddav/bart-large-mnli-yahoo-answers",
+                "url": "zero-shot-classification|1258",
+                "version": "10:44 14:06:2021|11"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:47 10:03:2024",
+        "score": 7071.776519999999
+    },
+    {
+        "users": [
+            "td",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:27 10:03:2024",
+        "score": 7051.60456
+    },
+    {
+        "users": [
+            "malo",
+            "shir",
+            "shani",
+            "dony",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/albert-base-v2-finetuned-mnli",
+                "url": "None|0",
+                "version": "09:16 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:07 10:03:2024",
+        "score": 6855.795654
+    },
+    {
+        "users": [
+            "ta",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                "url": "text-classification|59606",
+                "version": "23:17 20:05:2021|11"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:48 10:03:2024",
+        "score": 6820.977440999999
+    },
+    {
+        "users": [
+            "ta",
+            "mendi",
+            "rami",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "TransferGraph/boychaboy_MNLI_roberta-base-finetuned-lora-tweet_eval_emotion",
+                "url": "text-classification|0",
+                "version": "12:52 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:59 10:03:2024",
+        "score": 6651.671472
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "shir",
+            "mendi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_08th_march_1",
+                "url": "text-classification|7",
+                "version": "06:47 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 6513.3330399999995
+    },
+    {
+        "users": [
+            "td",
+            "shani",
+            "mendi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "manimaranpa07/mnli_bart_text_classification_1_08th_march_margs",
+                "url": "text-classification|1",
+                "version": "17:18 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:59 10:03:2024",
+        "score": 6504.077148
+    },
+    {
+        "users": [
+            "td",
+            "mendi",
+            "rami",
+            "avi",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:29 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 6468.810645
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "shir",
+            "rami",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/Microsoft_reberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:31 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 6369.4910500000005
+    },
+    {
+        "users": [
+            "shani",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/Microsoft_reberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:31 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "12:51 10:03:2024",
+        "score": 6260.250318
+    },
+    {
+        "users": [
+            "malo",
+            "shani"
+        ],
+        "request": {
+            "model": {
+                "name": "potsawee/deberta-v3-large-mnli",
+                "url": "text-classification|20165",
+                "version": "16:37 30:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:38 10:03:2024",
+        "score": 5824.7415
+    },
+    {
+        "users": [
+            "tt",
+            "ta"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-xsmall-mnli-fever-anli-ling-binary",
+                "url": "zero-shot-classification|19119",
+                "version": "12:57 08:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:38 10:03:2024",
+        "score": 5824.41463
+    },
+    {
+        "users": [
+            "dony",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-base-mnli",
+                "url": "text-classification|6476",
+                "version": "13:36 09:12:2021|3"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:38 10:03:2024",
+        "score": 5802.76482
+    },
+    {
+        "users": [
+            "malo",
+            "shani",
+            "rami",
+            "avi",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/roberta-base-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:32 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 5608.8126999999995
+    },
+    {
+        "users": [
+            "td",
+            "malo",
+            "mendi",
+            "rami",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "anamelchor/tner-xlm-roberta-base-uncased-all-english-finetuned-mnli",
+                "url": "None|0",
+                "version": "07:51 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 5607.209685
+    },
+    {
+        "users": [
+            "shir",
+            "shani",
+            "mendi",
+            "hagit",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v1",
+                "url": "None|0",
+                "version": "18:43 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 5603.371015000001
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shani",
+            "dony",
+            "rami"
+        ],
+        "request": {
+            "model": {
+                "name": "pritamdeka/PubMedBERT-MNLI-MedNLI",
+                "url": "text-classification|1105",
+                "version": "02:58 01:03:2024|2"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 5593.850995000001
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "malo",
+            "shir",
+            "dony",
+            "rami",
+            "avi",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-rte-wnli-10",
+                "url": "text-classification|12",
+                "version": "06:04 01:04:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:16 10:03:2024",
+        "score": 5531.797881
+    },
+    {
+        "users": [
+            "tt",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:43 10:03:2024",
+        "score": 5133.864668
+    },
+    {
+        "users": [
+            "shir",
+            "mendi",
+            "dony",
+            "rami",
+            "hagit",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-rte-wnli-3",
+                "url": "text-classification|12",
+                "version": "21:07 31:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:14 10:03:2024",
+        "score": 4999.5608250000005
+    },
+    {
+        "users": [
+            "tt",
+            "ta",
+            "malo",
+            "shir",
+            "mendi",
+            "dony",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-rte-wnli-3",
+                "url": "text-classification|12",
+                "version": "21:07 31:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:16 10:03:2024",
+        "score": 4919.434504
+    },
+    {
+        "users": [
+            "rami",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli",
+                "url": "sentence-similarity|4772",
+                "version": "09:49 20:02:2023|58"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "12:45 10:03:2024",
+        "score": 4919.099798
+    },
+    {
+        "users": [
+            "tt",
+            "shir",
+            "rami",
+            "avi",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-rte-wnli-5",
+                "url": "text-classification|13",
+                "version": "02:22 31:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:13 10:03:2024",
+        "score": 4591.427142
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "shir",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "anamelchor/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:40 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 4495.996952
+    },
+    {
+        "users": [
+            "shir",
+            "avi",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v2",
+                "url": "None|0",
+                "version": "18:59 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 4484.364628
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shani",
+            "mendi",
+            "rami",
+            "hagit",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-32-epoch-1",
+                "url": "text-classification|14",
+                "version": "22:33 23:03:2022|1"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 4167.099
+    },
+    {
+        "users": [
+            "tt",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/deberta-v3-small-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:41 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 3873.9953490000003
+    },
+    {
+        "users": [
+            "td",
+            "mendi",
+            "rami",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-rte-wnli-5",
+                "url": "text-classification|13",
+                "version": "02:22 31:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:13 10:03:2024",
+        "score": 3825.18045
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "mendi",
+            "rami",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-rte-wnli-10",
+                "url": "text-classification|12",
+                "version": "06:04 01:04:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:16 10:03:2024",
+        "score": 3686.06898
+    },
+    {
+        "users": [
+            "rami"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-xlarge-mnli",
+                "url": "text-classification|93244",
+                "version": "15:47 27:06:2022|15"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "12:29 10:03:2024",
+        "score": 3452.552914
+    },
+    {
+        "users": [
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-xlarge-mnli",
+                "url": "text-classification|93244",
+                "version": "15:47 27:06:2022|15"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "12:29 10:03:2024",
+        "score": 3452.462514
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "malo"
+        ],
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v2",
+                "url": "None|0",
+                "version": "18:59 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 3362.883423
+    },
+    {
+        "users": [
+            "td",
+            "malo",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "jaems33/mDeBERTa-v3-base-mnli-xnli-forked",
+                "url": "text-classification|0",
+                "version": "05:18 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 3358.5250800000003
+    },
+    {
+        "users": [
+            "dony",
+            "rami",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_1_03_2024",
+                "url": "text-classification|22",
+                "version": "16:12 01:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 3357.136305
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "malo",
+            "mendi",
+            "hagit",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-10",
+                "url": "text-classification|11",
+                "version": "07:13 25:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 3334.168677
+    },
+    {
+        "users": [
+            "mendi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "manimaranpa07/mnli_bart_text_classification_1_08th_march_margs",
+                "url": "text-classification|1",
+                "version": "17:18 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:00 10:03:2024",
+        "score": 3141.927248
+    },
+    {
+        "users": [
+            "dony",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "milinbhade1214/bert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:12 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:00 10:03:2024",
+        "score": 3141.658902
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "malo",
+            "shir",
+            "dony",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-32-epoch-1",
+                "url": "text-classification|14",
+                "version": "22:33 23:03:2022|1"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 3126.5796720000003
+    },
+    {
+        "users": [
+            "malo",
+            "shir",
+            "hagit",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "TransferGraph/ishan_bert-base-uncased-mnli-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:49 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:13 10:03:2024",
+        "score": 3061.544576
+    },
+    {
+        "users": [
+            "tt"
+        ],
+        "request": {
+            "model": {
+                "name": "typeform/distilbert-base-uncased-mnli",
+                "url": "zero-shot-classification|24825",
+                "version": "08:49 22:03:2023|36"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "12:38 10:03:2024",
+        "score": 2912.458323
+    },
+    {
+        "users": [
+            "tt",
+            "ta",
+            "shani",
+            "rami",
+            "avi",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-5",
+                "url": "text-classification|13",
+                "version": "04:48 24:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 2878.498692
+    },
+    {
+        "users": [
+            "td",
+            "shani",
+            "mendi",
+            "avi",
+            "hagit",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-10-v2",
+                "url": "text-classification|21",
+                "version": "22:08 26:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 2869.028838
+    },
+    {
+        "users": [
+            "shir",
+            "shani",
+            "mendi",
+            "dony",
+            "rami",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-512-10",
+                "url": "text-classification|13",
+                "version": "11:06 27:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 2853.805824
+    },
+    {
+        "users": [
+            "tt"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-base-mnli",
+                "url": "text-classification|6476",
+                "version": "13:36 09:12:2021|3"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "12:40 10:03:2024",
+        "score": 2797.714122
+    },
+    {
+        "users": [
+            "rami"
+        ],
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:40 10:03:2024",
+        "score": 2759.082005
+    },
+    {
+        "users": [
+            "tt",
+            "ta",
+            "shir",
+            "shani",
+            "dony",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "yutoCHI/sbert-roberta-large-anli-mnli-snli-finetuned-sst2",
+                "url": "None|0",
+                "version": "18:40 22:01:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:19 10:03:2024",
+        "score": 2730.022566
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "mendi",
+            "dony",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yutoCHI/sbert-roberta-large-anli-mnli-snli-finetuned-sst2",
+                "url": "None|0",
+                "version": "18:40 22:01:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:19 10:03:2024",
+        "score": 2728.630572
+    },
+    {
+        "users": [
+            "ta"
+        ],
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+                "url": "zero-shot-classification|189333",
+                "version": "12:37 08:01:2024|194"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "12:42 10:03:2024",
+        "score": 2663.916347
+    },
+    {
+        "users": [
+            "shir",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "milinbhade1214/bert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:12 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 2605.483566
+    },
+    {
+        "users": [
+            "tt",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_08th_march_1",
+                "url": "text-classification|7",
+                "version": "06:47 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 2605.028678
+    },
+    {
+        "users": [
+            "ta",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:29 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 2604.776322
+    },
+    {
+        "users": [
+            "shir",
+            "rami"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/mobilebert-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:27 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 2586.842964
+    },
+    {
+        "users": [
+            "tt",
+            "ta",
+            "malo",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-6",
+                "url": "text-classification|12",
+                "version": "04:40 25:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 2421.93183
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "malo",
+            "shani",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-5",
+                "url": "text-classification|13",
+                "version": "04:48 24:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 2419.607725
+    },
+    {
+        "users": [
+            "ta",
+            "malo",
+            "shir",
+            "avi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-10",
+                "url": "text-classification|11",
+                "version": "07:13 25:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 2382.47881
+    },
+    {
+        "users": [
+            "ta"
+        ],
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "12:47 10:03:2024",
+        "score": 2357.712813
+    },
+    {
+        "users": [
+            "shir",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "anamelchor/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:40 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:07 10:03:2024",
+        "score": 2284.870302
+    },
+    {
+        "users": [
+            "malo",
+            "dony",
+            "rami",
+            "avi",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "yuuhan/roberta-base-mnli-lora",
+                "url": "text-classification|1",
+                "version": "06:01 06:07:2023|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:19 10:03:2024",
+        "score": 2276.1085399999997
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shani",
+            "dony",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "youngwoo-umass/mnli_pat",
+                "url": "text-classification|0",
+                "version": "18:48 07:12:2023|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:19 10:03:2024",
+        "score": 2264.278045
+    },
+    {
+        "users": [
+            "dony",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "obudzecie/roberta-base-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:32 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 2243.13011
+    },
+    {
+        "users": [
+            "shir",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "anamelchor/tner-xlm-roberta-base-uncased-all-english-finetuned-mnli",
+                "url": "None|0",
+                "version": "07:51 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 2242.446242
+    },
+    {
+        "users": [
+            "malo",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v1",
+                "url": "None|0",
+                "version": "18:43 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 2241.66209
+    },
+    {
+        "users": [
+            "malo",
+            "mendi"
+        ],
+        "request": {
+            "model": {
+                "name": "jaems33/mDeBERTa-v3-base-mnli-xnli-forked",
+                "url": "text-classification|0",
+                "version": "05:18 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 2238.669098
+    },
+    {
+        "users": [
+            "avi",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_1_03_2024",
+                "url": "text-classification|22",
+                "version": "16:12 01:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:08 10:03:2024",
+        "score": 2237.711566
+    },
+    {
+        "users": [
+            "ta",
+            "td",
+            "shani",
+            "dony"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-5-finetuned-mnli-256-10",
+                "url": "None|0",
+                "version": "00:20 25:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1936.794856
+    },
+    {
+        "users": [
+            "tt",
+            "rami",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-10-v2",
+                "url": "text-classification|21",
+                "version": "22:08 26:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1911.85182
+    },
+    {
+        "users": [
+            "malo",
+            "rami",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-512-5",
+                "url": "text-classification|12",
+                "version": "09:17 26:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1904.28408
+    },
+    {
+        "users": [
+            "malo",
+            "shir",
+            "mendi",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "04:44 23:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1895.757744
+    },
+    {
+        "users": [
+            "tt",
+            "mendi",
+            "dony",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "04:44 23:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1895.123856
+    },
+    {
+        "users": [
+            "mendi",
+            "dony",
+            "rami",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yuuhan/roberta-base-mnli-lora-layer0-5",
+                "url": "None|0",
+                "version": "07:04 10:07:2023|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1894.4752
+    },
+    {
+        "users": [
+            "tt",
+            "shani",
+            "dony",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yuuhan/roberta-base-mnli-lora-layer0-5",
+                "url": "None|0",
+                "version": "07:04 10:07:2023|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:19 10:03:2024",
+        "score": 1822.1479
+    },
+    {
+        "users": [
+            "malo",
+            "shir",
+            "mendi",
+            "rami",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "youngwoo-umass/mnli_pat",
+                "url": "text-classification|0",
+                "version": "18:48 07:12:2023|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:20 10:03:2024",
+        "score": 1781.812725
+    },
+    {
+        "users": [
+            "shir",
+            "rami",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-5-finetuned-mnli-256-10",
+                "url": "None|0",
+                "version": "00:20 25:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1452.123381
+    },
+    {
+        "users": [
+            "tt",
+            "shir",
+            "shani"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-512-5",
+                "url": "text-classification|12",
+                "version": "09:17 26:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1427.715732
+    },
+    {
+        "users": [
+            "malo",
+            "shir",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-512-10",
+                "url": "text-classification|13",
+                "version": "11:06 27:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 1427.312502
+    },
+    {
+        "users": [
+            "tt",
+            "ta",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "yuuhan/roberta-base-mnli-lora",
+                "url": "text-classification|1",
+                "version": "06:01 06:07:2023|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:19 10:03:2024",
+        "score": 1366.090635
+    },
+    {
+        "users": [
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/deberta-v3-small-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:41 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:05 10:03:2024",
+        "score": 1291.378618
+    },
+    {
+        "users": [
+            "shir"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/FB_Roberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:16 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:06 10:03:2024",
+        "score": 1201.835069
+    },
+    {
+        "users": [
+            "tt"
+        ],
+        "request": {
+            "model": {
+                "name": "ZaaCo/FB_Roberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:16 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:07 10:03:2024",
+        "score": 1143.830406
+    },
+    {
+        "users": [
+            "tt",
+            "malo"
+        ],
+        "request": {
+            "model": {
+                "name": "yy642/bert-base-uncased-finetuned-mnli-max-length-256-epoch-6",
+                "url": "text-classification|12",
+                "version": "04:40 25:03:2022|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:18 10:03:2024",
+        "score": 971.001578
+    },
+    {
+        "users": [
+            "tt"
+        ],
+        "request": {
+            "model": {
+                "name": "TransferGraph/boychaboy_MNLI_roberta-base-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:51 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:12 10:03:2024",
+        "score": 882.449747
+    },
+    {
+        "users": [
+            "mendi"
+        ],
+        "request": {
+            "model": {
+                "name": "TransferGraph/boychaboy_MNLI_roberta-base-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:51 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:13 10:03:2024",
+        "score": 766.631349
+    },
+    {
+        "users": [
+            "shir"
+        ],
+        "request": {
+            "model": {
+                "name": "TransferGraph/ishan_bert-base-uncased-mnli-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:49 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:13 10:03:2024",
+        "score": 765.475039
+    },
+    {
+        "users": [
+            "tt",
+            "malo",
+            "shani",
+            "dony",
+            "rami",
+            "avi",
+            "hagit"
+        ],
+        "request": {
+            "model": {
+                "name": "yoshitomo-matsubara/bert-large-uncased-mnli",
+                "url": "text-classification|95",
+                "version": "22:04 05:11:2023|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:25 10:03:2024",
+        "score": 418.192271
+    },
+    {
+        "users": [
+            "tt",
+            "ta",
+            "malo",
+            "mendi",
+            "avi",
+            "hagit",
+            "trump"
+        ],
+        "request": {
+            "model": {
+                "name": "yoshitomo-matsubara/bert-large-uncased-mnli",
+                "url": "text-classification|95",
+                "version": "22:04 05:11:2023|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:25 10:03:2024",
+        "score": 415.832564
+    },
+    {
+        "users": [
+            "td",
+            "rami",
+            "avi",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "youmay/distilbert-base-uncased-finetuned-mnli",
+                "url": "text-classification|1",
+                "version": "15:00 27:02:2023|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "starttime": "13:25 10:03:2024",
+        "score": 245.794184
+    },
+    {
+        "users": [
+            "shir",
+            "mendi",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "youmay/distilbert-base-uncased-finetuned-mnli",
+                "url": "text-classification|1",
+                "version": "15:00 27:02:2023|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:25 10:03:2024",
+        "score": 239.674792
+    },
+    {
+        "users": [
+            "tt",
+            "td",
+            "shir",
+            "avi"
+        ],
+        "request": {
+            "model": {
+                "name": "yoshitomo-matsubara/bert-base-uncased-mnli_from_bert-large-uncased-mnli",
+                "url": "text-classification|57",
+                "version": "05:58 27:10:2023|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:25 10:03:2024",
+        "score": 236.472804
+    },
+    {
+        "users": [
+            "ta",
+            "shir",
+            "dony",
+            "hagit",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yoshitomo-matsubara/bert-base-uncased-mnli_from_bert-large-uncased-mnli",
+                "url": "text-classification|57",
+                "version": "05:58 27:10:2023|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "starttime": "13:26 10:03:2024",
+        "score": 9.21569
+    },
+    {
+        "users": [
+            "ta",
+            "shir",
+            "trump",
+            "biden"
+        ],
+        "request": {
+            "model": {
+                "name": "yoshitomo-matsubara/bert-base-uncased-mnli",
+                "url": "text-classification|405",
+                "version": "06:05 27:10:2023|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "starttime": "13:26 10:03:2024",
+        "score": 0.97674
+    },
+    {
+        "users": [
+            "malo",
+            "dony"
+        ],
+        "request": {
+            "model": {
+                "name": "yoshitomo-matsubara/bert-base-uncased-mnli",
+                "url": "text-classification|405",
+                "version": "06:05 27:10:2023|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "starttime": "13:26 10:03:2024",
+        "score": 0.137108
+    }
+]

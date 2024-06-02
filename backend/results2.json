@@ -1,0 +1,1458 @@
+[
+    {
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0008088728686217433
+    },
+    {
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0020376779028170163
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "zero-shot-classification|3512899",
+                "version": "11:58 28:12:2023|152"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.00017562332425940502
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "zero-shot-classification|3512899",
+                "version": "11:58 28:12:2023|152"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.00031429283424384055
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.00013862243821759806
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0012586035891362123
+    },
+    {
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.001840834635206395
+    },
+    {
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-1",
+                "url": "zero-shot-classification|42964",
+                "version": "10:27 14:06:2021|46"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0005625948701981143
+    },
+    {
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-3",
+                "url": "zero-shot-classification|26513",
+                "version": "10:29 14:06:2021|17"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0005422366534191434
+    },
+    {
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-3",
+                "url": "zero-shot-classification|26513",
+                "version": "10:29 14:06:2021|17"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0004861668668805612
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+                "url": "zero-shot-classification|189333",
+                "version": "12:37 08:01:2024|194"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.000884343336384527
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+                "url": "zero-shot-classification|189333",
+                "version": "12:37 08:01:2024|194"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.002871707126143433
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+                "url": "zero-shot-classification|130958",
+                "version": "12:37 08:01:2024|74"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0004993650137101103
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                "url": "text-classification|59606",
+                "version": "23:17 20:05:2021|11"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0013598715258200489
+    },
+    {
+        "request": {
+            "model": {
+                "name": "NbAiLab/nb-bert-base-mnli",
+                "url": "zero-shot-classification|26060",
+                "version": "11:32 24:03:2023|9"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0023126266305408785
+    },
+    {
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-1",
+                "url": "zero-shot-classification|42964",
+                "version": "10:27 14:06:2021|46"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.00018902507699316445
+    },
+    {
+        "request": {
+            "model": {
+                "name": "squeezebert/squeezebert-mnli",
+                "url": "None|19703",
+                "version": "22:02 11:12:2020|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+                "url": "zero-shot-classification|130958",
+                "version": "12:37 08:01:2024|74"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0006785936254475805
+    },
+    {
+        "request": {
+            "model": {
+                "name": "typeform/distilbert-base-uncased-mnli",
+                "url": "zero-shot-classification|24825",
+                "version": "08:49 22:03:2023|36"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0015000128097029893
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-xsmall-mnli-fever-anli-ling-binary",
+                "url": "zero-shot-classification|19119",
+                "version": "12:57 08:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb",
+                "url": "sentence-similarity|5320",
+                "version": "12:40 03:11:2022|26"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "zero-shot-classification|3512899",
+                "version": "11:58 28:12:2023|152"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.00017562332425940502
+    },
+    {
+        "request": {
+            "model": {
+                "name": "symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli",
+                "url": "sentence-similarity|4772",
+                "version": "09:49 20:02:2023|58"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-xlarge-mnli",
+                "url": "text-classification|93244",
+                "version": "15:47 27:06:2022|15"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0015882802646725433
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-xlarge-mnli",
+                "url": "text-classification|93244",
+                "version": "15:47 27:06:2022|15"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0005798923311085463
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+                "url": "zero-shot-classification|3512899",
+                "version": "11:58 28:12:2023|152"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.00031429283424384055
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-xsmall-mnli-fever-anli-ling-binary",
+                "url": "zero-shot-classification|19119",
+                "version": "12:57 08:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "potsawee/deberta-v3-large-mnli",
+                "url": "text-classification|20165",
+                "version": "16:37 30:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-base-mnli",
+                "url": "text-classification|6476",
+                "version": "13:36 09:12:2021|3"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0008682580419786169
+    },
+    {
+        "request": {
+            "model": {
+                "name": "potsawee/deberta-v3-large-mnli",
+                "url": "text-classification|20165",
+                "version": "16:37 30:01:2024|4"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0020376779028170163
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+                "url": "zero-shot-classification|189333",
+                "version": "12:37 08:01:2024|194"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.000884343336384527
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli",
+                "url": "zero-shot-classification|13181",
+                "version": "08:26 20:03:2023|26"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0001665949262577831
+    },
+    {
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0005316609501494983
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-base-mnli",
+                "url": "text-classification|6476",
+                "version": "13:36 09:12:2021|3"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0012468723025882524
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+                "url": "zero-shot-classification|189333",
+                "version": "12:37 08:01:2024|194"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.002871707126143433
+    },
+    {
+        "request": {
+            "model": {
+                "name": "typeform/distilbert-base-uncased-mnli",
+                "url": "zero-shot-classification|24825",
+                "version": "08:49 22:03:2023|36"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.00343163302611737
+    },
+    {
+        "request": {
+            "model": {
+                "name": "pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb",
+                "url": "sentence-similarity|5320",
+                "version": "12:40 03:11:2022|26"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "squeezebert/squeezebert-mnli",
+                "url": "None|19703",
+                "version": "22:02 11:12:2020|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli",
+                "url": "zero-shot-classification|13181",
+                "version": "08:26 20:03:2023|26"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0036868176363881624
+    },
+    {
+        "request": {
+            "model": {
+                "name": "symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli",
+                "url": "sentence-similarity|4772",
+                "version": "09:49 20:02:2023|58"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "FacebookAI/roberta-large-mnli",
+                "url": "text-classification|381091",
+                "version": "12:47 19:02:2024|120"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0005316609501494983
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                "url": "text-classification|59606",
+                "version": "23:17 20:05:2021|11"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.000324821963900913
+    },
+    {
+        "request": {
+            "model": {
+                "name": "typeform/distilbert-base-uncased-mnli",
+                "url": "zero-shot-classification|24825",
+                "version": "08:49 22:03:2023|36"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.00343163302611737
+    },
+    {
+        "request": {
+            "model": {
+                "name": "symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli",
+                "url": "sentence-similarity|4772",
+                "version": "09:49 20:02:2023|58"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb",
+                "url": "sentence-similarity|5320",
+                "version": "12:40 03:11:2022|26"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "tals/albert-xlarge-vitaminc-mnli",
+                "url": "text-classification|9174",
+                "version": "05:27 17:03:2023|3"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "tals/albert-xlarge-vitaminc-mnli",
+                "url": "text-classification|9174",
+                "version": "05:27 17:03:2023|3"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli",
+                "url": "sentence-similarity|4772",
+                "version": "09:49 20:02:2023|58"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "NbAiLab/nb-bert-base-mnli",
+                "url": "zero-shot-classification|26060",
+                "version": "11:32 24:03:2023|9"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0008138558858040317
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-large-mnli",
+                "url": "text-classification|837132",
+                "version": "20:07 21:05:2021|14"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0012586035891362123
+    },
+    {
+        "request": {
+            "model": {
+                "name": "facebook/bart-large-mnli",
+                "url": "zero-shot-classification|3584883",
+                "version": "14:49 05:09:2023|869"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0008088728686217433
+    },
+    {
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-3",
+                "url": "zero-shot-classification|26513",
+                "version": "10:29 14:06:2021|17"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0005422366534191434
+    },
+    {
+        "request": {
+            "model": {
+                "name": "NbAiLab/nb-bert-base-mnli",
+                "url": "zero-shot-classification|26060",
+                "version": "11:32 24:03:2023|9"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0008138558858040317
+    },
+    {
+        "request": {
+            "model": {
+                "name": "tals/albert-xlarge-vitaminc-mnli",
+                "url": "text-classification|9174",
+                "version": "05:27 17:03:2023|3"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-3",
+                "url": "zero-shot-classification|26513",
+                "version": "10:29 14:06:2021|17"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0004861668668805612
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-large-mnli-fever-anli-ling-wanli",
+                "url": "zero-shot-classification|130958",
+                "version": "12:37 08:01:2024|74"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0004993650137101103
+    },
+    {
+        "request": {
+            "model": {
+                "name": "tals/albert-xlarge-vitaminc-mnli",
+                "url": "text-classification|9174",
+                "version": "05:27 17:03:2023|3"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "obudzecie/mobilebert-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:27 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-docnli-ling-2c",
+                "url": "text-classification|2383",
+                "version": "20:40 05:04:2023|10"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "joeddav/bart-large-mnli-yahoo-answers",
+                "url": "zero-shot-classification|1258",
+                "version": "10:44 14:06:2021|11"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.0009688309408606045
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/ernie-m-large-mnli-xnli",
+                "url": "zero-shot-classification|515",
+                "version": "08:28 20:03:2023|18"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "obudzecie/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:29 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "rdp99/deberta-v3-small-finetuned-mnli",
+                "url": "text-classification|0",
+                "version": "00:42 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ZaaCo/deberta-v3-small-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:41 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "anamelchor/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:40 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "Narsil/deberta-large-mnli-zero-cls",
+                "url": "zero-shot-classification|746",
+                "version": "13:27 23:08:2021|12"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.00013862243821759806
+    },
+    {
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_1_03_2024",
+                "url": "text-classification|22",
+                "version": "16:12 01:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "anamelchor/tner-xlm-roberta-base-uncased-all-english-finetuned-mnli",
+                "url": "None|0",
+                "version": "07:51 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "manimaranpa07/mnli_bart_text_classification_1_08th_march_margs",
+                "url": "text-classification|1",
+                "version": "17:18 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "alan-turing-institute/mt5-large-finetuned-mnli-xtreme-xnli",
+                "url": "text2text-generation|2322",
+                "version": "11:12 16:05:2023|12"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_08th_march_1",
+                "url": "text-classification|7",
+                "version": "06:47 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_1_03_2024",
+                "url": "text-classification|22",
+                "version": "16:12 01:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "TransferGraph/boychaboy_MNLI_roberta-base-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:51 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "jaems33/mDeBERTa-v3-base-mnli-xnli-forked",
+                "url": "text-classification|0",
+                "version": "05:18 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "anamelchor/distilbert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:40 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "milinbhade1214/bert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:12 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "TransferGraph/ishan_bert-base-uncased-mnli-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:49 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli",
+                "url": "zero-shot-classification|13181",
+                "version": "08:26 20:03:2023|26"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -0.0001665949262577831
+    },
+    {
+        "request": {
+            "model": {
+                "name": "obudzecie/roberta-base-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:32 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "MoritzLaurer/xlm-v-base-mnli-xnli",
+                "url": "zero-shot-classification|28",
+                "version": "21:51 09:02:2023|19"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.002651307802085602
+    },
+    {
+        "request": {
+            "model": {
+                "name": "microsoft/deberta-xlarge-mnli",
+                "url": "text-classification|93244",
+                "version": "15:47 27:06:2022|15"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -0.0005798923311085463
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ZaaCo/FB_Roberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:16 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "Narsil/deberta-large-mnli-zero-cls",
+                "url": "zero-shot-classification|746",
+                "version": "13:27 23:08:2021|12"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0012586035891362123
+    },
+    {
+        "request": {
+            "model": {
+                "name": "obudzecie/albert-base-v2-finetuned-mnli",
+                "url": "None|0",
+                "version": "09:16 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "pritamdeka/BioBERT-mnli-snli-scinli-scitail-mednli-stsb",
+                "url": "sentence-similarity|5320",
+                "version": "12:40 03:11:2022|26"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "symanto/sn-xlm-roberta-base-snli-mnli-anli-xnli",
+                "url": "sentence-similarity|4772",
+                "version": "09:49 20:02:2023|58"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": NaN
+    },
+    {
+        "request": {
+            "model": {
+                "name": "TransferGraph/boychaboy_MNLI_roberta-base-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:51 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "TransferGraph/ishan_bert-base-uncased-mnli-finetuned-lora-tweet_eval_hate",
+                "url": "text-classification|0",
+                "version": "13:49 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "milinbhade1214/bert-base-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:12 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "manimaranpa07/finetuned_bart_mnli_08th_march_1",
+                "url": "text-classification|7",
+                "version": "06:47 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ZaaCo/deberta-v3-small-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:41 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v1",
+                "url": "None|0",
+                "version": "18:43 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ZaaCo/FB_Roberta-finetuned-mnli",
+                "url": "None|0",
+                "version": "13:16 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "obudzecie/albert-base-v2-finetuned-mnli",
+                "url": "None|0",
+                "version": "09:16 05:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "jaems33/mDeBERTa-v3-base-mnli-xnli-forked",
+                "url": "text-classification|0",
+                "version": "05:18 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "TransferGraph/boychaboy_MNLI_roberta-base-finetuned-lora-tweet_eval_emotion",
+                "url": "text-classification|0",
+                "version": "12:52 29:02:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "manimaranpa07/mnli_bart_text_classification_1_08th_march_margs",
+                "url": "text-classification|1",
+                "version": "17:18 08:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "obudzecie/mobilebert-uncased-finetuned-mnli",
+                "url": "None|0",
+                "version": "08:27 06:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v2",
+                "url": "None|0",
+                "version": "18:59 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "grace-pro-hav/gemma_mnli_v1",
+                "url": "None|0",
+                "version": "18:43 02:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    },
+    {
+        "request": {
+            "model": {
+                "name": "ynie/roberta-large-snli_mnli_fever_anli_R1_R2_R3-nli",
+                "url": "text-classification|59606",
+                "version": "23:17 20:05:2021|11"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "2"
+            }
+        },
+        "result_score": 0.0013598715258200489
+    },
+    {
+        "request": {
+            "model": {
+                "name": "valhalla/distilbart-mnli-12-1",
+                "url": "zero-shot-classification|42964",
+                "version": "10:27 14:06:2021|46"
+            },
+            "questionnaire": {
+                "name": "big5",
+                "version": "1"
+            }
+        },
+        "result_score": 0.00018902507699316445
+    },
+    {
+        "request": {
+            "model": {
+                "name": "obudzecie/roberta-base-finetuned-mnli",
+                "url": "None|0",
+                "version": "14:32 04:03:2024|0"
+            },
+            "questionnaire": {
+                "name": "asi",
+                "version": "2"
+            }
+        },
+        "result_score": -999
+    }
+]
