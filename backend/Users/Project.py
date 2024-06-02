@@ -1,4 +1,4 @@
-from ..Result import Result
+from ..Request import Request, Model, Questionnaire
 
 
 class Project:
@@ -6,42 +6,42 @@ class Project:
     def __init__(self):
         self.models = set()
         self.questionnaires = set()
-        self.records = []
 
-    # receive model name, and add it to the project, also add records of (Questionnaires * model)
-    def add_model(self, model_name):
-        if model_name in self.models:
-            raise ValueError(f"model: {model_name} is already added to this project.")
-        self.models.update(model_name)
-        new_records = []
+    # receive model, and add it to the project
+    def add_model(self, model: Model):
+        if model in self.models:
+            raise ValueError(f"model: {model.name} is already added to this project.")
+        self.models.add(model)
+        new_requests = []
         for q in self.questionnaires:
-            new_records.append(Result(model_name, q))
-        return new_records
+            new_requests.append(Request(model, q))
+        return new_requests
 
-    # receive questionnaires name, and add it to the project, also add records of (Models * questionnaire)
-    def add_questionnaire(self, questionnaire):
+    # receive questionnaire, and add it to the project
+    def add_questionnaire(self, questionnaire: Questionnaire):
         if questionnaire in self.questionnaires:
-            raise ValueError(f"questionnaire: {questionnaire} is already added to this project.")
-        self.questionnaires.update(questionnaire)
-        current_datetime = datetime.now()
-        new_records = []
+            raise ValueError(f"questionnaire: {questionnaire.name} is already added to this project.")
+        self.questionnaires.add(questionnaire)
+        new_requests = []
         for m in self.models:
-            new_records.append(Record(current_datetime, m, questionnaire))
-        self.records.append(new_records)
-        return new_records
+            new_requests.append(Request(m, questionnaire))
+        return new_requests
 
     # receive model name, and remove it and its records from the project
-    def remove_model(self, model_name):
-        if model_name not in self.models:
-            raise ValueError(f"model: {model_name} doesn't exist in this project.")
-        self.models.discard(model_name)
-        filtered_records = [r for r in self.records if r.model_name != model_name]
-        self.records = filtered_records
+    def remove_model(self, model: Model):
+        if model not in self.models:
+            raise ValueError(f"model: {model.name} doesn't exist in this project.")
+        self.models.remove(model.name)
 
     # receive questionnaires name, and remove it and its records from the project
     def remove_questionnaire(self, questionnaire):
         if questionnaire not in self.questionnaires:
-            raise ValueError(f"questionnaire: {questionnaire} doesn't exist in this project.")
-        self.questionnaires.discard(questionnaire)
-        filtered_records = [r for r in self.records if r.questionnaire != questionnaire]
-        self.records = filtered_records
+            raise ValueError(f"questionnaire: {questionnaire.name} doesn't exist in this project.")
+        self.questionnaires.remove(questionnaire)
+
+    def get_requests(self):
+        requests = []
+        for m in self.models:
+            for q in self.questionnaires:
+                requests.append(Request(m, q))
+        return requests

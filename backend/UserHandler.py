@@ -1,10 +1,9 @@
-from ..Storage import Storage
-from ..Request import Model, Questionnaire
+from Storage import Storage
+from Request import Request, Model, Questionnaire
 
 
-# the role of this class is to handle requests related to User from the service.
-# it creates new users, load from db old users and delegates request to the appropriate user object.
-# it also validates login.
+# the role of this class is to handle requests related to User from the service
+# it create new users, load from db old users and delegates request to the appropriate user object
 class UserHandler:
 
     def __init__(self):
