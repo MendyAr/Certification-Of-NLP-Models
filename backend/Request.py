@@ -10,7 +10,7 @@ class Model:
         return False
 
     def __hash__(self):
-        return hash(self.name+self.url+self.version)
+        return hash(self.name)
 
 class Questionnaire:
     def __init__(self, name : str):
@@ -24,7 +24,7 @@ class Questionnaire:
         return False
 
     def __hash__(self):
-        return hash(self.name+self.version)
+        return hash(self.name)
 
 
 class Request:
