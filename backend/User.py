@@ -8,75 +8,60 @@ class User:
     def __init__(self, user_id):
         self.scheduler = Scheduler()
         self.storage = Storage.get_instance()
-        self.userId = user_id
+        self.user_id = user_id
         self.projects = {}  # the key is the name of the project and the value is the project object
-        self.__load_user()
-        self.__check_evaluations()
 
     def add_project(self, project_name):
         if project_name in self.projects.keys():
             raise ValueError(f"project: {project_name} already exist.")
-        self.storage.add_project(self.userId, project_name)
+        self.storage.add_project(self.user_id, project_name)
         self.projects[project_name] = Project()
 
-    def add_model(self, project_name, model):
+    def add_model(self, project_name, model: Model):
         self.__validate_project(project_name)
-        new_records = self.projects[project_name].add_model(model)
-        self.storage.add_model(self.userId, project_name, model, new_records)
+        new_requests = self.projects[project_name].add_model(model)
+        for r in new_requests:
+            self.__evaluate(r)
+        self.storage.add_model(self.user_id, project_name, model)
 
-    def add_questionnaires(self, project_name, questionnaire):
+    def add_questionnaires(self, project_name, questionnaire: Questionnaire):
         self.__validate_project(project_name)
-        new_records = self.projects[project_name].add_questionnaire(questionnaire)
-        self.storage.add_model(self.userId, project_name, questionnaire, new_records)
+        new_requests = self.projects[project_name].add_questionnaire(questionnaire)
+        for r in new_requests:
+            self.__evaluate(r)
+        self.storage.add_questionnaire(self.user_id, project_name, questionnaire)
 
-    def remove_model(self, project_name, model_name):
+    def delete_project(self, project_name):
         self.__validate_project(project_name)
-        self.projects[project_name].remove_model(model_name)
-        self.storage.remove_model(self.userId, project_name, model_name)
+        del self.projects[project_name]
+        self.storage.delete_project(self.user_id, project_name)
 
-    def remove_questionnaire(self, project_name, questionnaire_name):
+    def remove_model(self, project_name, model: Model):
         self.__validate_project(project_name)
-        self.projects[project_name].remove_questionnaire(questionnaire_name)
-        self.storage.remove_questionnaire(self.userId, project_name, questionnaire_name)
+        self.projects[project_name].remove_model(model)
+        self.storage.remove_model(self.user_id, project_name, model)
 
-    # load the projects of the user from db
-    def __load_user(self):
-        self.projects = self.storage.load_user(self.userId)
+    def remove_questionnaire(self, project_name, questionnaire: Questionnaire):
+        self.__validate_project(project_name)
+        self.projects[project_name].remove_questionnaire(questionnaire)
+        self.storage.remove_questionnaire(self.user_id, project_name, questionnaire)
 
-    # check if any model-questionnaire pair have not sent for evaluation and send them
-    # part of the FailOver mechanism
-    def __check_evaluations(self):
-        for p in self.projects.values():
-            for r in p.records:
-                if not self.__is_evaluate(r.model_name, r.questionnaire):
-                    self.evaluate(r.model_name, r.questionnaire)
-
-    # check in the evaluations db if the evaluation is registered
-    def __is_evaluate(self, model, questionnaire):
-        return self.storage.is_evaluated(model, questionnaire)
-
-    # send a model-questionnaire pair for evaluation
-    def evaluate(self, model_name, questionnaire_name):
-        m = Model(model_name, "", "")
-        q = Questionnaire(questionnaire_name, "")
-        r = Request(m, q)
-        self.scheduler.add_request(r, self.userId)
+    # return a list of the current results for the project
+    def get_updated_results(self, project_name):
+        self.__validate_project(project_name)
+        results = []
+        for r in self.projects[project_name].get_requests():
+            results.append(self.storage.get_result(r))
+        return results
 
     # notify a user when a project evaluation is complete
     def notify(self):
         # todo: (maybe use the listener design pattern, listen for eval complete)
         raise NotImplementedError
 
-    # return a dictionary, the key is the name of the project and the value is a list of list, each list contains:
-    # request_time, model_name, questionnaire, evaluation_status(Pending/score), evaluation_time
-    def get_evaluations_records_and_status(self):
-        dic = {}
-        for name, p in self.projects.items():
-            dic[name] = []
-            for r in p.records:
-                status = self.storage.get_status(r.model_name, r.questionnaire)
-                dic[name].append(r.append(status))
-        return dic
+    # send a model-questionnaire pair for evaluation and get the result object
+    def __evaluate(self, request: Request):
+        self.scheduler.add_request(request, self.user_id)
 
     def __validate_project(self, project_name):
         if project_name not in self.projects.keys():

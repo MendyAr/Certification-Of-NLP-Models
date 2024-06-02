@@ -11,6 +11,9 @@ class Model:
             return True
         return False
 
+    def __hash__(self):
+        return hash(self.name+self.url+self.version)
+
 class Questionnaire:
     def __init__(self, name : str, version : str):
         self.name = name
@@ -22,6 +25,9 @@ class Questionnaire:
         if self.name == __value.name and self.version == __value.version:
             return True
         return False
+
+    def __hash__(self):
+        return hash(self.name+self.version)
 
 
 class Request:
