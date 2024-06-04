@@ -11,6 +11,25 @@ class User:
         self.user_id = user_id
         self.projects = {}  # the key is the name of the project and the value is the project object
 
+    def get_projects_name(self):
+        return list(self.projects.keys())
+
+    def get_project_models_and_questionnaires(self, project_name):
+        self.__validate_project(project_name)
+        p = self.projects[project_name]
+        models = [vars(model) for model in p.get_models()]
+        questionnaires = [vars(ques) for ques in p.get_questionnaires()]
+        return {"models": models, "ques": questionnaires}
+
+    def get_project_evaluations(self, project_name):
+        self.__validate_project(project_name)
+        results = []
+        for r in self.projects[project_name].get_requests():
+            results.append({"model": r.model.name,
+                            "questionnaire": r.questionnaire.name,
+                            "result": self.storage.get_result(r)})
+        return results
+
     def add_project(self, project_name):
         if project_name in self.projects.keys():
             raise ValueError(f"project: {project_name} already exist.")
@@ -45,14 +64,6 @@ class User:
         self.__validate_project(project_name)
         self.projects[project_name].remove_questionnaire(questionnaire)
         self.storage.remove_questionnaire(self.user_id, project_name, questionnaire)
-
-    # return a list of the current results for the project
-    def get_updated_results(self, project_name):
-        self.__validate_project(project_name)
-        results = []
-        for r in self.projects[project_name].get_requests():
-            results.append(self.storage.get_result(r))
-        return results
 
     # notify a user when a project evaluation is complete
     def notify(self):

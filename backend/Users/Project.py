@@ -7,6 +7,12 @@ class Project:
         self.models = set()
         self.questionnaires = set()
 
+    def get_models(self):
+        return self.models
+
+    def get_questionnaires(self):
+        return self.questionnaires
+
     # receive model, and add it to the project
     def add_model(self, model: Model):
         if model in self.models:
