@@ -5,6 +5,7 @@ from User_Request import UserRequest
 from Cache_Manager import *
 from Storage import *
 from backend.Storage2 import *
+import time
 
 
 class Scheduler:
@@ -18,6 +19,7 @@ class Scheduler:
         self.agent = Agent()
         self.eval_engine = EvaluationEngine()
         self.cache_manager = Cache_Manager()
+        self._running_eval_thread = True
 
     # public
     def add_request(self, eval_request : Request, user_name):
@@ -102,7 +104,12 @@ class Scheduler:
         # self.storage.save_agent_requests_scheduler_list_to_file(self.agent_requests_list)
         # self.storage.save_user_requests_scheduler_list_to_file(self.users_requests_list)
         pass
-    
+
+    def run_eval_thread(self):
+        while self._running_eval_thread:
+            x = self.eval_request()
+            if x:
+                time.sleep(10)  # Adjust sleep time as needed
 
 class Tests:
     def __init__(self):
