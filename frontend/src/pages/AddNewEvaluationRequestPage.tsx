@@ -3,7 +3,8 @@ import { Checkbox, Col, Row, Button, Input, Form, Modal, Select, Flex } from "an
 import MainTitle from "./MainTitle";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { MinusCircleOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 
@@ -12,12 +13,44 @@ const onChange = (checkedValues: CheckboxValueType[]) => {
 };
 
 const AddNewEvaluationRequest = () => {
+    const serverUrl = "http://127.0.0.1:5001"
     const { projectName } = useParams();
+    const navigate = useNavigate();
     const [isModelModalVisible, setIsModelModalVisible] = useState(false);
     const [isQuestionnaireModalVisible, setIsQuestionnaireModalVisible] = useState(false);
     const [modelName, setModelName] = useState("");
     const [modelUrl, setModelUrl] = useState("");
     const [selectedQuestionnaire, setSelectedQuestionnaire] = useState("");
+
+    // State variables to manage the confirmation modals
+const [confirmDeleteModel, setConfirmDeleteModel] = useState(false);
+const [confirmDeleteQuestionnaire, setConfirmDeleteQuestionnaire] = useState(false);
+const [modelToDelete, setModelToDelete] = useState("");
+const [questionnaireToDelete, setQuestionnaireToDelete] = useState("");
+
+// Function to set the model to delete and show the confirmation modal
+const handleModelDelete = (modelNameToDelete: string) => {
+    setModelToDelete(modelNameToDelete);
+    setConfirmDeleteModel(true);
+};
+
+// Function to set the questionnaire to delete and show the confirmation modal
+const handleQuestionnaireDelete = (questionnaireToDelete: string) => {
+    setQuestionnaireToDelete(questionnaireToDelete);
+    setConfirmDeleteQuestionnaire(true);
+};
+
+// Function to delete model
+const deleteModelAction = async () => {
+    await deleteModel(modelToDelete);
+    setConfirmDeleteModel(false); // Close the modal
+};
+
+// Function to delete questionnaire
+const deleteQuestionnaireAction = async () => {
+    await deleteQuestionnaire(questionnaireToDelete);
+    setConfirmDeleteQuestionnaire(false); // Close the modal
+};
     
     const showModelModal = () => {
         setIsModelModalVisible(true);
@@ -69,7 +102,7 @@ const AddNewEvaluationRequest = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:5001/project-info",
+                const response = await axios.get(`${serverUrl}/project-info`,
                     {
                         params: {
                             project: projectName,
@@ -85,12 +118,12 @@ const AddNewEvaluationRequest = () => {
             }
         };
         fetchData();
-    }, [isModelModalVisible, isQuestionnaireModalVisible]);
+    }, [isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel]);
 
     const getAllQuestionnaires = () => {
         const fetchData = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:5001/get-all-ques", {});
+                const response = await axios.get(`${serverUrl}/get-all-ques`, {});
                 console.log("Response data:", response.data); // Debugging line
                 setAllQues(response.data);
             } catch (error) {
@@ -102,7 +135,7 @@ const AddNewEvaluationRequest = () => {
 
     const addQues = async () => {
         try {
-            const response = await axios.post("http://127.0.0.1:5001/add-ques", { ques: selectedQuestionnaire }, 
+            const response = await axios.post(`${serverUrl}/add-ques`, { ques: selectedQuestionnaire }, 
             {params: {
                         project: projectName,
                         email: "user1@example.com",
@@ -116,7 +149,7 @@ const AddNewEvaluationRequest = () => {
 
     const addModel = async () => {
         try {
-            const response = await axios.post("http://127.0.0.1:5001/add-model", { name: modelName, url: modelUrl }, 
+            const response = await axios.post(`${serverUrl}/add-model`, { name: modelName, url: modelUrl }, 
             {params: {
                         project: projectName,
                         email: "user1@example.com",
@@ -128,6 +161,42 @@ const AddNewEvaluationRequest = () => {
         }
     };
 
+    // Function to delete a model by its name
+const deleteModel = async (modelNameToDelete: string) => {
+    try {
+        const response = await axios.delete(`${serverUrl}/delete-model`, {
+            params: {
+                project: projectName,
+                email: "user1@example.com",
+                modelName: modelNameToDelete,
+            },
+        });
+        console.log("Delete model response:", response.data); // Debugging line
+        // Update the models state after successful deletion
+        setModels(models.filter(model => model.name !== modelNameToDelete));
+    } catch (error) {
+        console.error("Error deleting model");
+    }
+};
+
+// Function to delete a questionnaire by its name
+const deleteQuestionnaire = async (questionnaireToDelete: string) => {
+    try {
+        const response = await axios.delete(`${serverUrl}/delete-ques`, {
+            params: {
+                project: projectName,
+                email: "user1@example.com",
+                questionnaire: questionnaireToDelete,
+            },
+        });
+        console.log("Delete questionnaire response:", response.data); // Debugging line
+        // Update the ques state after successful deletion
+        setQues(ques.filter(q => q !== questionnaireToDelete));
+    } catch (error) {
+        console.error("Error deleting questionnaire");
+    }
+};
+
     return (
         <div style={{ padding: "20px" }}>
             <div style={{display: "flex", justifyContent: "space-between", marginBottom: "20px"}}>
@@ -135,15 +204,14 @@ const AddNewEvaluationRequest = () => {
                     <Flex align="left">
                         <MainTitle title1="Select Model" title2="" />
                     </Flex>
-                    <Checkbox.Group style={{ width: "100%" }} onChange={onChange}>
-                    <Row>
+                    <ul style={{ listStyleType: "none", padding: 0 }}>
                         {models && models.map((model, index) => (
-                            <Col span={12} key={index}>
-                                <Checkbox value={model.name}>{model.name}</Checkbox>
-                            </Col>
+                            <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
+                                <Button type="link" icon={<MinusCircleOutlined />} onClick={() => handleModelDelete(model.name)} />
+                                <span>{model.name}</span>
+                            </li>
                         ))}
-                    </Row>
-                    </Checkbox.Group>
+                    </ul>
                     <Button type="dashed" style={{ marginTop: "10px" }} onClick={showModelModal}>
                         Click to add more models
                     </Button>
@@ -152,27 +220,23 @@ const AddNewEvaluationRequest = () => {
                     <Flex align="left">
                         <MainTitle title1="Select Questionnaire" title2="" />
                     </Flex>
-                    <Checkbox.Group style={{ width: "100%" }} onChange={onChange}>
-                        <Row>
-                            {ques && ques.map((q,index) => (
-                                <Col span={12} key={index}>
-                                    <Checkbox value={q}>{q}</Checkbox>
-                                </Col>
-                            ))}
-                        </Row>
-                    </Checkbox.Group>
+                    <ul style={{ listStyleType: "none", padding: 0 }}>
+                        {ques && ques.map((q, index) => (
+                            <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
+                                <Button type="link" icon={<MinusCircleOutlined />} onClick={() => handleQuestionnaireDelete(q)} />
+                                <span>{q}</span>
+                            </li>
+                        ))}
+                    </ul>
                     <Button type="dashed" style={{ marginTop: "10px" }} onClick={showQuestionnaireModal}>
                         Click to add more Questionnaire
                     </Button>
                 </div>
             </div>
             <Form layout="vertical" style={{ marginTop: "20px", width: "100%" }}>
-                {/* <Form.Item label="Project Name">
-                    <Input placeholder="Enter project name" />
-                </Form.Item> */}
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        Create Evaluation Request
+                    <Button type="primary" htmlType="submit"  onClick={() => navigate(`/my-projects/${projectName}/eval-requests`)} >
+                        Create Evaluation Requests
                     </Button>
                 </Form.Item>
             </Form>
@@ -204,6 +268,43 @@ const AddNewEvaluationRequest = () => {
                     </Form.Item>
                 </Form>
             </Modal>
+
+            
+             {/* delete model pop-up: */}
+            <Modal
+                title="Confirm Delete Model"
+                visible={confirmDeleteModel}
+                onCancel={() => setConfirmDeleteModel(false)} // Close the modal without deleting
+                footer={[
+                    <Button key="cancel" onClick={() => setConfirmDeleteModel(false)}>
+                        Cancel
+                    </Button>,
+                    <Button key="delete" type="primary" onClick={deleteModelAction}>
+                        Delete
+                    </Button>,
+                ]}
+            >
+                <p>Are you sure you want to delete this model?</p>
+            </Modal>
+            
+            {/* delete Questionnaire pop-up: */}
+            <Modal
+                title="Confirm Delete Questionnaire"
+                visible={confirmDeleteQuestionnaire}
+                onCancel={() => setConfirmDeleteQuestionnaire(false)} // Close the modal without deleting
+                footer={[
+                    <Button key="cancel" onClick={() => setConfirmDeleteQuestionnaire(false)}>
+                        Cancel
+                    </Button>,
+                    <Button key="delete" type="primary" onClick={deleteQuestionnaireAction}>
+                        Delete
+                    </Button>,
+                ]}
+            >
+                <p>Are you sure you want to delete this questionnaire?</p>
+            </Modal>
+
+
         </div>
     );
 };

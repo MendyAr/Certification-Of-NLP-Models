@@ -114,6 +114,7 @@ def get_models():
     return jsonify(data4)
 
 
+
 # add questanier to data3(to questanire's project list)
 # TODO: need a functiom that get project_name, questanier, and user, and adding to the project the choosen questanier
 @app.route('/add-ques', methods=['POST'])
@@ -130,6 +131,7 @@ def add_ques():
     
     data3['ques'].append(new_ques)
     return jsonify({"message": "Questionnaire added successfully", "ques": new_ques}), 200
+
 
 
 # add model to data3(to model's project list)
@@ -152,6 +154,41 @@ def add_model():
     }
     data3['models'].append(new_model)
     return jsonify({"message": "Model added successfully", "model": new_model}), 200
+
+
+
+# delete model from data3
+@app.route('/delete-model', methods=['DELETE'])
+def delete_model():
+    project = request.args.get('project')
+    email = request.args.get('email')
+    if not project or not email:
+        return jsonify({"error": "Missing project or email parameter"}), 400
+    model_name = request.args.get('modelName')
+    if not model_name:
+        return jsonify({"error": "Missing model name"}), 400
+    existing_models = [model for model in data3['models'] if model['name'] == model_name]
+    if not existing_models:
+        return jsonify({"error": "Model not found"}), 404
+    data3['models'] = [model for model in data3['models'] if model['name'] != model_name]
+    return jsonify({"message": "Model deleted successfully", "modelName": model_name}), 200
+
+
+
+# delete questionnaire from data3
+@app.route('/delete-ques', methods=['DELETE'])
+def delete_ques():
+    project = request.args.get('project')
+    email = request.args.get('email')
+    if not project or not email:
+        return jsonify({"error": "Missing project or email parameter"}), 400
+    questionnaire = request.args.get('questionnaire')
+    if not questionnaire:
+        return jsonify({"error": "Missing questionnaire name"}), 400
+    if questionnaire not in data3['ques']:
+        return jsonify({"error": "Questionnaire not found"}), 404
+    data3['ques'].remove(questionnaire)
+    return jsonify({"message": "Questionnaire deleted successfully", "questionnaire": questionnaire}), 200
 
 
 

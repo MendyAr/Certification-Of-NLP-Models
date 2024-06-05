@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const AddNewProject = () => {
+    const serverUrl = "http://127.0.0.1:5001"
     const navigate = useNavigate();
     const [projectName, setProjectName] = useState("");
     const handleProjectNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -12,7 +13,7 @@ const AddNewProject = () => {
 
     const addProject = async () => {
         try {
-            const response = await axios.post("http://127.0.0.1:5001/add-new-project", { name: projectName }, 
+            const response = await axios.post(`${serverUrl}/add-new-project`, { name: projectName }, 
             {params: {
                         email: "user1@example.com",
                     }

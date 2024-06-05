@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 export default function MyProjects() {
+    const serverUrl = "http://127.0.0.1:5001"
     const [projects, setProjects] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ export default function MyProjects() {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:5001/get-projects", {
+                const response = await axios.get(`${serverUrl}/get-projects`, {
                     params: {
                         email: "user1@example.com"  // Replace with dynamic email if needed
                     },
