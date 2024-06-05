@@ -3,14 +3,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function TopRequestsTable() {
+    const serverUrl = "http://127.0.0.1:5001"
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true); // Ensure loading state is defined
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(
-                    "http://127.0.0.1:5001/top-requests",{}
+                const response = await axios.get(`${serverUrl}/top-requests`,{}
                 );
                 console.log("Response data top requests:", response.data); // Debugging line
                 setData(response.data);
