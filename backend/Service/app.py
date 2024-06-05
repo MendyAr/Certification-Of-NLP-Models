@@ -34,6 +34,20 @@ def get_top_evaluations():
         return response
 
 
+@app.route('/login', methods=['GET'])
+def login():
+    try:
+        token = request.json.get('id_token')
+        user_id = verify_google_id_token_and_get_user_id(token)
+        response = jsonify({"message": "login successfully"})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
+
+
 # get all the available questionnaire
 @app.route('/get-all-ques', methods=['GET'])
 def get_questionnaires():
@@ -167,6 +181,10 @@ def start_eval_thread():
     thread.start()
 
 
-if __name__ == '__main__':
+def main():
     start_eval_thread()
     app.run(debug=True, port=5001)
+
+
+if __name__ == '__main__':
+    main()

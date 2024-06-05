@@ -43,7 +43,7 @@ class Service:
         self.user_handler.add_questionnaires(user_id, project_name, Questionnaire(new_questionnaire))
 
     def __validate_project_name_format(self, project_name):
-        if project_name is None or project_name is "":
+        if project_name is None or project_name == "":
             raise ValueError("Missing project name")
 
     # check if the model is compatible for evaluation
