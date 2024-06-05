@@ -5,6 +5,8 @@ import { CheckboxValueType } from "antd/es/checkbox/Group";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { MinusCircleOutlined } from "@ant-design/icons";
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
 
 const { Option } = Select;
 
@@ -13,6 +15,7 @@ const onChange = (checkedValues: CheckboxValueType[]) => {
 };
 
 const AddNewEvaluationRequest = () => {
+    const token = useSelector((state: RootState) => state.auth.token);
     const serverUrl = "http://127.0.0.1:5001"
     const { projectName } = useParams();
     const navigate = useNavigate();
@@ -108,6 +111,9 @@ const deleteQuestionnaireAction = async () => {
                             project: projectName,
                             email: "user1@example.com",
                         },
+                        headers: {
+                            Authorization: `Bearer ${token}`, 
+                        },
                     }
                 );
                 console.log("Response data:", response.data); // Debugging line
@@ -123,7 +129,11 @@ const deleteQuestionnaireAction = async () => {
     const getAllQuestionnaires = () => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${serverUrl}/get-all-ques`, {});
+                const response = await axios.get(`${serverUrl}/get-all-ques`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add the token to the request headers
+                    },
+                });
                 console.log("Response data:", response.data); // Debugging line
                 setAllQues(response.data);
             } catch (error) {
@@ -136,11 +146,16 @@ const deleteQuestionnaireAction = async () => {
     const addQues = async () => {
         try {
             const response = await axios.post(`${serverUrl}/add-ques`, { ques: selectedQuestionnaire }, 
-            {params: {
-                        project: projectName,
-                        email: "user1@example.com",
-                    }
-            });   
+            {
+                params: {
+                    project: projectName,
+                    email: "user1@example.com",
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`, // Add the token to the request headers
+                },
+            }
+        );   
             console.log("Add questionnaire response:", response.data); // Debugging line
         } catch (error) {
             console.error("Error adding questionnaire");
@@ -153,8 +168,11 @@ const deleteQuestionnaireAction = async () => {
             {params: {
                         project: projectName,
                         email: "user1@example.com",
-                    }
-            });
+                    },
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add the token to the request headers
+                    },
+                });
             console.log("Add model response:", response.data); // Debugging line
         } catch (error) {
             console.error("Error adding model");
@@ -169,6 +187,9 @@ const deleteModel = async (modelNameToDelete: string) => {
                 project: projectName,
                 email: "user1@example.com",
                 modelName: modelNameToDelete,
+            },
+            headers: {
+                Authorization: `Bearer ${token}`, // Add the token to the request headers
             },
         });
         console.log("Delete model response:", response.data); // Debugging line
@@ -187,6 +208,9 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
                 project: projectName,
                 email: "user1@example.com",
                 questionnaire: questionnaireToDelete,
+            },
+            headers: {
+                Authorization: `Bearer ${token}`, // Add the token to the request headers
             },
         });
         console.log("Delete questionnaire response:", response.data); // Debugging line

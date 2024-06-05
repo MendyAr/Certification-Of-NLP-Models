@@ -1,8 +1,11 @@
 import { Table } from "antd";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
 
 export default function EvalRequestsTable() {
+    const token = useSelector((state: RootState) => state.auth.token);
     const serverUrl = "http://127.0.0.1:5001"
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true); // Ensure loading state is defined
@@ -15,6 +18,9 @@ export default function EvalRequestsTable() {
                         params: {
                             project: "ProjectA",
                             email: "user1@example.com",
+                        },
+                        headers: {
+                            Authorization: `Bearer ${token}`, // Add the token to the request headers
                         },
                     }
                 );
