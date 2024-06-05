@@ -3,8 +3,11 @@ import { Button, Flex } from "antd";
 import MainTitle from "./MainTitle";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { RootState } from '../redux/store';
+import { useSelector } from 'react-redux';
 
 export default function MyProjects() {
+    const token = useSelector((state: RootState) => state.auth.token);
     const serverUrl = "http://127.0.0.1:5001"
     const [projects, setProjects] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
@@ -16,6 +19,9 @@ export default function MyProjects() {
                 const response = await axios.get(`${serverUrl}/get-projects`, {
                     params: {
                         email: "user1@example.com"  // Replace with dynamic email if needed
+                    },
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add the token to the request headers
                     },
                 });
                 console.log("Projects response data:", response.data); // Debugging line
