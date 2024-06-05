@@ -1,13 +1,13 @@
 from ..Request import Model, Questionnaire, Request
 from ..Scheduler import Scheduler
-from ..Storage import Storage
+from ..Storage2 import *
 from Project import Project
 
 
 class User:
     def __init__(self, user_id):
-        self.scheduler = Scheduler()
-        self.storage = Storage.get_instance()
+        self.scheduler = Scheduler.get_instance()
+        self.storage = Storage2.get_instance()
         self.user_id = user_id
         self.projects = {}  # the key is the name of the project and the value is the project object
 
@@ -27,7 +27,7 @@ class User:
         for r in self.projects[project_name].get_requests():
             results.append({"model": r.model.name,
                             "questionnaire": r.questionnaire.name,
-                            "result": self.storage.get_result(r)})
+                            "result": self.storage.get_result_of_request(r)})
         return results
 
     def add_project(self, project_name):

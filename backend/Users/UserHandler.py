@@ -1,4 +1,4 @@
-from ..Storage import Storage
+from ..Storage2 import *
 from ..Request import Model, Questionnaire
 
 
@@ -7,7 +7,7 @@ from ..Request import Model, Questionnaire
 class UserHandler:
 
     def __init__(self):
-        self.storage = Storage.get_instance()
+        self.storage = Storage2.get_instance()
 
     def get_projects_name(self, user_id):
         user = self.__fetch_user(user_id)

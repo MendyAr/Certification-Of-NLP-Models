@@ -43,7 +43,7 @@ class EvaluationEngine:
     def save(self,score,request):
         # Implement save functionality
         res = Result(request, score) #need to change beacuse it update result and not add
-        # TODO: update the last opened result in the database
+        # update the last opened result in the database
         self.storage.add_result(res); #same
         self.storage.save_results_to_file(); #same
 

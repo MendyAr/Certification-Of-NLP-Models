@@ -9,18 +9,29 @@ import time
 
 
 class Scheduler:
+    _instance = None
+
     def __init__(self):
-        self.storage = Storage2.get_instance()
-        self.users_requests_list = self.storage.load_user_requests_scheduler_list_from_db()
-        self.agent_requests_list = self.storage.load_agent_requests_scheduler_list_from_db()
-        self.user_requests_counter = 0
-        self.users_2_agent_ratio = 10 # for num of request eval agent req
-        self.agent_min_restock_requests = 10 # len(agent_requests_list) < this val then restock
-        self.agent = Agent()
-        # TODO: repupolate the agent list when lower than agent_min_restock_requests
-        self.eval_engine = EvaluationEngine()
-        self.cache_manager = Cache_Manager()
-        self._running_eval_thread = True
+        if self._instance is not None:
+            raise Exception("Singleton class cannot be instantiated multiple times")
+        else:
+            self.storage = Storage2.get_instance()
+            self.users_requests_list = self.storage.load_user_requests_scheduler_list_from_db()
+            self.agent_requests_list = self.storage.load_agent_requests_scheduler_list_from_db()
+            self.user_requests_counter = 0
+            self.users_2_agent_ratio = 10 # for num of request eval agent req
+            self.agent_min_restock_requests = 10 # len(agent_requests_list) < this val then restock
+            self.agent = Agent()
+            self.eval_engine = EvaluationEngine()
+            self.cache_manager = Cache_Manager()
+            self._running_eval_thread = True
+            self._running_eval_thread_sleep_time = 10
+
+    @staticmethod
+    def get_instance():
+        if Storage2._instance is None:
+            Storage2._instance = Storage2()
+        return Storage2._instance
 
     # public
     def add_request(self, eval_request : Request, user_name):
@@ -68,7 +79,6 @@ class Scheduler:
             result_val = self.eval_engine.run_eval_request(req)
         self.cache_manager.check_and_update_cache()
         self.remove_next_request(user_or_agent)
-        # self.save()
         return True
 
     # private
@@ -76,6 +86,7 @@ class Scheduler:
         if len(self.users_requests_list) == 0 and len(self.agent_requests_list) == 0:
             return -1 , -1
         if len(self.users_requests_list) == 0 and len(self.agent_requests_list) > 0:
+            # TODO: repupolate the agent list when lower than agent_min_restock_requests
             return self.agent_requests_list[0].requests , 2
         if len(self.users_requests_list) > 0 and len(self.agent_requests_list) == 0:
             return self.users_requests_list[0].requests , 1
@@ -109,12 +120,11 @@ class Scheduler:
         while self._running_eval_thread:
             x = self.eval_request()
             if x:
-                time.sleep(10)  # Adjust sleep time as needed
+                time.sleep(self._running_eval_thread_sleep_time)  # Adjust sleep time as needed
 
 class Tests:
     def __init__(self):
         self.scheduler = Scheduler()
-
-    def AddRequests(self):
-        self.scheduler.add_request()
+        
+    
     

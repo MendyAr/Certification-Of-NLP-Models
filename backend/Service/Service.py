@@ -1,5 +1,5 @@
 from ..Users.UserHandler import UserHandler
-from ..Storage import Storage
+from ..Storage2 import *
 from ..Request import Model, Questionnaire
 
 
@@ -9,7 +9,7 @@ class Service:
 
     def __init__(self):
         self.user_handler = UserHandler()
-        self.storage = Storage().get_instance()
+        self.storage = Storage2().get_instance()
 
     def get_top_evaluations(self):
         return self.storage.get_top_evals(10)

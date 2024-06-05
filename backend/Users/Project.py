@@ -3,7 +3,8 @@ from ..Request import Request, Model, Questionnaire
 
 class Project:
 
-    def __init__(self):
+    def __init__(self,name):
+        self.name = ""
         self.models = set()
         self.questionnaires = set()
 
