@@ -51,7 +51,6 @@ export default function CustomHeader() {
         },
     ];
     
-    const clientId = "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com";
       const [user, setUser] = useState<string | null>(null);
       const login = useGoogleLogin({
         onSuccess: async (tokenResponse: TokenResponse) => {
