@@ -4,6 +4,7 @@ import { router } from "./router/router";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { ConfigProvider as AntdTheme, theme } from "antd";
+import GoogleSignIn from "./pages/GoogleSignIn";
 
 function App() {
   const { isLight } = useSelector((state: RootState) => state.theme);
