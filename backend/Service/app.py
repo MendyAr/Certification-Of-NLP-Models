@@ -1,231 +1,172 @@
 from flask import Flask, jsonify, request
-from flask_cors import CORS
+from Service import Service
+from ..Scheduler import Scheduler
+from google.oauth2 import id_token
+from google.auth.transport import requests
+import threading
+import json
+import os
+# from flask_cors import CORS
 
+
+service = Service()
+# configure google auto sign parameters
+with open('GoogleAutoSignInfo.json', 'r') as file:
+    data = json.load(file)["web"]
+client_id = data["client_id"]
+
+# configure flask
 app = Flask(__name__)
-CORS(app)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 
-
-# get all evaluation requests for a project - for specific user
-# TODO: need a function that get project name and user returning all evaluation request with results.
-data1 = [
-    {
-        "model": "NLP4",
-        "questionnaire": "ASI",
-        "result": "0.8",
-    },
-    {
-        "model": "NLP5",
-        "questionnaire": "BIG5",
-        "result": "0.56",
-    },
-    {
-        "model": "NLP6",
-        "questionnaire": "ASI",
-        "result": "0.9",
-    },
-]
-@app.route('/eval-requests', methods=['GET'])
-def get_eval_requests():
-    project = request.args.get('project')
-    email = request.args.get('email')
-    if not project or not email:
-        return jsonify({"error": "Missing project or email parameter"}), 400
-    return jsonify(data1)
+# get top evaluations of the system
+@app.route('/', methods=['GET'])
+def get_top_evaluations():
+    try:
+        top_evals = service.get_top_evaluations()
+        response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
 
-
-# get all top-requests - table home page
-# TODO: need a function that returning top evaluation request with results.
-data2 = [
-    {
-        "model": "NLP1",
-        "questionnaire": "ASI",
-        "result": "0.8",
-    },
-    {
-        "model": "NLP2",
-        "questionnaire": "BIG5",
-        "result": "0.56",
-    },
-    {
-        "model": "NLP3",
-        "questionnaire": "ASI",
-        "result": "0.9",
-    },
-]
-@app.route('/top-requests', methods=['GET'])
-def get_top_requests():
-    return jsonify(data2)
+# get all the available questionnaire
+@app.route('/get-all-ques', methods=['GET'])
+def get_questionnaires():
+    try:
+        questionnaire = service.get_questionnaires()
+        response = jsonify({"message": "got available questionnaire successfully", "questionnaire": questionnaire})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
 
+# get all user projects name
+@app.route('/get-projects', methods=['GET'])
+def get_projects_name():
+    try:
+        token = request.json.get('id_token')
+        user_id = verify_google_id_token_and_get_user_id(token)
+        projects = service.get_projects_name(user_id)
+        response = jsonify({"message": "got projects name successfully", "projects": projects})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
-# get project info for a project - for specific user
-# TODO: function that get project_name and uder- and returning the models and questaniers list.
-data3 = {
-    "models": [
-        {
-            "name": "model1 - NLP",
-            "url": "....",
-        },
-        {
-            "name": "model2- NLP",
-            "url": "....",
-        },
-        {
-            "name": "model3 - NLP",
-            "url": "...",
-        },
-        {
-            "name": "model4- NLP",
-            "url": "...",
-        },
-    ],
-    "ques": [
-        "Questionnaire1",
-        "Questionnaire2",
-        "Questionnaire3",
-        "Questionnaire4",
-        "Questionnaire5"
-    ]
-}
+
+# get a user project info
 @app.route('/project-info', methods=['GET'])
 def get_project_info():
-    project = request.args.get('project')
-    email = request.args.get('email')
-    if not project or not email:
-        return jsonify({"error": "Missing project or email parameter"}), 400
-    return jsonify(data3)
+    try:
+        token = request.json.get('id_token')
+        user_id = verify_google_id_token_and_get_user_id(token)
+        project_name = request.args.get('project')
+        projects = service.get_project_info(user_id, project_name)
+        response = jsonify({"message": "got project info successfully", "projects": projects})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
 
-
-# get all Questionnaires from reposotory on git
-# TODO:instead of data4- need a function that import all Questionnaires from reposotory on git. 
-data4 = [
-        "Questionnaire1",
-        "Questionnaire2",
-        "Questionnaire3",
-        "Questionnaire4",
-        "Questionnaire5",
-        "Questionnaire6"
-]
-@app.route('/get-all-ques', methods=['GET'])
-def get_models():
-    return jsonify(data4)
-
-
-
-# add questanier to data3(to questanire's project list)
-# TODO: need a functiom that get project_name, questanier, and user, and adding to the project the choosen questanier
-@app.route('/add-ques', methods=['POST'])
-def add_ques():
-    project = request.args.get('project')
-    email = request.args.get('email')
-    if not project or not email:
-        return jsonify({"error": "Missing project or email parameter"}), 400
-    new_ques = request.json.get('ques')
-    if not new_ques:
-        return jsonify({"error": "Missing questionnaire name"}), 400
-    if new_ques in data3['ques']:
-        return jsonify({"error": "Questionnaire already exists"}), 400
-    
-    data3['ques'].append(new_ques)
-    return jsonify({"message": "Questionnaire added successfully", "ques": new_ques}), 200
+# get a user project info
+@app.route('/eval-requests', methods=['GET'])
+def get_project_evaluations():
+    try:
+        token = request.json.get('id_token')
+        user_id = verify_google_id_token_and_get_user_id(token)
+        project_name = request.args.get('project')
+        projects_evals = service.get_project_evaluations(user_id, project_name)
+        response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
 
+# add a new project to a user
+@app.route('/add-new-project', methods=['POST'])
+def add_project():
+    try:
+        token = request.json.get('id_token')
+        user_id = verify_google_id_token_and_get_user_id(token)
+        project_name = request.json.get('name')
+        service.add_project(user_id, project_name)
+        response = jsonify({"message": "Project added successfully", "project": project_name})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
-# add model to data3(to model's project list)
-# TODO: need a functiom that get project_name, model, and user, and adding to the project the choosen model
+
+# add model to project
 @app.route('/add-model', methods=['POST'])
 def add_model():
-    project = request.args.get('project')
-    email = request.args.get('email')
-    if not project or not email:
-        return jsonify({"error": "Missing project or email parameter"}), 400
-    model_name = request.json.get('name')
-    model_url = request.json.get('url')
-    if not model_url or not model_name:
-        return jsonify({"error": "Missing model name or url"}), 400
-    if any(model['name'] == model_name for model in data3['models']) or any(model['url'] == model_url for model in data3['models']):
-        return jsonify({"error": "Model already exists"}), 400
-    new_model = {
-        "name": model_name,
-        "url": model_url,
-    }
-    data3['models'].append(new_model)
-    return jsonify({"message": "Model added successfully", "model": new_model}), 200
+    try:
+        token = request.json.get('id_token')
+        user_id = verify_google_id_token_and_get_user_id(token)
+        project_name = request.json.get('project')
+        new_model = request.json.get('name')
+        service.add_model(user_id, project_name, new_model)
+        response = jsonify({"message": "Model added successfully", "model": new_model})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
 
-
-# delete model from data3
-@app.route('/delete-model', methods=['DELETE'])
-def delete_model():
-    project = request.args.get('project')
-    email = request.args.get('email')
-    if not project or not email:
-        return jsonify({"error": "Missing project or email parameter"}), 400
-    model_name = request.args.get('modelName')
-    if not model_name:
-        return jsonify({"error": "Missing model name"}), 400
-    existing_models = [model for model in data3['models'] if model['name'] == model_name]
-    if not existing_models:
-        return jsonify({"error": "Model not found"}), 404
-    data3['models'] = [model for model in data3['models'] if model['name'] != model_name]
-    return jsonify({"message": "Model deleted successfully", "modelName": model_name}), 200
-
-
-
-# delete questionnaire from data3
-@app.route('/delete-ques', methods=['DELETE'])
-def delete_ques():
-    project = request.args.get('project')
-    email = request.args.get('email')
-    if not project or not email:
-        return jsonify({"error": "Missing project or email parameter"}), 400
-    questionnaire = request.args.get('questionnaire')
-    if not questionnaire:
-        return jsonify({"error": "Missing questionnaire name"}), 400
-    if questionnaire not in data3['ques']:
-        return jsonify({"error": "Questionnaire not found"}), 404
-    data3['ques'].remove(questionnaire)
-    return jsonify({"message": "Questionnaire deleted successfully", "questionnaire": questionnaire}), 200
+# add questionnaire to project
+@app.route('/add-ques', methods=['POST'])
+def add_questionnaire():
+    try:
+        token = request.json.get('id_token')
+        user_id = verify_google_id_token_and_get_user_id(token)
+        project_name = request.json.get('project')
+        new_ques = request.json.get('ques')
+        service.add_model(user_id, project_name, new_ques)
+        response = jsonify({"message": "Questionnaire added successfully", "ques": new_ques})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
 
 
-
-# get all projects by user
-# TODO:instead of data5- need a function that import all projects from data base for a given user. 
-data5 = [
-        "Project1",
-        "Project2",
-        "Project3",
-        "Project4",
-]
-@app.route('/get-projects', methods=['GET'])
-def get_projects():
-    email = request.args.get('email')
-    if not email:
-        return jsonify({"error": "Missing user email parameter"}), 400
-    return jsonify(data5)
+def verify_google_id_token_and_get_user_id(token):
+    if token is None:
+        raise ValueError("missing id_token")
+    # Verify the token with Google OAuth 2.0 server
+    id_info = id_token.verify_oauth2_token(token, requests.Request(), client_id)
+    # Extract user ID
+    user_id = id_info['sub']
+    return user_id
 
 
-
-# create project
-# TODO: call to function that get user,and  project_name and create project objects with empty models and questanier list.
-@app.route('/add-new-project', methods=['POST'])
-def add_new_project():
-    project_name = request.json.get('name')
-    email = request.args.get('email')
-    if not project_name or not email:
-        return jsonify({"error": "Missing project name or email parameter"}), 400
-
-    if project_name in data5:
-        return jsonify({"error": "Project name already exists"}), 400
-    
-    data5.append(project_name)
-    return jsonify({"message": "Project added successfully", "project": project_name}), 200
-
+def start_eval_thread():
+    scheduler = Scheduler()
+    thread = threading.Thread(target=scheduler.run_eval_thread)
+    thread.start()
 
 
 if __name__ == '__main__':
-        # app.run(debug=True, port=5001)
-        app.run(host='0.0.0.0', port=5001)
+    start_eval_thread()
+    app.run(debug=True, port=5001)
