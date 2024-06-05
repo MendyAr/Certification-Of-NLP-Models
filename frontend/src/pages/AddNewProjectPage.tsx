@@ -2,8 +2,11 @@ import React, { useState, ChangeEvent } from "react";
 import { Button, Input, Form } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
 
 const AddNewProject = () => {
+    const token = useSelector((state: RootState) => state.auth.token);
     const serverUrl = "http://127.0.0.1:5001"
     const navigate = useNavigate();
     const [projectName, setProjectName] = useState("");
@@ -16,7 +19,10 @@ const AddNewProject = () => {
             const response = await axios.post(`${serverUrl}/add-new-project`, { name: projectName }, 
             {params: {
                         email: "user1@example.com",
-                    }
+                    },
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Add the token to the request headers
+                    },
             });   
             console.log("Add project response:", response.data); // Debugging line
             navigate(`/my-projects/${projectName}/new-eval-request`);
