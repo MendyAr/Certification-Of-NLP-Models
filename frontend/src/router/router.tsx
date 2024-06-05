@@ -9,7 +9,6 @@ import MyProjects from "../pages/MyProjectsPage";
 import Project from "../pages/projectPage";
 import AddNewEvaluationRequest from "../pages/AddNewEvaluationRequestPage";
 import AddNewProject from "../pages/AddNewProjectPage";
-import GoogleSignIn from "../pages/GoogleSignIn";
 
 
 export default function Root() {
