@@ -35,7 +35,7 @@ def get_top_evaluations():
 
 
 @app.route('/login', methods=['GET'])
-def login():
+def google_login():
     try:
         token = request.json.get('id_token')
         user_id = verify_google_id_token_and_get_user_id(token)
