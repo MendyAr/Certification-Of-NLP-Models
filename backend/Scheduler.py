@@ -16,12 +16,12 @@ class Scheduler:
         self.users_2_agent_ratio = 10 # for num of request eval agent req
         self.agent_min_restock_requests = 10 # len(agent_requests_list) < this val then restock
         self.agent = Agent()
+        # TODO: repupolate the agent list when lower than agent_min_restock_requests
         self.eval_engine = EvaluationEngine()
         self.cache_manager = Cache_Manager()
 
     # public
     def add_request(self, eval_request : Request, user_name):
-        # TODO: add a return Result
         result = self.storage.check_if_has_result_2_eval(eval_request)
         # TODO: add a check for if there is an agent request with the same model or questionnaire, then move it to the user list
         for ur in self.users_requests_list:
@@ -66,7 +66,7 @@ class Scheduler:
             result_val = self.eval_engine.run_eval_request(req)
         self.cache_manager.check_and_update_cache()
         self.remove_next_request(user_or_agent)
-        self.save()
+        # self.save()
         return True
 
     # private
