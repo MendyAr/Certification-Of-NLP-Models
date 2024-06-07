@@ -1,10 +1,10 @@
-from EvaluationEngine import EvaluationEngine
+from Evaluation.EvaluationEngine import EvaluationEngine
 from Service.Agent import Agent
-from User_Request import UserRequest
+from DataObjects.User_Request import UserRequest
+from DataObjects.Request import Request
 
-from Cache_Manager import *
-from Storage import *
-from backend.Storage2 import *
+from Evaluation.Cache_Manager import *
+from Storage.Storage2 import Storage2
 import time
 
 
@@ -16,6 +16,13 @@ class Scheduler:
             raise Exception("Singleton class cannot be instantiated multiple times")
         else:
             self.storage = Storage2.get_instance()
+            all_attributes = dir(self.storage)
+
+            # Filter out special and private methods, keeping only public methods
+            methods = [attribute for attribute in all_attributes if
+                       callable(getattr(self.storage, attribute)) and not attribute.startswith('__')]
+            for method in methods:
+                print(method)
             self.users_requests_list = self.storage.load_user_requests_scheduler_list_from_db()
             self.agent_requests_list = self.storage.load_agent_requests_scheduler_list_from_db()
             self.user_requests_counter = 0
@@ -29,9 +36,9 @@ class Scheduler:
 
     @staticmethod
     def get_instance():
-        if Storage2._instance is None:
-            Storage2._instance = Storage2()
-        return Storage2._instance
+        if Scheduler._instance is None:
+            Scheduler._instance = Scheduler()
+        return Scheduler._instance
 
     # public
     def add_request(self, eval_request : Request, user_name):

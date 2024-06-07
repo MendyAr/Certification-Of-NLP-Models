@@ -1,4 +1,4 @@
-from ..Request import Request, Model, Questionnaire
+from DataObjects.Request import Request, Model, Questionnaire
 
 
 class Project:

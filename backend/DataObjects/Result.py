@@ -1,4 +1,4 @@
-from Request import Request
+from DataObjects.Request import Request
 from datetime import datetime
 
 class Result:

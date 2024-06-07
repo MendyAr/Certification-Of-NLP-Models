@@ -1,13 +1,14 @@
+import os
+
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, Table, ForeignKeyConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
-from questionaire.proxy_qlatent.imports import *
 
-from Request import Questionnaire, Model, Request
-from Result import Result
-from User_Request import UserRequest
+from DataObjects.Request import Questionnaire, Model, Request
+from DataObjects.Result import Result
+from DataObjects.User_Request import UserRequest
 from Users.Project import Project
-from .Users.User import User
+from Users.User import User
 from datetime import datetime 
 
 Base = declarative_base()

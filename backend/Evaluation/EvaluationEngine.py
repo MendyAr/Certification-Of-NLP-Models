@@ -1,7 +1,5 @@
-from Request import *
-from Result import Result
-from Storage import *
-from backend.Storage2 import *
+from DataObjects.Request import *
+from Storage.Storage2 import *
 
 from questionaire.proxy_qlatent.ASI import *
 from questionaire.proxy_qlatent.BIG5 import *

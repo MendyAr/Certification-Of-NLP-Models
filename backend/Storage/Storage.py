@@ -2,7 +2,7 @@ import json
 
 from Request import Questionnaire, Model, Request
 from Result import Result
-from backend.User_Request import UserRequest
+from User_Request import UserRequest
 import datetime
 
 class Storage:
@@ -29,7 +29,7 @@ class Storage:
     # ........................agent_requests_scheduler_list...............................
     def load_agent_requests_scheduler_list_from_file(self):
         try:
-            with open("agent_requests_scheduler.json", "r") as f:
+            with open("../agent_requests_scheduler.json", "r") as f:
                 agent_requests_data = json.load(f)
                 return [self._deserialize_agent_request_scheduler_list(agent_request_data) for agent_request_data in agent_requests_data]
         except FileNotFoundError:
@@ -38,7 +38,7 @@ class Storage:
     def save_agent_requests_scheduler_list_to_file(self, agent_requests_scheduler_list_new):
         self.agent_requests_scheduler_list = agent_requests_scheduler_list_new
         agent_requests_data = [self._serialize_agent_request_scheduler_list(agent_request) for agent_request in self.agent_requests_scheduler_list]
-        with open("agent_requests_scheduler.json", "w") as f:
+        with open("../agent_requests_scheduler.json", "w") as f:
             json.dump(agent_requests_data, f, indent=4)
 
     def _serialize_agent_request_scheduler_list(self, agent_request: Request):
@@ -64,7 +64,7 @@ class Storage:
     # ........................user_requests_scheduler_list...............................
     def load_user_requests_scheduler_list_from_file(self):
         try:
-            with open("user_requests_scheduler.json", "r") as f:
+            with open("../user_requests_scheduler.json", "r") as f:
                 user_requests_data = json.load(f)
                 user_requests_data_array = [self._deserialize_user_request_scheduler_list(user_request_data) for user_request_data in user_requests_data]
                 for ur in user_requests_data_array:
@@ -76,7 +76,7 @@ class Storage:
     def save_user_requests_scheduler_list_to_file(self, user_requests_scheduler_list_new):
         self.user_requests_scheduler_list = user_requests_scheduler_list_new
         user_requests_data = [self._serialize_user_request_scheduler_list(user_request) for user_request in self.user_requests_scheduler_list]
-        with open("user_requests_scheduler.json", "w") as f:
+        with open("../user_requests_scheduler.json", "w") as f:
             json.dump(user_requests_data, f, indent=4)
 
     def _serialize_user_request_scheduler_list(self, user_request: UserRequest):
@@ -109,7 +109,7 @@ class Storage:
     # ........................RESULTS...............................
     def load_results_from_file(self):
         try:
-            with open("results.json", "r") as f:
+            with open("../results.json", "r") as f:
                 results_data = json.load(f)
                 return [self._deserialize_result(result_data) for result_data in results_data]
         except FileNotFoundError:
@@ -117,7 +117,7 @@ class Storage:
 
     def save_results_to_file(self):
         results_data = [self._serialize_result(result) for result in self.results]
-        with open("results.json", "w") as f:
+        with open("../results.json", "w") as f:
             json.dump(results_data, f, indent=4)
 
     def _serialize_result(self, result: Result):
@@ -161,13 +161,13 @@ class Storage:
     # ........................USERS...............................
     def load_users_from_file(self):
         try:
-            with open("users.json", "r") as f:
+            with open("../users.json", "r") as f:
                 return json.load(f)
         except FileNotFoundError:
             return []  # Return an empty list if the file does not exist
 
     def save_users_to_file(self):
-        with open("users.json", "w") as f:
+        with open("../users.json", "w") as f:
             json.dump(self.users, f, indent=4)
 
     def add_user(self, user_name):  # sign-in
@@ -187,7 +187,7 @@ class Storage:
     # .................................. user_requests.......................................
     def load_user_requests_from_file(self):
         try:
-            with open("user_requests.json", "r") as f:
+            with open("../user_requests.json", "r") as f:
                 user_requests_list = json.load(f)
                 return [self._deserialize_user_request(user_request_and_name) for user_request_and_name in user_requests_list]
         except FileNotFoundError:
@@ -195,7 +195,7 @@ class Storage:
 
     def save_user_requests_to_file(self):
         user_requests_list = [self._serialize_user_request(user_name, user_request) for (user_name, user_request) in self.user_requests]
-        with open("user_requests.json", "w") as f:
+        with open("../user_requests.json", "w") as f:
             json.dump(user_requests_list, f, indent=4)
 
     def _serialize_user_request(self, user_name, request: Request):

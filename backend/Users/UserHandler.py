@@ -1,5 +1,5 @@
-from ..Storage2 import *
-from ..Request import Model, Questionnaire
+from Storage.Storage2 import *
+from DataObjects.Request import Model, Questionnaire
 
 
 # the role of this class is to handle requests related to User from the service.
