@@ -29,12 +29,12 @@ class Scheduler:
 
     @staticmethod
     def get_instance():
-        if Storage2._instance is None:
-            Storage2._instance = Storage2()
-        return Storage2._instance
+        if Scheduler._instance is None:
+            Scheduler._instance = Scheduler()
+        return Scheduler._instance
 
     # public
-    def add_request(self, eval_request : Request, user_name):
+    def add_request2(self, eval_request : Request, user_name):
         result = self.storage.check_if_has_result_2_eval(eval_request)
         # TODO: add a check for if there is an agent request with the same model or questionnaire, then move it to the user list
         for ur in self.users_requests_list:
@@ -52,6 +52,50 @@ class Scheduler:
                 result = self.storage.check_if_has_result_2_eval(eval_request)
                 return result
         # there is no user that want that request so add it to the agent list
+        dt = datetime.datetime.now()
+        ur = UserRequest([user_name], eval_request, dt, 1)
+        if user_name == "agent":
+            for ar in self.agent_requests_list:
+                if ar == ur:
+                    result = self.storage.check_if_has_result_2_eval(eval_request)
+                    return result
+            self.agent_requests_list.append(ur)
+        else:
+            self.users_requests_list.append(ur)
+            self.sort_requests_list()
+        result = Result(eval_request, -999, dt)
+        self.storage.add_result_to_db(result)
+        self.save()
+        return result
+
+    def add_request(self, eval_request: Request, user_name):
+        result = self.storage.check_if_has_result_2_eval(eval_request)
+        # Check for if there is an agent request with the same model or questionnaire
+        agent_request_to_move = None
+        for ar in self.agent_requests_list:
+            if ar.requests[0].model == eval_request.model:
+                agent_request_to_move = ar
+                break
+        if agent_request_to_move:
+            self.agent_requests_list.remove(agent_request_to_move)
+            self.users_requests_list.append(agent_request_to_move)
+            self.sort_requests_list()
+        # Check if the user request already exists in users_requests_list
+        for ur in self.users_requests_list:
+            if ur.requests[0].model == eval_request.model:
+                added_new_request_questionnaire = False
+                for request in ur.requests:
+                    if request == eval_request:
+                        if user_name not in ur.users:
+                            ur.users.append(user_name)
+                            self.sort_requests_list()
+                            added_new_request_questionnaire = True
+                if not added_new_request_questionnaire:
+                    ur.requests.append(eval_request)
+                    self.sort_requests_list()
+                result = self.storage.check_if_has_result_2_eval(eval_request)
+                return result
+        # There is no user that wants that request so add it to the agent list
         dt = datetime.datetime.now()
         ur = UserRequest([user_name], eval_request, dt, 1)
         if user_name == "agent":
