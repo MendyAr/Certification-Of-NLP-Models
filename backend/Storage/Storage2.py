@@ -126,6 +126,9 @@ class Storage2:
             Storage2._instance = Storage2()
         return Storage2._instance
 
+    def get_top_evals(self,number_of_resuls=10):
+        return self.session.query(Result_db).order_by(Result_db.result_score.desc()).limit(number_of_resuls)
+
     def add_project(self, user_id, project_name):
         # Check if the user exists
         user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
