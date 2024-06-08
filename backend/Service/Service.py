@@ -11,7 +11,15 @@ class Service:
         self.storage = Storage2.get_instance()
 
     def get_top_evaluations(self):
-        return self.storage.get_top_evals(10)
+        results = self.storage.get_top_evals(10)
+        top = []
+        for r in results:
+            dic = { "model": r.request.model.name,
+                    "questionnaire": r.request.questionnaire.name,
+                    "result": r.result_score}
+            top.append(dic)
+        return top
+
 
     def get_questionnaires(self):
         return self.__get_available_questionnaires()
