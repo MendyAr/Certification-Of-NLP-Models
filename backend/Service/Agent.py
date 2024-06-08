@@ -25,5 +25,3 @@ class Agent:
         models = self.__get_models_from_hfapi("mnli")
         sorted_models = sorted(models, key=lambda x: x[filter_by], reverse=True)
         return sorted_models[:amount]
-
-
