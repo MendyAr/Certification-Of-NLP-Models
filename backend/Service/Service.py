@@ -53,13 +53,13 @@ class Service:
         self.__validate_project_name_format(project_name)
         return self.user_handler.delete_project(user_id, project_name)
 
-    def delete_model(self, user_id, project_name, new_model):
+    def delete_model(self, user_id, project_name, model):
         self.__validate_project_name_format(project_name)
-        self.user_handler.remove_model(user_id, project_name, Model(new_model))
+        self.user_handler.remove_model(user_id, project_name, Model(model))
 
-    def delete_questionnaire(self, user_id, project_name, new_questionnaire):
+    def delete_questionnaire(self, user_id, project_name, questionnaire):
         self.__validate_project_name_format(project_name)
-        self.user_handler.remove_questionnaire(user_id, project_name, Questionnaire(new_questionnaire))
+        self.user_handler.remove_questionnaire(user_id, project_name, Questionnaire(questionnaire))
 
     def __validate_project_name_format(self, project_name):
         if project_name is None or project_name == "":

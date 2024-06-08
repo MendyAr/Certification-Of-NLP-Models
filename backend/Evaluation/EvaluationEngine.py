@@ -21,7 +21,8 @@ class EvaluationEngine:
         if last_result is not None:
             last_result.score = score
         else:
-            last_result = Result(request, score)
+            start_time = datetime.now()
+            last_result = Result(request, score,start_time)
         self.storage.update_result_in_db(last_result)
         return score
     

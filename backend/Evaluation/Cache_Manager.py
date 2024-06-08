@@ -6,6 +6,9 @@ class Cache_Manager:
         try:
             if os.path.isdir(models_cache):
                 shutil.rmtree(models_cache)
+            hub_path = os.path.join(models_cache_hub_create, "hub")
+            if not os.path.exists(hub_path):
+                os.makedirs(hub_path)
         except:
             print("Error in cleaning the cache for initialization")
         self.models = dict()
@@ -26,7 +29,9 @@ class Cache_Manager:
             if os.path.exists(file_path):
                 try:
                     shutil.rmtree(file_path)
-                    # os.remove(file_path)
+                    hub_path = os.path.join(models_cache_hub_create, "hub")
+                    if not os.path.exists(hub_path):
+                        os.makedirs(hub_path)
                 except PermissionError as e:
                     print(f"PermissionError: {e}")
                 except Exception as e:

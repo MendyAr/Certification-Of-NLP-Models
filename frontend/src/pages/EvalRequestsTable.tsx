@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 export default function EvalRequestsTable() {
     const token = useSelector((state: RootState) => state.auth.token);
     const serverUrl = "http://127.0.0.1:5001"
+    const { projectName } = useParams();
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true); // Ensure loading state is defined
 
@@ -16,7 +18,7 @@ export default function EvalRequestsTable() {
                 const response = await axios.get(`${serverUrl}/eval-requests`,
                     {
                         params: {
-                            project: "ProjectA",
+                            project: projectName,
                             email: "user1@example.com",
                         },
                         headers: {
@@ -59,7 +61,7 @@ export default function EvalRequestsTable() {
             dataSource={data}
             loading={loading} // Pass loading state to Table component
             rowKey="model"
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "80%" }}
         />
     );
 }

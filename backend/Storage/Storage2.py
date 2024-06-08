@@ -134,9 +134,25 @@ class Storage2:
         return Storage2._instance
 
     def get_top_evals(self, number_of_results=10):
-        top_results_db = self.session.query(Result_db).order_by(Result_db.result_score.desc()).limit(number_of_results).all()
-        top_results = [self.Result_db_2_Result(result_db) for result_db in top_results_db]
+        top_results_db = (
+            self.session.query(Result_db)
+            .options(
+                joinedload(Result_db.request).joinedload(Request_db.model),
+                joinedload(Result_db.request).joinedload(Request_db.questionnaire)
+            )
+            .order_by(Result_db.result_score.desc())
+            .limit(number_of_results)
+            .all()
+        )
+        top_results = []
+        for result_db in top_results_db:
+            try:
+                result = self.Result_db_2_Result(result_db)
+                top_results.append(result)
+            except ValueError as e:
+                pass
         return top_results
+
 
     def add_project(self, user_id, project_name):
         # Check if the user exists
@@ -173,15 +189,17 @@ class Storage2:
         user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
         if not user:
             raise ValueError(f"No user found with user_id: {user_id}")
-
         project = self.session.query(Project_db).filter(
             Project_db.user_id == user.id,
             Project_db.name == project_name
         ).first()
         if not project:
             raise ValueError(f"No project found with name: {project_name} for user: {user_id}")
-
-        questionnaire_db = self.Questionnaire_2_Questionnaire_db(questionnaire)
+        # Check if the questionnaire already exists
+        questionnaire_db = self.session.query(Questionnaire_db).filter_by(name=questionnaire.name).first()
+        if not questionnaire_db:
+            questionnaire_db = self.Questionnaire_2_Questionnaire_db(questionnaire)
+            self.session.add(questionnaire_db)
         project.questionnaires.append(questionnaire_db)
         self.session.commit()
 
@@ -255,9 +273,11 @@ class Storage2:
 
     def check_if_has_result_2_eval(self, request: Request):
         result_dbs = self.session.query(Result_db).filter(
-            Result_db.request_model_name==request.model.name ,
-              Result_db.request_questionnaire_name==request.questionnaire.name,
-                Result_db.end_time != None ).order_by(Result_db.start_time.desc()).limit(1).all()
+            Result_db.request_model_name == request.model.name,
+            Result_db.request_questionnaire_name == request.questionnaire.name,
+            Result_db.end_time != None
+        ).order_by(Result_db.start_time.desc()).limit(1).all()
+        
         if len(result_dbs) > 0:
             return self.Result_db_2_Result(result_dbs[0])
         else:
@@ -309,7 +329,7 @@ class Storage2:
 
     # Conversion functions for Result_db
 
-    def Result_2_Result_db(self,result: Result):
+    def Result_2_Result_db(self, result: Result):
         r_db = Result_db(
             request_model_name=result.request.model.name,
             request_questionnaire_name=result.request.questionnaire.name,
@@ -319,7 +339,9 @@ class Storage2:
         )
         return r_db
 
-    def Result_db_2_Result(self,result_db: Result_db):
+    def Result_db_2_Result(self, result_db: Result_db):
+        if result_db.request is None or result_db.request.model is None or result_db.request.questionnaire is None:
+            raise ValueError(f"Incomplete request data in Result_db with result_score {result_db.result_score} and start_time {result_db.start_time}")
         model = Model(name=result_db.request.model.name)
         questionnaire = Questionnaire(name=result_db.request.questionnaire.name)
         request = Request(model=model, questionnaire=questionnaire)
@@ -460,14 +482,19 @@ class Storage2:
         self.session.commit()
 
     def update_result_in_db(self, result: Result):
-        self.session.query(Result_db).filter(
+        existing_result_db = self.session.query(Result_db).filter(
             Result_db.request_model_name == result.request.model.name,
             Result_db.request_questionnaire_name == result.request.questionnaire.name,
             Result_db.start_time == result.start_time
-        ).update({
-            Result_db.result_score: result.result_score,
-            Result_db.end_time: result.end_time
-        })
+        ).first()
+        
+        if existing_result_db:
+            existing_result_db.result_score = result.result_score
+            existing_result_db.end_time = result.end_time
+        else:
+            new_result_db = self.Result_2_Result_db(result)
+            self.session.add(new_result_db)
+        
         self.session.commit()
 
     def get_result_of_request(self, request: Request):
@@ -641,16 +668,16 @@ class Storage2:
         project.name = new_project_name
         self.session.commit()
 
-    def delete_project(self, user_id, project_name):
-        user = self.get_user(user_id)
-        project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
-            Project_db.name == project_name
-        ).first()
-        if not project:
-            raise ValueError(f"No project found with name: {project_name} for user: {user_id}")
-        self.session.delete(project)
-        self.session.commit()
+    # def delete_project(self, user_id, project_name):
+    #     user = self.get_user(user_id)
+    #     project = self.session.query(Project_db).filter(
+    #         Project_db.user_id == user.id,
+    #         Project_db.name == project_name
+    #     ).first()
+    #     if not project:
+    #         raise ValueError(f"No project found with name: {project_name} for user: {user_id}")
+    #     self.session.delete(project)
+    #     self.session.commit()
 
 
 

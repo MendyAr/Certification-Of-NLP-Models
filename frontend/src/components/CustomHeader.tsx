@@ -94,7 +94,7 @@ export default function CustomHeader() {
                 style={{ color: "white", paddingBottom: 10, cursor: "pointer" }}
                 onClick={() => navigate("/")}
             >
-                Modals Bias Detector
+                Models Bias Detector
             </Typography.Title>
             <Menu
                 theme="dark"
@@ -140,3 +140,5 @@ export default function CustomHeader() {
         </Flex>
     );
 }
+
+

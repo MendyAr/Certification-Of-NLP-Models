@@ -65,9 +65,9 @@ const deleteQuestionnaireAction = async () => {
     const handleModelOk = () => {
         console.log("Model URL:", modelUrl);
         addModel();
-        setIsModelModalVisible(false);
         setModelUrl("");
         setModelName("");
+        setIsModelModalVisible(false);
     };
     const handleQuestionnaireOk = () => {
         console.log("Selected Questionnaire:", selectedQuestionnaire);
@@ -124,7 +124,7 @@ const deleteQuestionnaireAction = async () => {
             }
         };
         fetchData();
-    }, [isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel]);
+    }, [isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel, projectName, token]);
 
     const getAllQuestionnaires = () => {
         const fetchData = async () => {
@@ -157,6 +157,7 @@ const deleteQuestionnaireAction = async () => {
             }
         );   
             console.log("Add questionnaire response:", response.data); // Debugging line
+            setIsQuestionnaireModalVisible(false);
         } catch (error) {
             console.error("Error adding questionnaire");
         }
@@ -174,6 +175,7 @@ const deleteQuestionnaireAction = async () => {
                     },
                 });
             console.log("Add model response:", response.data); // Debugging line
+            setIsModelModalVisible(false);
         } catch (error) {
             console.error("Error adding model");
         }
@@ -272,9 +274,9 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
                     <Form.Item label="Model Name">
                         <Input placeholder="Enter model name" value={modelName} onChange={handleModelNameChange}/>
                     </Form.Item>
-                    <Form.Item label="Model URL">
+                    {/* <Form.Item label="Model URL">
                         <Input placeholder="Enter model URL" value={modelUrl} onChange={handleModelUrlChange}/>
-                    </Form.Item>
+                    </Form.Item> */}
                 </Form>
             </Modal>
 
