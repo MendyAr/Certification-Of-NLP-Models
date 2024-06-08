@@ -1,7 +1,7 @@
-from ..Request import Model, Questionnaire, Request
-from ..Scheduler import Scheduler
-from ..Storage2 import *
-from Project import Project
+from DataObjects.Request import Model, Questionnaire, Request
+from Evaluation.Scheduler import Scheduler
+from Storage.Storage2 import *
+from Users.Project import Project
 
 
 class User:

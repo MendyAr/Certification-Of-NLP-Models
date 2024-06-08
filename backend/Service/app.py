@@ -1,12 +1,20 @@
 from flask import Flask, jsonify, request
-from Service import Service
-from ..Scheduler import Scheduler
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from flask_cors import CORS
 import threading
 import json
 import os
-# from flask_cors import CORS
+
+import sys
+# Define the global path variable for the project root directory (backend directory)
+GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Add the project root directory to the system path
+sys.path.insert(0, GLOBAL_PROJECT_ROOT)
+# Now you can import modules from your project using absolute imports
+
+from Service.Service import Service
+from Evaluation.Scheduler import Scheduler
 
 
 service = Service()
@@ -18,6 +26,7 @@ client_id = data["client_id"]
 # configure flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+CORS(app)
 
 
 # get top evaluations of the system
@@ -176,7 +185,7 @@ def verify_google_id_token_and_get_user_id(token):
 
 
 def start_eval_thread():
-    scheduler = Scheduler()
+    scheduler = Scheduler.get_instance()
     thread = threading.Thread(target=scheduler.run_eval_thread)
     thread.start()
 

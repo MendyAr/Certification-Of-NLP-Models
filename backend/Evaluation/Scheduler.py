@@ -1,10 +1,10 @@
-from EvaluationEngine import EvaluationEngine
+from Evaluation.EvaluationEngine import EvaluationEngine
 from Service.Agent import Agent
-from User_Request import UserRequest
+from DataObjects.User_Request import UserRequest
+from DataObjects.Request import Request
 
-from Cache_Manager import *
-from Storage import *
-from backend.Storage2 import *
+from Evaluation.Cache_Manager import *
+from Storage.Storage2 import Storage2
 import time
 
 
@@ -29,9 +29,9 @@ class Scheduler:
 
     @staticmethod
     def get_instance():
-        if Storage2._instance is None:
-            Storage2._instance = Storage2()
-        return Storage2._instance
+        if Scheduler._instance is None:
+            Scheduler._instance = Scheduler()
+        return Scheduler._instance
 
     # public
     def add_request(self, eval_request : Request, user_name):

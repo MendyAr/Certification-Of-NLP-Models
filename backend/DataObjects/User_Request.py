@@ -1,4 +1,4 @@
-from Request import Request
+from DataObjects.Request import Request
 
 class UserRequest:
     def __init__(self, users, request : Request, starttime, score : float):
