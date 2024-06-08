@@ -14,15 +14,9 @@ export default function TopRequestsTable() {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    `${serverUrl}/top-requests`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`, // Add the token to the request headers
-                        },
-                    }
-                );
+                    `${serverUrl}/top-requests`);
                 console.log("Response data top requests:", response.data); // Debugging line
-                setData(response.data);
+                setData(response.data.evals);
                 setLoading(false); // Update loading state
             } catch (error) {
                 console.error("Error fetching data:", error);
