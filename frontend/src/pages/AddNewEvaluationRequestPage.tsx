@@ -99,7 +99,7 @@ const deleteQuestionnaireAction = async () => {
 
     type Model = {
         name: string;
-        url: string;
+        // url: string;
     };
 
     useEffect(() => {
@@ -117,8 +117,8 @@ const deleteQuestionnaireAction = async () => {
                     }
                 );
                 console.log("Response data:", response.data); // Debugging line
-                setModels(response.data.models);
-                setQues(response.data.ques)
+                setModels(response.data.projects.models);
+                setQues(response.data.projects.ques)
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -135,7 +135,7 @@ const deleteQuestionnaireAction = async () => {
                     },
                 });
                 console.log("Response data:", response.data); // Debugging line
-                setAllQues(response.data);
+                setAllQues(response.data.questionnaires);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }

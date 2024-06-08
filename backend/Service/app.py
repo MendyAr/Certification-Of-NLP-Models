@@ -34,7 +34,6 @@ CORS(app)
 def get_top_evaluations():
     try:
         top_evals = service.get_top_evaluations()
-        # top_evals = []
         response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
         response.status_code = 200
         return response
@@ -47,7 +46,7 @@ def get_top_evaluations():
 @app.route('/login', methods=['POST'])
 def google_login():
     try:
-        token = request.json.get('id_token')
+        token = request.headers.get('id_token')
         # user_id = verify_google_id_token_and_get_user_id(token)
         user_id = 123
         response = jsonify({"message": "login successfully", "user_id":user_id})
@@ -63,8 +62,8 @@ def google_login():
 @app.route('/get-all-ques', methods=['GET'])
 def get_questionnaires():
     try:
-        questionnaire = service.get_questionnaires()
-        response = jsonify({"message": "got available questionnaire successfully", "questionnaire": questionnaire})
+        questionnaires = service.get_questionnaires()
+        response = jsonify({"message": "got available questionnaire successfully", "questionnaires": questionnaires})
         response.status_code = 200
         return response
     except Exception as e:
@@ -77,8 +76,7 @@ def get_questionnaires():
 @app.route('/get-projects', methods=['GET'])
 def get_projects_name():
     try:
-        token = request.json.get('id_token')
-        user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = request.headers.get('id_token')
         projects = service.get_projects_name(user_id)
         response = jsonify({"message": "got projects name successfully", "projects": projects})
         response.status_code = 200
@@ -93,8 +91,7 @@ def get_projects_name():
 @app.route('/project-info', methods=['GET'])
 def get_project_info():
     try:
-        token = request.json.get('id_token')
-        user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = request.headers.get('id_token')
         project_name = request.args.get('project')
         projects = service.get_project_info(user_id, project_name)
         response = jsonify({"message": "got project info successfully", "projects": projects})
@@ -110,8 +107,7 @@ def get_project_info():
 @app.route('/eval-requests', methods=['GET'])
 def get_project_evaluations():
     try:
-        token = request.json.get('id_token')
-        user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = request.headers.get('id_token')
         project_name = request.args.get('project')
         projects_evals = service.get_project_evaluations(user_id, project_name)
         response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
@@ -127,8 +123,7 @@ def get_project_evaluations():
 @app.route('/add-new-project', methods=['POST'])
 def add_project():
     try:
-        token = request.json.get('id_token')
-        user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = request.headers.get('id_token')
         project_name = request.json.get('name')
         service.add_project(user_id, project_name)
         response = jsonify({"message": "Project added successfully", "project": project_name})
@@ -144,10 +139,10 @@ def add_project():
 @app.route('/add-model', methods=['POST'])
 def add_model():
     try:
-        token = request.json.get('id_token')
-        user_id = verify_google_id_token_and_get_user_id(token)
-        project_name = request.json.get('project')
+        user_id = request.headers.get('id_token')
+        project_name = request.args.get('project')
         new_model = request.json.get('name')
+        print(user_id, project_name, new_model)
         service.add_model(user_id, project_name, new_model)
         response = jsonify({"message": "Model added successfully", "model": new_model})
         response.status_code = 200
@@ -162,11 +157,68 @@ def add_model():
 @app.route('/add-ques', methods=['POST'])
 def add_questionnaire():
     try:
-        token = request.json.get('id_token')
-        user_id = verify_google_id_token_and_get_user_id(token)
-        project_name = request.json.get('project')
+        user_id = request.headers.get('id_token')
+        project_name = request.args.get('project')
         new_ques = request.json.get('ques')
-        service.add_model(user_id, project_name, new_ques)
+        print(user_id, project_name, new_ques)
+        service.add_questionnaire(user_id, project_name, new_ques)
+        response = jsonify({"message": "Questionnaire added successfully", "ques": new_ques})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
+
+
+# delete a new project to a user
+@app.route('/delete-new-project', methods=['DELETE'])
+def delete_project():
+    try:
+        token = request.headers.get('id_token')
+        # user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = token
+        project_name = request.json.get('name')
+        service.delete_project(user_id, project_name)
+        response = jsonify({"message": "Project added successfully", "project": project_name})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
+
+
+# add model to project
+@app.route('/delete-model', methods=['DELETE'])
+def delete_model():
+    try:
+        token = request.headers.get('id_token')
+        # user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = token
+        project_name = request.args.get('project')
+        new_model = request.json.get('name')
+        service.delete_model(user_id, project_name, new_model)
+        print(user_id, project_name, new_model)
+        response = jsonify({"message": "Model added successfully", "model": new_model})
+        response.status_code = 200
+        return response
+    except Exception as e:
+        response = jsonify({"error": e})
+        response.status_code = 500
+        return response
+
+
+# delete questionnaire to project
+@app.route('/delete-ques', methods=['DELETE'])
+def delete_questionnaire():
+    try:
+        token = request.headers.get('id_token')
+        # user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = token
+        project_name = request.args.get('project')
+        new_ques = request.json.get('ques')
+        service.delete_questionnaire(user_id, project_name, new_ques)
         response = jsonify({"message": "Questionnaire added successfully", "ques": new_ques})
         response.status_code = 200
         return response

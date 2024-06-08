@@ -25,7 +25,7 @@ export default function MyProjects() {
                     },
                 });
                 console.log("Projects response data:", response.data); // Debugging line
-                setProjects(response.data);
+                setProjects(response.data.projects);
                 setLoading(false);
             } catch (error) {
                 console.error("Error fetching projects");

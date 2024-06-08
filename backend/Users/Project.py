@@ -3,8 +3,8 @@ from DataObjects.Request import Request, Model, Questionnaire
 
 class Project:
 
-    def __init__(self,name):
-        self.name = ""
+    def __init__(self, name):
+        self.name = name 
         self.models = set()
         self.questionnaires = set()
 

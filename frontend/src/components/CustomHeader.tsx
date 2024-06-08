@@ -53,40 +53,39 @@ export default function CustomHeader() {
     ];
     
     
-      const [user, setUser] = useState<string | null>(null);
-      const login = useGoogleLogin({
-        onSuccess: async (tokenResponse: TokenResponse) => {
-          try {
-            console.log("start");
-            //console.log(tokenResponse.access_token);
-            const res = await axios.post(`${serverUrl}/login`, { id_token: tokenResponse.access_token });
-            dispatch(setToken(tokenResponse.access_token));
-            console.log(res.data.user_id);
-            setUser(res.data.user_id);
-            alert('Login Successful');
-
-          } catch (error) {
-            console.error('Error logging in', error);
-            alert('Login Failed');
-          }
-        },
-        onError: (error) => {
-          console.error('Login failed', error);
-          alert('Login Failed');
-        },
-      });
-    
-      const handleLogout = async () => {
+    const [user, setUser] = useState<string | null>(null);
+    const login = useGoogleLogin({
+    onSuccess: async (tokenResponse: TokenResponse) => {
         try {
-          await axios.post(`${serverUrl}/logout`);
-          setUser(null);
-          dispatch(setToken(null));
-          alert('Logout Successful');
+        console.log(tokenResponse);
+        const res = await axios.post(`${serverUrl}/login`, { id_token: tokenResponse.access_token });
+        dispatch(setToken(tokenResponse.access_token));
+        console.log(res.data.user_id);
+        setUser(res.data.user_id);
+        alert('Login Successful');
+
         } catch (error) {
-          console.error('Error logging out', error);
-          alert('Logout Failed');
+        console.error('Error logging in', error);
+        alert('Login Failed');
         }
-      };
+    },
+    onError: (error) => {
+        console.error('Login failed', error);
+        alert('Login Failed');
+    },
+    });
+
+    const handleLogout = async () => {
+    try {
+        await axios.post(`${serverUrl}/logout`);
+        setUser(null);
+        dispatch(setToken(null));
+        alert('Logout Successful');
+    } catch (error) {
+        console.error('Error logging out', error);
+        alert('Logout Failed');
+    }
+    };
 
 
     return (
@@ -103,43 +102,34 @@ export default function CustomHeader() {
                 items={items}
                 style={{ flex: 1, minWidth: 0 }}
             />
-            {/* <Button
-        onClick={() => navigate("my-account")}
-        icon={<UserOutlined />}
-        style={{ backgroundColor: "transparent", color: "white" }}
-      >
-        My Account
-      </Button> */}
 
-            <Dropdown
-                menu={{ items: itemsMyAccount }}
-                placement="bottomLeft"
-                arrow
-            >
-                <Button
-                    style={{ backgroundColor: "transparent", color: "white" }}
-                    icon={<UserOutlined />}
+            {user ? (
+                <Dropdown
+                    menu={{ items: itemsMyAccount }}
+                    placement="bottomLeft"
+                    arrow
                 >
-                    My Account
-                </Button>
-            </Dropdown>
+                    <Button
+                        style={{ backgroundColor: "transparent", color: "white" }}
+                        icon={<UserOutlined />}
+                    >
+                        My Account
+                    </Button>
+                </Dropdown>
+            ): (
+            <br></br>)}
 
 
             {user ? (
                 <Button icon={<GoogleOutlined />}
-                    style={{ backgroundColor: "transparent", color: "white" }} onClick={handleLogout}>Logout</Button>
+                    style={{ backgroundColor: "transparent", color: "white" }} onClick={handleLogout}>Logout
+                </Button>
             ) : (
                 <Button icon={<GoogleOutlined />}
-                    style={{ backgroundColor: "transparent", color: "white" }} onClick={() => login()}>Login with Google</Button>
+                    style={{ backgroundColor: "transparent", color: "white" }} onClick={() => login()}>Login with Google
+                </Button>
             )}
 
-            {/* <Button
-                onClick={() => navigate("login")}
-                icon={<GoogleOutlined />}
-                style={{ backgroundColor: "transparent", color: "white" }}
-            >
-                Login
-            </Button> */}
             <Switch
                 unCheckedChildren={<MoonFilled />}
                 checkedChildren={<SunFilled />}

@@ -25,7 +25,7 @@ export default function EvalRequestsTable() {
                     }
                 );
                 console.log("Response data:", response.data); // Debugging line
-                setData(response.data);
+                setData(response.data.evals);
                 setLoading(false); // Update loading state
             } catch (error) {
                 console.error("Error fetching data:", error);

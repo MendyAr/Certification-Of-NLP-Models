@@ -35,7 +35,7 @@ frequency_weights:SCALE = {
 device = 0 if torch.cuda.is_available() else -1
 relative_cache_directory = "models"
 
-models_cache = r"C:\Users\drort\.cache\huggingface\hub"
+models_cache = r"C:\Users\shiru\.cache\huggingface\hub"
 
 mnli_models_names_array = [
                   'typeform/distilbert-base-uncased-mnli',
