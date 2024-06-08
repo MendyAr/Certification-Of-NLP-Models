@@ -8,7 +8,7 @@ from DataObjects.Request import Questionnaire, Model, Request
 from DataObjects.Result import Result
 from DataObjects.User_Request import UserRequest
 from Users.Project import Project
-from Users.User import User
+
 from datetime import datetime 
 
 Base = declarative_base()
@@ -339,11 +339,12 @@ class Storage2:
         return user_request
 
 
-    def User_2_User_db(user: User):
+    def User_2_User_db(user):
         u_db = User_db(name=user.name)
         return u_db
 
     def User_db_2_User(user_db: User_db):
+        from Users.User import User
         return User(name=user_db.name)
 
     
