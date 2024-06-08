@@ -1,18 +1,18 @@
 from flask import Flask, jsonify, request
 from google.oauth2 import id_token
 from google.auth.transport import requests
-# from flask_cors import CORS
+from flask_cors import CORS
 import threading
 import json
-import sys
 import os
 
-# Define the global path variable for the project root directory
-GLOBAL_PROJECT_ROOT = r'C:\Users\mendi\OneDrive\Desktop\Certification of NLP models\Certifications-Of-NLP-Models\backend'
+import sys
+# Define the global path variable for the project root directory (backend directory)
+GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Add the project root directory to the system path
 sys.path.insert(0, GLOBAL_PROJECT_ROOT)
-
 # Now you can import modules from your project using absolute imports
+
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
 
@@ -26,6 +26,7 @@ client_id = data["client_id"]
 # configure flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+CORS(app)
 
 
 # get top evaluations of the system

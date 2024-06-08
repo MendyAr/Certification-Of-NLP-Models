@@ -9,13 +9,14 @@ create two terminals and enter these line
 
 frontend terminal:
 cd frontend
-nvm install node
 npm install
+npm install node
 npm start
 
 backend terminal:
 cd backend
 pip install flask
+pip install Flask-Cors
 pip install sqlalchemy
 pip install torch
 pip install pandas
