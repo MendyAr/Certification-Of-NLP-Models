@@ -225,6 +225,17 @@ def add_new_project():
     return jsonify({"message": "Project added successfully", "project": project_name}), 200
 
 
+data6 = []
+# login
+@app.route('/login', methods=['POST'])
+def login():
+    token = request.json.get('id_token')
+    if not token:
+        return jsonify({"error": "Missing token parameter"}), 400
+
+    data6.append(token)
+    return jsonify({"message": "token added successfully", "token": token, "user_id": 123}), 200
+
 
 if __name__ == '__main__':
         # app.run(debug=True, port=5001)
