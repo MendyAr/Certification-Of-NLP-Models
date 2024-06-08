@@ -8,6 +8,7 @@ from DataObjects.Request import Questionnaire, Model, Request
 from DataObjects.Result import Result
 from DataObjects.User_Request import UserRequest
 from Users.Project import Project
+from Users.User import User
 
 from datetime import datetime 
 
@@ -107,7 +108,7 @@ class Storage2:
         if self._instance is not None:
             raise Exception("Singleton class cannot be instantiated multiple times")
         else:
-            def get_session(create_new=True):
+            def get_session(create_new=False):
                 if create_new:
                     if os.path.exists("backend/Storage/storage.db"):
                         os.remove("backend/Storage/storage.db")
@@ -126,8 +127,10 @@ class Storage2:
             Storage2._instance = Storage2()
         return Storage2._instance
 
-    def get_top_evals(self,number_of_resuls=10):
-        return self.session.query(Result_db).order_by(Result_db.result_score.desc()).limit(number_of_resuls)
+    def get_top_evals(self, number_of_results=10):
+        top_results_db = self.session.query(Result_db).order_by(Result_db.result_score.desc()).limit(number_of_results).all()
+        top_results = [self.Result_db_2_Result(result_db) for result_db in top_results_db]
+        return top_results
 
     def add_project(self, user_id, project_name):
         # Check if the user exists
@@ -235,6 +238,14 @@ class Storage2:
         if not user_db:
             raise ValueError(f"No user found with user_id: {user_id}")
         return self.User_db_2_User(user_db)
+    
+    def create_user(self, user_id):
+        existing_user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
+        if existing_user:
+            raise ValueError(f"User with user_id {user_id} already exists")
+        new_user = User_db(user_id=user_id)
+        self.session.add(new_user)
+        self.session.commit()
 
     def check_if_has_result_2_eval(self, request: Request):
         result_dbs = self.session.query(Result_db).filter(
@@ -342,13 +353,16 @@ class Storage2:
         return user_request
 
 
-    def User_2_User_db(user):
-        u_db = User_db(name=user.name)
+    # Conversion functions for User_db
+    def User_2_User_db(self,user):
+        u_db = User_db(user_id=user.user_id)
+        u_db.projects = [self.Project_2_Project_db(project, user.user_id) for project in user.projects.values()]
         return u_db
 
-    def User_db_2_User(user_db: User_db):
-        from Users.User import User
-        return User(name=user_db.name)
+    def User_db_2_User(self,user_db: User_db):
+        user = User(user_db.user_id)
+        user.projects = {project_db.name: self.Project_db_2_Project(project_db) for project_db in user_db.projects}
+        return user
 
     
     # .......................................................................
@@ -777,5 +791,63 @@ def test1():
 def main():
     test_storage2()
 
+def add_fake_data():
+    # Get the singleton instance of Storage2
+    storage = Storage2.get_instance()
+
+    # Define fake data
+    user_ids = ['user1', 'user2', 'user3']
+    project_names = ['Project1', 'Project2']
+    model_names = ['ModelA', 'ModelB']
+    questionnaire_names = ['QuestionnaireX', 'QuestionnaireY']
+
+    # Add users
+    for user_id in user_ids:
+        try:
+            storage.create_user(user_id)
+        except ValueError as e:
+            print(e)
+
+    # Add projects
+    for user_id in user_ids:
+        for project_name in project_names:
+            try:
+                storage.create_project(user_id, project_name)
+            except ValueError as e:
+                print(e)
+
+    # Add models and questionnaires to projects
+    for user_id in user_ids:
+        for project_name in project_names:
+            for model_name in model_names:
+                model = Model(name=model_name)
+                try:
+                    storage.add_model(user_id, project_name, model)
+                except ValueError as e:
+                    print(e)
+            for questionnaire_name in questionnaire_names:
+                questionnaire = Questionnaire(name=questionnaire_name)
+                try:
+                    storage.add_questionnaire(user_id, project_name, questionnaire)
+                except ValueError as e:
+                    print(e)
+
+    # Add fake results
+    for model_name in model_names:
+        for questionnaire_name in questionnaire_names:
+            for i in range(10):  # Adding 10 fake results
+                start_time = datetime.now() - timedelta(days=random.randint(1, 100))
+                end_time = start_time + timedelta(hours=random.randint(1, 5))
+                result_score = random.uniform(50, 100)
+                model = Model(name=model_name)
+                questionnaire = Questionnaire(name=questionnaire_name)
+                request = Request(model=model, questionnaire=questionnaire)
+                result = Result(request=request, result_score=result_score, start_time=start_time)
+                result.end_time = end_time
+                storage.add_result_to_db(result)
+
+    print("Fake data added successfully.")
+
 if __name__ == "__main__":
-    main()
+    # main()
+    add_fake_data()

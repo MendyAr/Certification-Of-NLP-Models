@@ -30,10 +30,11 @@ CORS(app)
 
 
 # get top evaluations of the system
-@app.route('/', methods=['GET'])
+@app.route('/top-requests', methods=['GET'])
 def get_top_evaluations():
     try:
         top_evals = service.get_top_evaluations()
+        # top_evals = []
         response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
         response.status_code = 200
         return response
@@ -43,12 +44,13 @@ def get_top_evaluations():
         return response
 
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['POST'])
 def google_login():
     try:
         token = request.json.get('id_token')
-        user_id = verify_google_id_token_and_get_user_id(token)
-        response = jsonify({"message": "login successfully"})
+        # user_id = verify_google_id_token_and_get_user_id(token)
+        user_id = 123
+        response = jsonify({"message": "login successfully", "user_id":user_id})
         response.status_code = 200
         return response
     except Exception as e:
@@ -192,7 +194,7 @@ def start_eval_thread():
 
 def main():
     start_eval_thread()
-    app.run(debug=True, port=5001)
+    app.run(debug=False, port=5001)
 
 
 if __name__ == '__main__':

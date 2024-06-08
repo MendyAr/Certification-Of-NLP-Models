@@ -1,0 +1,12 @@
+flask
+Flask-Cors
+sqlalchemy
+torch
+pandas
+scikit-learn
+IPython
+overrides
+typeguard
+transformers
+seaborn
+google-auth
