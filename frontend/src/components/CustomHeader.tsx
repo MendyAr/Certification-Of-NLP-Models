@@ -29,6 +29,7 @@ function getSwitchBackgroundColor(isLight: boolean) {
 }
 
 export default function CustomHeader() {
+    const serverUrl = "http://127.0.0.1:5001"
     const { isLight } = useSelector((state: RootState) => state.theme);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -51,15 +52,17 @@ export default function CustomHeader() {
         },
     ];
     
+    
       const [user, setUser] = useState<string | null>(null);
       const login = useGoogleLogin({
         onSuccess: async (tokenResponse: TokenResponse) => {
           try {
-            const res = await axios.post('http://localhost:5000/login', { id_token: tokenResponse.access_token });
+            console.log("start");
+            //console.log(tokenResponse.access_token);
+            const res = await axios.post(`${serverUrl}/login`, { id_token: tokenResponse.access_token });
             dispatch(setToken(tokenResponse.access_token));
-            console.log(tokenResponse.access_token);
+            console.log(res.data.user_id);
             setUser(res.data.user_id);
-            console.log(tokenResponse.access_token);
             alert('Login Successful');
 
           } catch (error) {
@@ -75,7 +78,7 @@ export default function CustomHeader() {
     
       const handleLogout = async () => {
         try {
-          await axios.post('http://localhost:5000/logout');
+          await axios.post(`${serverUrl}/logout`);
           setUser(null);
           dispatch(setToken(null));
           alert('Logout Successful');
