@@ -3,20 +3,12 @@ import os
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, Table, ForeignKeyConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker,joinedload
-
 from datetime import datetime, timedelta
 import random
-
 from DataObjects.Request import Questionnaire, Model, Request
 from DataObjects.Result import Result
 from DataObjects.User_Request import UserRequest
 from Users.Project import Project
-import sys
-# module_name = 'Users.User'
-# if module_name not in sys.modules:
-#     from Users.User import User
-
-from datetime import datetime 
 
 Base = declarative_base()
 DATABASE_URL = 'sqlite:///storage.db'
