@@ -116,8 +116,8 @@ class Storage2:
         else:
             def get_session(create_new=False):
                 if create_new:
-                    if os.path.exists("storage.db"):
-                        os.remove("storage.db")
+                    if os.path.exists("backend/Storage/storage.db"):
+                        os.remove("backend/Storage/storage.db")
                     engine = create_engine(DATABASE_URL)
                     Base.metadata.create_all(engine)
                 else:
