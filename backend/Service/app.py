@@ -19,7 +19,7 @@ from Evaluation.Scheduler import Scheduler
 
 service = Service()
 # configure google auto sign parameters
-with open('backend/Service/GoogleAutoSignInfo.json', 'r') as file:
+with open('GoogleAutoSignInfo.json', 'r') as file:
     data = json.load(file)["web"]
 client_id = data["client_id"]
 
