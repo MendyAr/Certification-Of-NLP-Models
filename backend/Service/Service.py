@@ -74,5 +74,5 @@ class Service:
 
     # returning a list of the supported questionnaires from the questionnaires module
     def __get_available_questionnaires(self):
-        return ["ASI", "BIG5"]
+        return ["asi","big5"]
 
