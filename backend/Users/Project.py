@@ -38,7 +38,7 @@ class Project:
     def remove_model(self, model: Model):
         if model not in self.models:
             raise ValueError(f"model: {model.name} doesn't exist in this project.")
-        self.models.remove(model.name)
+        self.models.remove(model)
 
     # receive questionnaires name, and remove it and its records from the project
     def remove_questionnaire(self, questionnaire):
