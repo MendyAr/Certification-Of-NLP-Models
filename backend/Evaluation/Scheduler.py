@@ -98,7 +98,7 @@ class Scheduler:
                 result = self.storage.check_if_has_result_2_eval(eval_request)
                 return result
         # There is no user that wants that request so add it to the agent list
-        dt = datetime.datetime.now()
+        dt = datetime.now()
         ur = UserRequest([user_name], eval_request, dt, 1)
         if user_name == "agent":
             for ar in self.agent_requests_list:
