@@ -8,9 +8,14 @@ from DataObjects.Request import Questionnaire, Model, Request
 from DataObjects.Result import Result
 from DataObjects.User_Request import UserRequest
 from Users.Project import Project
-from Users.User import User
+import sys
+module_name = 'User'
+if module_name not in sys.modules:
+    from Users.User import User
 
-from datetime import datetime 
+
+from datetime import datetime, timedelta
+import random 
 
 Base = declarative_base()
 DATABASE_URL = 'sqlite:///storage.db'
