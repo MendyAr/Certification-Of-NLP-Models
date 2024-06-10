@@ -286,9 +286,7 @@ def delete_questionnaire():
 
 def verify_google_id_token_and_get_user_id(access_code):
     if access_code is None:
-        e = BadRequestException("missing access code")
-        e.error_code = 401
-        raise e
+        raise BadRequestException("missing access code", 401)
     # Verify the token with Google OAuth 2.0 server
     id_info = id_token.verify_oauth2_token(access_code, requests.Request(), client_id)
     # Extract user ID

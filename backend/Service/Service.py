@@ -1,6 +1,8 @@
 from Users.UserHandler import UserHandler
 from Storage.Storage2 import *
 from DataObjects.Request import Model, Questionnaire
+from DataObjects.BadRequestException import BadRequestException
+
 
 # this class is responsible for delegating requests from app.py
 # it also responsible for simple argument format checks, excluding user_id
@@ -63,7 +65,7 @@ class Service:
 
     def __validate_project_name_format(self, project_name):
         if project_name is None or project_name == "":
-            raise ValueError("Missing project name")
+            raise BadRequestException("Missing project name", 400)
 
     # check if the model is compatible for evaluation
     def __validate_model_name(self, model_name):
@@ -74,5 +76,5 @@ class Service:
 
     # returning a list of the supported questionnaires from the questionnaires module
     def __get_available_questionnaires(self):
-        return ["asi","big5"]
+        return ["asi", "big5"]
 
