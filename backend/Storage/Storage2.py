@@ -2,8 +2,9 @@ import os
 
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, Table, ForeignKeyConstraint
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
-
+from sqlalchemy.orm import relationship, sessionmaker,joinedload
+from datetime import datetime, timedelta
+import random
 from DataObjects.Request import Questionnaire, Model, Request
 from DataObjects.Result import Result
 from DataObjects.User_Request import UserRequest
@@ -133,9 +134,25 @@ class Storage2:
         return Storage2._instance
 
     def get_top_evals(self, number_of_results=10):
-        top_results_db = self.session.query(Result_db).order_by(Result_db.result_score.desc()).limit(number_of_results).all()
-        top_results = [self.Result_db_2_Result(result_db) for result_db in top_results_db]
+        top_results_db = (
+            self.session.query(Result_db)
+            .options(
+                joinedload(Result_db.request).joinedload(Request_db.model),
+                joinedload(Result_db.request).joinedload(Request_db.questionnaire)
+            )
+            .order_by(Result_db.result_score.desc())
+            .limit(number_of_results)
+            .all()
+        )
+        top_results = []
+        for result_db in top_results_db:
+            try:
+                result = self.Result_db_2_Result(result_db)
+                top_results.append(result)
+            except ValueError as e:
+                pass
         return top_results
+
 
     def add_project(self, user_id, project_name):
         # Check if the user exists
@@ -172,15 +189,17 @@ class Storage2:
         user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
         if not user:
             raise ValueError(f"No user found with user_id: {user_id}")
-
         project = self.session.query(Project_db).filter(
             Project_db.user_id == user.id,
             Project_db.name == project_name
         ).first()
         if not project:
             raise ValueError(f"No project found with name: {project_name} for user: {user_id}")
-
-        questionnaire_db = self.Questionnaire_2_Questionnaire_db(questionnaire)
+        # Check if the questionnaire already exists
+        questionnaire_db = self.session.query(Questionnaire_db).filter_by(name=questionnaire.name).first()
+        if not questionnaire_db:
+            questionnaire_db = self.Questionnaire_2_Questionnaire_db(questionnaire)
+            self.session.add(questionnaire_db)
         project.questionnaires.append(questionnaire_db)
         self.session.commit()
 
@@ -254,54 +273,54 @@ class Storage2:
 
     def check_if_has_result_2_eval(self, request: Request):
         result_dbs = self.session.query(Result_db).filter(
-            Result_db.request_model_name==request.model.name ,
-              Result_db.request_questionnaire_name==request.questionnaire.name,
-                Result_db.end_time != None ).order_by(Result_db.start_time.desc()).limit(1).all()
+            Result_db.request_model_name == request.model.name,
+            Result_db.request_questionnaire_name == request.questionnaire.name,
+            Result_db.end_time != None
+        ).order_by(Result_db.start_time.desc()).limit(1).all()
+        
         if len(result_dbs) > 0:
             return self.Result_db_2_Result(result_dbs[0])
         else:
             return None
     
     # Conversion functions for Project_db
-    def Project_2_Project_db(self,project: Project, user_id: int):
+    def Project_2_Project_db(self, project: Project, user_id: int):
         p_db = Project_db(name=project.name, user_id=user_id)
-        # Add models and questionnaires if they exist
-        p_db.models = [self.Model_2_Model_db(model) for model in project.models]
-        p_db.questionnaires = [self.Questionnaire_2_Questionnaire_db(questionnaire) for questionnaire in project.questionnaires]
+        p_db.models = [self.Model_2_Model_db(model) for model in project.models.values()]
+        p_db.questionnaires = [self.Questionnaire_2_Questionnaire_db(questionnaire) for questionnaire in project.questionnaires.values()]
         return p_db
 
-    def Project_db_2_Project(self,project_db: Project_db):
-        project = Project()
-        project.name = project_db.name
+    def Project_db_2_Project(self, project_db: Project_db):
+        project = Project(project_db.name)
         project.models = {self.Model_db_2_Model(model_db) for model_db in project_db.models}
         project.questionnaires = {self.Questionnaire_db_2_Questionnaire(questionnaire_db) for questionnaire_db in project_db.questionnaires}
         return project
 
     # Conversion functions for Model_db
 
-    def Model_2_Model_db(model: Model):
+    def Model_2_Model_db(self,model: Model):
         m_db = Model_db(name=model.name)
         return m_db
 
-    def Model_db_2_Model(model_db: Model_db):
+    def Model_db_2_Model(self,model_db: Model_db):
         return Model(name=model_db.name)
 
     # Conversion functions for Questionnaire_db
 
-    def Questionnaire_2_Questionnaire_db(questionnaire: Questionnaire):
+    def Questionnaire_2_Questionnaire_db(self,questionnaire: Questionnaire):
         q_db = Questionnaire_db(name=questionnaire.name)
         return q_db
 
-    def Questionnaire_db_2_Questionnaire(questionnaire_db: Questionnaire_db):
+    def Questionnaire_db_2_Questionnaire(self,questionnaire_db: Questionnaire_db):
         return Questionnaire(name=questionnaire_db.name)
 
     # Conversion functions for Request_db
 
-    def Request_2_Request_db(request: Request):
+    def Request_2_Request_db(self,request: Request):
         r_db = Request_db(model_name=request.model.name, questionnaire_name=request.questionnaire.name)
         return r_db
 
-    def Request_db_2_Request(request_db: Request_db):
+    def Request_db_2_Request(self,request_db: Request_db):
         # if request_db.model is None or request_db.questionnaire is None:
         #     raise ValueError("Related model or questionnaire is missing")
         model = Model(name=request_db.model.name)
@@ -310,7 +329,7 @@ class Storage2:
 
     # Conversion functions for Result_db
 
-    def Result_2_Result_db(result: Result):
+    def Result_2_Result_db(self, result: Result):
         r_db = Result_db(
             request_model_name=result.request.model.name,
             request_questionnaire_name=result.request.questionnaire.name,
@@ -320,7 +339,9 @@ class Storage2:
         )
         return r_db
 
-    def Result_db_2_Result(result_db: Result_db):
+    def Result_db_2_Result(self, result_db: Result_db):
+        if result_db.request is None or result_db.request.model is None or result_db.request.questionnaire is None:
+            raise ValueError(f"Incomplete request data in Result_db with result_score {result_db.result_score} and start_time {result_db.start_time}")
         model = Model(name=result_db.request.model.name)
         questionnaire = Questionnaire(name=result_db.request.questionnaire.name)
         request = Request(model=model, questionnaire=questionnaire)
@@ -330,7 +351,7 @@ class Storage2:
     
     # Conversion functions for UserRequest_db
 
-    def UserRequest_2_UserRequest_db(user_request: UserRequest):
+    def UserRequest_2_UserRequest_db(self,user_request: UserRequest):
         users_str = ",".join(user_request.users)
         ur_db = UserRequest_db(
             id=user_request.id,
@@ -344,7 +365,7 @@ class Storage2:
         ]
         return ur_db
 
-    def UserRequest_db_2_UserRequest(user_request_db: UserRequest_db):
+    def UserRequest_db_2_UserRequest(self,user_request_db: UserRequest_db):
         users_list = user_request_db.users.split(",")
         requests = [
             Request(
@@ -359,12 +380,13 @@ class Storage2:
 
 
     # Conversion functions for User_db
-    def User_2_User_db(self,user):
+    def User_2_User_db(self, user):
         u_db = User_db(user_id=user.user_id)
         u_db.projects = [self.Project_2_Project_db(project, user.user_id) for project in user.projects.values()]
         return u_db
 
-    def User_db_2_User(self,user_db: User_db):
+    def User_db_2_User(self, user_db: User_db):
+        from Users.User import User
         user = User(user_db.user_id)
         user.projects = {project_db.name: self.Project_db_2_Project(project_db) for project_db in user_db.projects}
         return user
@@ -460,14 +482,19 @@ class Storage2:
         self.session.commit()
 
     def update_result_in_db(self, result: Result):
-        self.session.query(Result_db).filter(
+        existing_result_db = self.session.query(Result_db).filter(
             Result_db.request_model_name == result.request.model.name,
             Result_db.request_questionnaire_name == result.request.questionnaire.name,
             Result_db.start_time == result.start_time
-        ).update({
-            Result_db.result_score: result.result_score,
-            Result_db.end_time: result.end_time
-        })
+        ).first()
+        
+        if existing_result_db:
+            existing_result_db.result_score = result.result_score
+            existing_result_db.end_time = result.end_time
+        else:
+            new_result_db = self.Result_2_Result_db(result)
+            self.session.add(new_result_db)
+        
         self.session.commit()
 
     def get_result_of_request(self, request: Request):
@@ -572,9 +599,23 @@ class Storage2:
         self.session.commit()
 
     def read_user(self, user_id):
-        user_db = self.session.query(User_db).filter(User_db.user_id == user_id).first()
+        # user_db = self.session.query(User_db).filter(User_db.user_id == user_id).first()
+        # if not user_db:
+        #     return None
+        # return self.User_db_2_User(user_db)
+        user_db = (
+            self.session.query(User_db)
+            .options(
+                joinedload(User_db.projects)
+                .joinedload(Project_db.models),
+                joinedload(User_db.projects)
+                .joinedload(Project_db.questionnaires)
+            )
+            .filter(User_db.user_id == user_id)
+            .first()
+        )
         if not user_db:
-            raise ValueError(f"No user found with user_id: {user_id}")
+            return None
         return self.User_db_2_User(user_db)
 
     def update_user(self, old_user_id, new_user_id):
@@ -627,16 +668,16 @@ class Storage2:
         project.name = new_project_name
         self.session.commit()
 
-    def delete_project(self, user_id, project_name):
-        user = self.get_user(user_id)
-        project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
-            Project_db.name == project_name
-        ).first()
-        if not project:
-            raise ValueError(f"No project found with name: {project_name} for user: {user_id}")
-        self.session.delete(project)
-        self.session.commit()
+    # def delete_project(self, user_id, project_name):
+    #     user = self.get_user(user_id)
+    #     project = self.session.query(Project_db).filter(
+    #         Project_db.user_id == user.id,
+    #         Project_db.name == project_name
+    #     ).first()
+    #     if not project:
+    #         raise ValueError(f"No project found with name: {project_name} for user: {user_id}")
+    #     self.session.delete(project)
+    #     self.session.commit()
 
 
 

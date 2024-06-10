@@ -1,6 +1,7 @@
+from DataObjects.BadRequestException import BadRequestException
 from DataObjects.Request import Model, Questionnaire, Request
 from Evaluation.Scheduler import Scheduler
-from Storage.Storage2 import *
+from Storage.Storage2 import Storage2
 from Users.Project import Project
 
 
@@ -18,7 +19,7 @@ class User:
         self.__validate_project(project_name)
         p = self.projects[project_name]
         models = [vars(model) for model in p.get_models()]
-        questionnaires = [vars(ques) for ques in p.get_questionnaires()]
+        questionnaires = [ques.name for ques in p.get_questionnaires()]
         return {"models": models, "ques": questionnaires}
 
     def get_project_evaluations(self, project_name):
@@ -32,9 +33,9 @@ class User:
 
     def add_project(self, project_name):
         if project_name in self.projects.keys():
-            raise ValueError(f"project: {project_name} already exist.")
+            raise BadRequestException(f"project: {project_name} already exist.", 401)
         self.storage.add_project(self.user_id, project_name)
-        self.projects[project_name] = Project()
+        self.projects[project_name] = Project(project_name)
 
     def add_model(self, project_name, model: Model):
         self.__validate_project(project_name)
@@ -76,4 +77,4 @@ class User:
 
     def __validate_project(self, project_name):
         if project_name not in self.projects.keys():
-            raise ValueError(f"project: {project_name} doesn't exist.")
+            raise BadRequestException(f"project: {project_name} doesn't exist.", 401)

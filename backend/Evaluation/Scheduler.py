@@ -5,8 +5,9 @@ from DataObjects.Request import Request
 from DataObjects.Result import Result
 
 from Evaluation.Cache_Manager import *
+import sys
 from Storage.Storage2 import Storage2
-import time, datetime
+from datetime import datetime, time
 
 
 class Scheduler:
@@ -26,7 +27,7 @@ class Scheduler:
             self.eval_engine = EvaluationEngine()
             self.cache_manager = Cache_Manager()
             self._running_eval_thread = True
-            self._running_eval_thread_sleep_time = 10
+            self._running_eval_thread_sleep_time = 30
 
     @staticmethod
     def get_instance():
@@ -53,7 +54,7 @@ class Scheduler:
                 result = self.storage.check_if_has_result_2_eval(eval_request)
                 return result
         # there is no user that want that request so add it to the agent list
-        dt = datetime.datetime.now()
+        dt = datetime.now()
         ur = UserRequest([user_name], eval_request, dt, 1)
         if user_name == "agent":
             for ar in self.agent_requests_list:
@@ -97,7 +98,7 @@ class Scheduler:
                 result = self.storage.check_if_has_result_2_eval(eval_request)
                 return result
         # There is no user that wants that request so add it to the agent list
-        dt = datetime.datetime.now()
+        dt = datetime.now()
         ur = UserRequest([user_name], eval_request, dt, 1)
         if user_name == "agent":
             for ar in self.agent_requests_list:
@@ -149,7 +150,7 @@ class Scheduler:
     def sort_requests_list(self):
         def update_score_in_users_list():
             for ur in self.users_requests_list:
-                curDt= datetime.datetime.now()
+                curDt= datetime.now()
                 deltaTime = curDt - ur.starttime
                 ur.score = len(ur.users) * len(ur.requests) * deltaTime.total_seconds()
         update_score_in_users_list()
@@ -165,6 +166,7 @@ class Scheduler:
         while self._running_eval_thread:
             x = self.eval_request()
             if x:
+                print("run_eval_thread-is sleeping")
                 time.sleep(self._running_eval_thread_sleep_time)  # Adjust sleep time as needed
 
 class Tests:

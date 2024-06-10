@@ -1,10 +1,11 @@
+from DataObjects.BadRequestException import BadRequestException
 from DataObjects.Request import Request, Model, Questionnaire
 
 
 class Project:
 
-    def __init__(self,name):
-        self.name = ""
+    def __init__(self, name):
+        self.name = name 
         self.models = set()
         self.questionnaires = set()
 
@@ -17,7 +18,7 @@ class Project:
     # receive model, and add it to the project
     def add_model(self, model: Model):
         if model in self.models:
-            raise ValueError(f"model: {model.name} is already added to this project.")
+            raise BadRequestException(f"model: {model.name} is already added to this project.", 401)
         self.models.add(model)
         new_requests = []
         for q in self.questionnaires:
@@ -27,7 +28,7 @@ class Project:
     # receive questionnaire, and add it to the project
     def add_questionnaire(self, questionnaire: Questionnaire):
         if questionnaire in self.questionnaires:
-            raise ValueError(f"questionnaire: {questionnaire.name} is already added to this project.")
+            raise BadRequestException(f"questionnaire: {questionnaire.name} is already added to this project.", 401)
         self.questionnaires.add(questionnaire)
         new_requests = []
         for m in self.models:
@@ -37,13 +38,13 @@ class Project:
     # receive model name, and remove it and its records from the project
     def remove_model(self, model: Model):
         if model not in self.models:
-            raise ValueError(f"model: {model.name} doesn't exist in this project.")
-        self.models.remove(model.name)
+            raise BadRequestException(f"model: {model.name} doesn't exist in this project.", 401)
+        self.models.remove(model)
 
     # receive questionnaires name, and remove it and its records from the project
     def remove_questionnaire(self, questionnaire):
         if questionnaire not in self.questionnaires:
-            raise ValueError(f"questionnaire: {questionnaire.name} doesn't exist in this project.")
+            raise BadRequestException(f"questionnaire: {questionnaire.name} doesn't exist in this project.", 401)
         self.questionnaires.remove(questionnaire)
 
     def get_requests(self):

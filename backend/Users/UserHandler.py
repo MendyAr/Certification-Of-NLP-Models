@@ -46,7 +46,8 @@ class UserHandler:
         user.remove_questionnaire(project_name, questionnaire)
 
     def __fetch_user(self, user_id):
-        if not self.storage.is_registered(user_id):
-            self.storage.add_user(user_id)
-        user = self.storage.get_user(user_id)
+        user = self.storage.read_user(user_id)
+        if user is None:
+            self.storage.create_user(user_id)
+            user = self.storage.read_user(user_id)
         return user
