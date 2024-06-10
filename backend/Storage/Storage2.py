@@ -10,7 +10,7 @@ from DataObjects.Result import Result
 from DataObjects.User_Request import UserRequest
 from Users.Project import Project
 import sys
-module_name = 'User'
+module_name = 'Users.User'
 if module_name not in sys.modules:
     from Users.User import User
 
@@ -161,36 +161,51 @@ class Storage2:
             raise ValueError(f"No user found with user_id: {user_id}")
         # Check if the project already exists for the user
         existing_project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if existing_project:
             raise ValueError(f"Project {project_name} already exists for user {user_id}")
         # Create a new project and link it to the user
-        new_project = Project_db(name=project_name, user_id=user.id)
+        new_project = Project_db(name=project_name, user_id=user.user_id)
         self.session.add(new_project)
         self.session.commit()
 
     def add_model(self, user_id, project_name, model):
         user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
-        if not user:
+        if not user: 
+            # The user does not exist
+            return
             raise ValueError(f"No user found with user_id: {user_id}")
         project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if not project:
+            return 
+            # The project does not exist
             raise ValueError(f"No project found with name: {project_name} for user: {user_id}")
-        model_db = self.Model_2_Model_db(model)
-        project.models.append(model_db)
+        # Check if the model already exists
+        existing_model = self.session.query(Model_db).filter(Model_db.name == model.name).first()
+        if existing_model:
+            if existing_model in project.models:
+                # The model already exists in the project
+                return 
+                raise ValueError(f"Model {model.name} already exists in project {project_name} for user {user_id}")
+            else:
+                project.models.append(existing_model)
+        else:
+            model_db = self.Model_2_Model_db(model)
+            project.models.append(model_db)
         self.session.commit()
+
 
     def add_questionnaire(self, user_id, project_name, questionnaire):
         user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
         if not user:
             raise ValueError(f"No user found with user_id: {user_id}")
         project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if not project:
@@ -209,7 +224,7 @@ class Storage2:
             raise ValueError(f"No user found with user_id: {user_id}")
 
         project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if not project:
@@ -224,7 +239,7 @@ class Storage2:
             raise ValueError(f"No user found with user_id: {user_id}")
 
         project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if not project:
@@ -243,7 +258,7 @@ class Storage2:
             raise ValueError(f"No user found with user_id: {user_id}")
 
         project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if not project:
@@ -638,19 +653,19 @@ class Storage2:
     def create_project(self, user_id, project_name):
         user = self.get_user(user_id)
         existing_project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if existing_project:
             raise ValueError(f"Project {project_name} already exists for user {user_id}")
-        new_project = Project_db(name=project_name, user_id=user.id)
+        new_project = Project_db(name=project_name, user_id=user.user_id)
         self.session.add(new_project)
         self.session.commit()
 
     def read_project(self, user_id, project_name):
         user = self.get_user(user_id)
         project_db = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == project_name
         ).first()
         if not project_db:
@@ -660,7 +675,7 @@ class Storage2:
     def update_project(self, user_id, old_project_name, new_project_name):
         user = self.get_user(user_id)
         project = self.session.query(Project_db).filter(
-            Project_db.user_id == user.id,
+            Project_db.user_id == user.user_id,
             Project_db.name == old_project_name
         ).first()
         if not project:
@@ -671,7 +686,7 @@ class Storage2:
     # def delete_project(self, user_id, project_name):
     #     user = self.get_user(user_id)
     #     project = self.session.query(Project_db).filter(
-    #         Project_db.user_id == user.id,
+    #         Project_db.user_id == user.user_id,
     #         Project_db.name == project_name
     #     ).first()
     #     if not project:
@@ -894,6 +909,63 @@ def add_fake_data():
 
     print("Fake data added successfully.")
 
-if __name__ == "__main__":
+def test_error_same_model_different_project_or_user():
+    storage = Storage2.get_instance()
+    
+    # Create users
+    user_id1 = "user1"
+    user_id2 = "user2"
+    try:
+        storage.create_user(user_id1)
+    except ValueError as e:
+        print(e)
+    
+    try:
+        storage.create_user(user_id2)
+    except ValueError as e:
+        print(e)
+    
+    # Create projects for user1
+    project_name1 = "Project1"
+    project_name2 = "Project2"
+    try:
+        storage.create_project(user_id1, project_name1)
+    except ValueError as e:
+        print(e)
+    
+    try:
+        storage.create_project(user_id1, project_name2)
+    except ValueError as e:
+        print(e)
+    
+    # Create project for user2
+    try:
+        storage.create_project(user_id2, project_name2)
+    except ValueError as e:
+        print(e)
+    
+    model_name = "ModelA"
+    model = Model(name=model_name)
+    
+    # Add model to user1's Project1
+    try:
+        storage.add_model(user_id1, project_name1, model)
+    except ValueError as e:
+        print(e)
+    
+    # Add model to user1's Project2
+    try:
+        storage.add_model(user_id1, project_name2, model)
+    except ValueError as e:
+        print(e)
+    
+    # Add model to user2's Project2
+    try:
+        storage.add_model(user_id2, project_name2, model)
+    except ValueError as e:
+        print(e)
+
+# if __name__ == "__main__":
     # main()
-    add_fake_data()
+    # add_fake_data()
+    # test_error_same_model_different_project_or_user()
