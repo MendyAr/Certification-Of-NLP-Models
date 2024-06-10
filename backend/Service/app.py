@@ -15,6 +15,7 @@ sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
+# from Evaluation.Scheduler import run_test_error_same_model_different_project_or_user
 from DataObjects.BadRequestException import BadRequestException
 
 # configure google auto sign parameters
@@ -305,13 +306,11 @@ def main():
     app.run(debug=False, port=5001)
 
 
-def test_main():
-    # service.add_project(10, "P")
-    # service.add_model(10, "P", "tals/albert-xlarge-vitaminc-mnli")
-    # service.add_questionnaire(10, "P", "asi")
-    # print(service.get_project_evaluations(10, "P"))
-    pass
-
+# def test_main():
+#     scheduler = Scheduler.get_instance()
+#     run_test_error_same_model_different_project_or_user()
+#     pass
 
 if __name__ == '__main__':
     main()
+    # test_main()
