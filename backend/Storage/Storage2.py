@@ -19,7 +19,8 @@ from datetime import datetime, timedelta
 import random 
 
 Base = declarative_base()
-DATABASE_URL = 'sqlite:///storage.db'
+current_dir = os.path.dirname(os.path.abspath(__file__))
+DATABASE_URL = f"sqlite:///{os.path.join(current_dir, 'storage.db')}"
 
 # Linking table for many-to-many relationship
 user_request_request = Table('user_request_request', Base.metadata,
@@ -114,7 +115,7 @@ class Storage2:
         if self._instance is not None:
             raise Exception("Singleton class cannot be instantiated multiple times")
         else:
-            def get_session(create_new=False):
+            def get_session(create_new=False): # !!!!! DELETE THIS DATABASE !!!!! if create_new=True
                 if create_new:
                     if os.path.exists("backend/Storage/storage.db"):
                         os.remove("backend/Storage/storage.db")
