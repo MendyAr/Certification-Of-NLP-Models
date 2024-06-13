@@ -2,6 +2,7 @@ from Users.UserHandler import UserHandler
 from Storage.Storage2 import *
 from DataObjects.Request import Model, Questionnaire
 from DataObjects.BadRequestException import BadRequestException
+from Service.HuggingFaceAPI import HuggingFaceAPI
 
 
 # this class is responsible for delegating requests from app.py
@@ -11,6 +12,7 @@ class Service:
     def __init__(self):
         self.user_handler = UserHandler()
         self.storage = Storage2.get_instance()
+        self.hf_api = HuggingFaceAPI()
 
     def get_top_evaluations(self):
         results = self.storage.get_top_evals(10)
@@ -69,7 +71,7 @@ class Service:
 
     # check if the model is compatible for evaluation
     def __validate_model_name(self, model_name):
-        pass
+        self.hf_api.validate_model(model_name)
 
     def __validate_questionnaire_name(self, questionnaire_name):
         pass
