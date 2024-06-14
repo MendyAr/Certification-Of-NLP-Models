@@ -12,6 +12,9 @@ class User:
         self.user_id = user_id
         self.projects = {}  # the key is the name of the project and the value is the project object
 
+    def add_eval_request_to_scheduler(self, eval_request : Request):
+        self.scheduler.add_request(eval_request, self.user_id)
+
     def get_projects_name(self):
         return list(self.projects.keys())
 

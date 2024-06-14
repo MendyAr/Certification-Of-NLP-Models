@@ -55,6 +55,13 @@ def google_login():
     try:
         access_code = request.json.get('id_token')
         # user_id = verify_google_id_token_and_get_user_id(access_code)
+        user_id = 1 # check back and create one if token is good
+        if user_id == 1:
+            # do nothigs in back?
+            pass
+        else:
+            # no use like that so create one
+            service.create_user(user_id)
         user_id = 123
         response = jsonify({"message": "login successfully", "user_id": user_id})
         response.status_code = 200
@@ -202,7 +209,7 @@ def add_model():
         return response
 
 
-# add questionnaire to project
+# # add questionnaire to project
 @app.route('/add-ques', methods=['POST'])
 def add_questionnaire():
     response = None
