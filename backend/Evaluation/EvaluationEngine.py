@@ -11,8 +11,8 @@ class EvaluationEngine:
 
     def run_eval_request(self, request : Request):
         score = 0
-        q = self.get_questionaire_by_name(request.questionnaire.name)
-        model_name = request.model.name
+        q = self.get_questionaire_by_name(request.questionnaire)
+        model_name = request.model
         try:
             score = q.eval_questionaire(model_name)
         except:

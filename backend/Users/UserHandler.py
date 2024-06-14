@@ -9,6 +9,10 @@ class UserHandler:
     def __init__(self):
         self.storage = Storage2.get_instance()
 
+    def add_eval_request_to_scheduler(self, user_id, eval_request : Request):
+        user = self.__fetch_user(user_id)
+        user.add_eval_request_to_scheduler(eval_request)
+
     def get_projects_name(self, user_id):
         user = self.__fetch_user(user_id)
         return user.get_projects_name()
