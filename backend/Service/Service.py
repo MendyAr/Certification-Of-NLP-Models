@@ -16,12 +16,17 @@ class Service:
         results = self.storage.get_top_evals(10)
         top = []
         for r in results:
-            dic = { "model": r.request.model.name,
-                    "questionnaire": r.request.questionnaire.name,
-                    "result": r.result_score}
+            dic = {"model": r.request.model.name,
+                   "questionnaire": r.request.questionnaire.name,
+                   "result": r.result_score}
             top.append(dic)
         return top
 
+    def get_token(self, user_id):
+        pass
+
+    def remove_token(self, token):
+        pass
 
     def get_questionnaires(self):
         return self.__get_available_questionnaires()
@@ -50,7 +55,7 @@ class Service:
         self.__validate_project_name_format(project_name)
         self.__validate_questionnaire_name(new_questionnaire)
         self.user_handler.add_questionnaires(user_id, project_name, Questionnaire(new_questionnaire))
-    
+
     def delete_project(self, user_id, project_name):
         self.__validate_project_name_format(project_name)
         return self.user_handler.delete_project(user_id, project_name)
@@ -77,4 +82,3 @@ class Service:
     # returning a list of the supported questionnaires from the questionnaires module
     def __get_available_questionnaires(self):
         return ["asi", "big5"]
-

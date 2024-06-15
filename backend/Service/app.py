@@ -15,7 +15,6 @@ sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
-# from Evaluation.Scheduler import run_test_error_same_model_different_project_or_user
 from DataObjects.BadRequestException import BadRequestException
 
 # configure google auto sign parameters
@@ -53,10 +52,10 @@ def get_top_evaluations():
 def google_login():
     response = None
     try:
-        access_code = request.json.get('id_token')
-        # user_id = verify_google_id_token_and_get_user_id(access_code)
-        user_id = 123
-        response = jsonify({"message": "login successfully", "user_id": user_id})
+        access_code = request.json.get('access_code')
+        user_id = verify_google_id_token_and_get_user_id(access_code)
+        token = service.get_token(user_id)
+        response = jsonify({"message": "login successfully", "token": token})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
@@ -72,6 +71,8 @@ def google_login():
 def google_logout():
     response = None
     try:
+        token = request.headers.get('token')
+        service.remove_token(token)
         response = jsonify({"message": "logout successfully"})
         response.status_code = 200
     except BadRequestException as e:
@@ -107,8 +108,8 @@ def get_questionnaires():
 def get_projects_name():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
-        projects = service.get_projects_name(user_id)
+        token = request.headers.get('token')
+        projects = service.get_projects_name(token)
         response = jsonify({"message": "got projects name successfully", "projects": projects})
         response.status_code = 200
     except BadRequestException as e:
@@ -126,9 +127,9 @@ def get_projects_name():
 def get_project_info():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.args.get('project')
-        projects = service.get_project_info(user_id, project_name)
+        projects = service.get_project_info(token, project_name)
         response = jsonify({"message": "got project info successfully", "projects": projects})
         response.status_code = 200
     except BadRequestException as e:
@@ -146,9 +147,9 @@ def get_project_info():
 def get_project_evaluations():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.args.get('project')
-        projects_evals = service.get_project_evaluations(user_id, project_name)
+        projects_evals = service.get_project_evaluations(token, project_name)
         response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
         response.status_code = 200
     except BadRequestException as e:
@@ -166,9 +167,9 @@ def get_project_evaluations():
 def add_project():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.json.get('name')
-        service.add_project(user_id, project_name)
+        service.add_project(token, project_name)
         response = jsonify({"message": "Project added successfully", "project": project_name})
         response.status_code = 200
     except BadRequestException as e:
@@ -186,10 +187,10 @@ def add_project():
 def add_model():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.args.get('project')
         new_model = request.json.get('name')
-        service.add_model(user_id, project_name, new_model)
+        service.add_model(token, project_name, new_model)
         response = jsonify({"message": "Model added successfully", "model": new_model})
         response.status_code = 200
     except BadRequestException as e:
@@ -207,10 +208,10 @@ def add_model():
 def add_questionnaire():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.args.get('project')
         new_ques = request.json.get('ques')
-        service.add_questionnaire(user_id, project_name, new_ques)
+        service.add_questionnaire(token, project_name, new_ques)
         response = jsonify({"message": "Questionnaire added successfully", "ques": new_ques})
         response.status_code = 200
     except BadRequestException as e:
@@ -228,9 +229,9 @@ def add_questionnaire():
 def delete_project():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.args.get('project')
-        service.delete_project(user_id, project_name)
+        service.delete_project(token, project_name)
         response = jsonify({"message": "Project deleted successfully", "project": project_name})
         response.status_code = 200
     except BadRequestException as e:
@@ -248,10 +249,10 @@ def delete_project():
 def delete_model():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.args.get('project')
         model = request.json.get('model_name')
-        service.delete_model(user_id, project_name, model)
+        service.delete_model(token, project_name, model)
         response = jsonify({"message": "Model deleted successfully", "model": model})
         response.status_code = 200
     except BadRequestException as e:
@@ -269,10 +270,10 @@ def delete_model():
 def delete_questionnaire():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('token')
         project_name = request.args.get('project')
         ques = request.json.get('questionnaire')
-        service.delete_questionnaire(user_id, project_name, ques)
+        service.delete_questionnaire(token, project_name, ques)
         response = jsonify({"message": "Questionnaire deleted successfully", "ques": ques})
         response.status_code = 200
     except BadRequestException as e:
@@ -286,7 +287,7 @@ def delete_questionnaire():
 
 
 def verify_google_id_token_and_get_user_id(access_code):
-    if access_code is None:
+    if access_code is None or access_code == "":
         raise BadRequestException("missing access code", 401)
     # Verify the token with Google OAuth 2.0 server
     id_info = id_token.verify_oauth2_token(access_code, requests.Request(), client_id)
