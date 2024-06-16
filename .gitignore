@@ -1,3 +1,5 @@
 /backend/venv/
 
-backend/Storage/storage.db
+/backend/Storage/storage.db
+
+/venv
