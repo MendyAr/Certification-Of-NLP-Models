@@ -1,12 +1,21 @@
 from flask import Flask, jsonify, request
-from google.oauth2 import id_token
 from google.auth.transport import requests
 from flask_cors import CORS
 import threading
 import json
 import os
-import sys
 
+import pathlib
+import requests
+from flask import Flask, session, abort, redirect, request, render_template
+from google.oauth2 import id_token
+from google_auth_oauthlib.flow import Flow
+from pip._vendor import cachecontrol
+import google.auth.transport.requests
+from dotenv import load_dotenv
+
+
+import sys
 # Define the global path variable for the project root directory (backend directory)
 GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Add the project root directory to the system path
@@ -15,285 +24,330 @@ sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
-from DataObjects.BadRequestException import BadRequestException
+
+
+app = Flask("Certifications-of-NLP")
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY_2')
+CORS(app)
 
 # configure google auto sign parameters
 with open('GoogleAutoSignInfo.json', 'r') as file:
     data = json.load(file)["web"]
-client_id = data["client_id"]
+GOOGLE_CLIENT_ID = data["client_id"]
 
-# configure flask
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-CORS(app)
+# client_id= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
+# GOOGLE_CLIENT_ID = os.environ.get("CLIENT_ID")
+client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file=client_secrets_file,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    redirect_uri="http://localhost:3000/callback"
+)
+
+
+flow2 = Flow.from_client_secrets_file(
+    client_secrets_file=client_secrets_file,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    redirect_uri="http://localhost:3000/login/callback"
+)
 
 service = Service()
+
+@app.route('/googlelogin')
+def google_login():
+    authorization_url, state = flow.authorization_url()
+    session["state"] = state
+    return redirect(authorization_url)
+
+
+@app.route("/callback")
+def callback():
+    if "google_id" not in session:
+        flow.fetch_token(authorization_response=request.url)
+
+        if not session["state"] == request.args["state"]:
+            abort(500)  # State does not match!
+
+        credentials = flow.credentials
+        request_session = requests.session()
+        cached_session = cachecontrol.CacheControl(request_session)
+        token_request = google.auth.transport.requests.Request(session=cached_session)
+
+        id_info = id_token.verify_oauth2_token(
+            id_token=credentials._id_token,
+            request=token_request,
+            audience=GOOGLE_CLIENT_ID
+        )
+
+        conn = sqlite3.connect('users.sqlite3')
+        cursor = conn.cursor()
+        print(id_info)
+        print("landmark")
+        sql = "INSERT INTO users(username, user_email, user_oauth_id, user_oauth_platform) VALUES(?,?,?,?)"
+        cursor.execute(sql, (id_info.get("name"), id_info.get("email"), id_info.get("sub"), "google"))
+        conn.commit()
+
+        return redirect("/")
+    else:
+        return redirect("/")
+
+
+@app.route("/logout")
+def logout():
+    if "google_id" in session:
+        session.clear()
+        return redirect("/")
+    else:
+        return redirect("/")
+
+@app.route("/")
+def index():
+    if "google_id" in session:
+        return render_template('index.html', logged_in=True, username=session['name'])
+    # return "Hello World <a href='/login'><button>Login</button></a>"
+    else:
+        return render_template('index.html', logged_in=False)
+
+    @app.route("/register")
+    def register_page():
+        return redirect("/")
+
+    @app.route('/signin')
+    def sign_in():
+        return render_template('signin.html')
+
+@app.route('/googlelogin_callback')
+def google_login_callback():
+    authorization_url, state = flow2.authorization_url()
+    session["state2"] = state
+    return redirect(authorization_url)
+
+@app.route("/login/callback")
+def login_callback():
+    if "google_id" in session:
+        return abort(404)
+
+    flow2.fetch_token(authorization_response=request.url)
+
+    if not session["state2"] == request.args["state"]:
+        abort(500)  # State does not match!
+
+    credentials = flow2.credentials
+    request_session = requests.session()
+    cached_session = cachecontrol.CacheControl(request_session)
+    token_request = google.auth.transport.requests.Request(session=cached_session)
+
+    id_info = id_token.verify_oauth2_token(
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID
+    )
+    conn  =  sqlite3.connect('users.sqlite3')
+    cursor = conn.cursor()
+
+    sql = "SELECT * FROM users WHERE user_oauth_id == ?"
+    cursor.execute(sql, (id_info.get("sub"),))
+    row = cursor.fetchall()
+    if row:
+        session["google_id"] = id_info.get("sub")
+        session["name"] = id_info.get("name")
+        session["email"] = id_info.get("email")
+        # return render_template('index.html', logged_in=True, username=session['name'])
+        return redirect('/')
+
+    else:
+        return redirect('/register')
 
 
 # get top requested evaluations of the system
 @app.route('/top-requests', methods=['GET'])
 def get_top_evaluations():
-    response = None
     try:
         top_evals = service.get_top_evaluations()
         response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
-    except Exception as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = 500
-    finally:
         return response
-
-
-@app.route('/login', methods=['POST'])
-def google_login():
-    response = None
-    try:
-        access_code = request.json.get('access_code')
-        user_id = verify_google_id_token_and_get_user_id(access_code)
-        token = service.get_token(user_id)
-        response = jsonify({"message": "login successfully", "token": token})
-        response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
-
-
-@app.route('/logout', methods=['POST'])
-def google_logout():
-    response = None
-    try:
-        token = request.headers.get('token')
-        service.remove_token(token)
-        response = jsonify({"message": "logout successfully"})
-        response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
-    except Exception as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = 500
-    finally:
-        return response
-
 
 # get all the available questionnaire
 @app.route('/get-all-ques', methods=['GET'])
 def get_questionnaires():
-    response = None
     try:
         questionnaires = service.get_questionnaires()
         response = jsonify({"message": "got available questionnaire successfully", "questionnaires": questionnaires})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # get all user projects name
 @app.route('/get-projects', methods=['GET'])
 def get_projects_name():
-    response = None
     try:
-        token = request.headers.get('token')
-        projects = service.get_projects_name(token)
+        user_id = request.headers.get('Authorization')[7:]
+        projects = service.get_projects_name(user_id)
         response = jsonify({"message": "got projects name successfully", "projects": projects})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # get a user project info
 @app.route('/project-info', methods=['GET'])
 def get_project_info():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.args.get('project')
-        projects = service.get_project_info(token, project_name)
+        projects = service.get_project_info(user_id, project_name)
         response = jsonify({"message": "got project info successfully", "projects": projects})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # get a user project info
 @app.route('/eval-requests', methods=['GET'])
 def get_project_evaluations():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.args.get('project')
-        projects_evals = service.get_project_evaluations(token, project_name)
+        projects_evals = service.get_project_evaluations(user_id, project_name)
         response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # add a new project to a user
 @app.route('/add-new-project', methods=['POST'])
 def add_project():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.json.get('name')
-        service.add_project(token, project_name)
+        service.add_project(user_id, project_name)
         response = jsonify({"message": "Project added successfully", "project": project_name})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # add model to project
 @app.route('/add-model', methods=['POST'])
 def add_model():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.args.get('project')
         new_model = request.json.get('name')
-        service.add_model(token, project_name, new_model)
+        service.add_model(user_id, project_name, new_model)
         response = jsonify({"message": "Model added successfully", "model": new_model})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        print("ERRRROR:", e)
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # add questionnaire to project
 @app.route('/add-ques', methods=['POST'])
 def add_questionnaire():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.args.get('project')
         new_ques = request.json.get('ques')
-        service.add_questionnaire(token, project_name, new_ques)
+        service.add_questionnaire(user_id, project_name, new_ques)
         response = jsonify({"message": "Questionnaire added successfully", "ques": new_ques})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # delete a new project to a user
 @app.route('/delete-project', methods=['DELETE'])
 def delete_project():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.args.get('project')
-        service.delete_project(token, project_name)
+        service.delete_project(user_id, project_name)
         response = jsonify({"message": "Project deleted successfully", "project": project_name})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        print("ERRRROR:", e)
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # add model to project
 @app.route('/delete-model', methods=['DELETE'])
 def delete_model():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.args.get('project')
         model = request.json.get('model_name')
-        service.delete_model(token, project_name, model)
+        service.delete_model(user_id, project_name, model)
         response = jsonify({"message": "Model deleted successfully", "model": model})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        print("ERRRROR:", e)
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
 # delete questionnaire to project
 @app.route('/delete-ques', methods=['DELETE'])
 def delete_questionnaire():
-    response = None
     try:
-        token = request.headers.get('token')
+        user_id = request.headers.get('Authorization')[7:]
         project_name = request.args.get('project')
         ques = request.json.get('questionnaire')
-        service.delete_questionnaire(token, project_name, ques)
+        service.delete_questionnaire(user_id, project_name, ques)
         response = jsonify({"message": "Questionnaire deleted successfully", "ques": ques})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
+        return response
     except Exception as e:
-        response = jsonify({"error": str(e)})
+        response = jsonify({"error": e})
         response.status_code = 500
-    finally:
         return response
 
 
-def verify_google_id_token_and_get_user_id(access_code):
-    if access_code is None or access_code == "":
-        raise BadRequestException("missing access code", 401)
+def verify_google_id_token_and_get_user_id(token_id):
+    print(token_id)
     # Verify the token with Google OAuth 2.0 server
-    id_info = id_token.verify_oauth2_token(access_code, requests.Request(), client_id)
+    client_id = "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
+    id_info = id_token.verify_oauth2_token(token_id, requests.Request(), client_id)
+    print(id_info)
     # Extract user ID
     user_id = id_info['sub']
+    print(user_id)
     return user_id
+
 
 
 def start_eval_thread():
@@ -303,15 +357,9 @@ def start_eval_thread():
 
 
 def main():
-    start_eval_thread()
-    app.run(debug=False, port=5001)
+    #start_eval_thread()
+    app.run(host='0.0.0.0', port=3000, debug=True)
 
-
-# def test_main():
-#     scheduler = Scheduler.get_instance()
-#     run_test_error_same_model_different_project_or_user()
-#     pass
 
 if __name__ == '__main__':
     main()
-    # test_main()
