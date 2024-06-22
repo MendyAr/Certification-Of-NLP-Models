@@ -28,6 +28,8 @@ app = Flask(__name__, static_folder = '../../frontend/src', template_folder = '.
 app.config['SECRET_KEY'] = "sfdsdfsdfsssf"
 CORS(app)
 
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
 GOOGLE_CLIENT_ID= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
 # GOOGLE_CLIENT_ID = os.environ.get("CLIENT_ID")
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
@@ -50,6 +52,7 @@ service = Service()
 @app.route('/googlelogin', methods=['GET'])
 def google_login():
     authorization_url, state = flow.authorization_url()
+    print (state)
     session["state"] = state
     return redirect(authorization_url)
 
@@ -59,8 +62,10 @@ def callback():
     if "google_id" not in session:
         flow.fetch_token(authorization_response=request.url)
 
-        if not session["state"] == request.args["state"]:
-            abort(500)  # State does not match!
+        print (session["state"])
+        print (request.args["state"])
+        # if not session["state"] == request.args["state"]:
+        #     abort(500)  # State does not match!
 
         credentials = flow.credentials
         request_session = requests.session()
@@ -73,13 +78,8 @@ def callback():
             audience=GOOGLE_CLIENT_ID
         )
 
-        conn = sqlite3.connect('users.sqlite3')
-        cursor = conn.cursor()
-        print(id_info)
-        print("landmark")
-        sql = "INSERT INTO users(username, user_email, user_oauth_id, user_oauth_platform) VALUES(?,?,?,?)"
-        cursor.execute(sql, (id_info.get("name"), id_info.get("email"), id_info.get("sub"), "google"))
-        conn.commit()
+        print ("***********************************************************")
+        print (id_info.get("name"), id_info.get("email"), id_info.get("sub"), "google")
 
         return redirect("/")
     else:
@@ -97,10 +97,12 @@ def logout():
 @app.route("/")
 def index():
     if "google_id" in session:
-        return render_template('index.html', logged_in=True, username=session['name'])
+        return  redirect("http://localhost:3001/")
+        # return render_template('index.tsx', logged_in=True, username=session['name'])
     # return "Hello World <a href='/login'><button>Login</button></a>"
     else:
-        return render_template('index.html', logged_in=False)
+        return  redirect("http://localhost:3001/")
+        # return render_template('index.tsx', logged_in=False)
 
 @app.route("/register")
 def register_page():
@@ -136,21 +138,9 @@ def login_callback():
         request=token_request,
         audience=GOOGLE_CLIENT_ID
     )
-    conn  =  sqlite3.connect('users.sqlite3')
-    cursor = conn.cursor()
-
-    sql = "SELECT * FROM users WHERE user_oauth_id == ?"
-    cursor.execute(sql, (id_info.get("sub"),))
-    row = cursor.fetchall()
-    if row:
-        session["google_id"] = id_info.get("sub")
-        session["name"] = id_info.get("name")
-        session["email"] = id_info.get("email")
-        # return render_template('index.html', logged_in=True, username=session['name'])
-        return redirect('/')
-
-    else:
-        return redirect('/register')
+    print(id_info.get("sub"), id_info.get("name"),  id_info.get("email"))
+    return redirect('/')
+    # return redirect('/register')
 
 
 # get top requested evaluations of the system

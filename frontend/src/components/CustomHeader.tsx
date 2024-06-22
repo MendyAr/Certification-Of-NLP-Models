@@ -135,7 +135,7 @@ export default function CustomHeader() {
             <br></br>)}
 
 
-            {user ? (
+            {/* {user ? (
                 <Button icon={<GoogleOutlined />}
                     style={{ backgroundColor: "transparent", color: "white" }} onClick={handleLogout}>Logout
                 </Button>
@@ -143,7 +143,7 @@ export default function CustomHeader() {
                 <Button icon={<GoogleOutlined />}
                     style={{ backgroundColor: "transparent", color: "white" }} onClick={() => login()}>Login with Google
                 </Button>
-            )}
+            )} */}
 
             {user ? (
                 <Button icon={<GoogleOutlined />}
@@ -155,11 +155,6 @@ export default function CustomHeader() {
                 </Button>
             )}
 
-            {/* <div style={{ padding: '20px' }}>
-                <GoogleLogin1 loggedIn={loggedIn} username={username} />
-                <GoogleLogin2 />
-            </div> */}
-
             <Switch
                 unCheckedChildren={<MoonFilled />}
                 checkedChildren={<SunFilled />}
@@ -168,8 +163,6 @@ export default function CustomHeader() {
                 style={{ backgroundColor: getSwitchBackgroundColor(isLight) }}
             />
 
-
-            
             <GoogleLoginModal
                         isVisible={isModalVisible}
                         onClose={handleModalClose}
