@@ -124,6 +124,7 @@ class Scheduler:
         self.cache_manager.add_to_queue(next_eval_req[0].model)
         for req in next_eval_req:
             result_val = self.eval_engine.run_eval_request(req)
+            # check of each user and send emails
         self.cache_manager.check_and_update_cache()
         self.remove_next_request(user_or_agent)
         return True
