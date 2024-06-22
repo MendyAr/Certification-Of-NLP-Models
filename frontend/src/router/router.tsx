@@ -9,7 +9,7 @@ import MyProjects from "../pages/MyProjectsPage";
 import Project from "../pages/projectPage";
 import AddNewEvaluationRequest from "../pages/AddNewEvaluationRequestPage";
 import AddNewProject from "../pages/AddNewProjectPage";
-
+import React from 'react';
 
 export default function Root() {
     const {

@@ -23,13 +23,18 @@ import { useState } from "react";
 import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { selectToken, setToken } from "../redux/slices/authSlice";
+import React from 'react';
+import GoogleLogin1 from '../pages/GoogleLogin1';
+import GoogleLogin2 from '../pages/GoogleLogin2';
+import GoogleLoginModal from "../pages/GoogleLogin1";
 
 function getSwitchBackgroundColor(isLight: boolean) {
     return isLight ? "#dcb92b" : "#4469cb";
 }
 
 export default function CustomHeader() {
-    const serverUrl = "http://127.0.0.1:5001"
+    const serverUrl = "http://127.0.0.1:3000"
+    const { loggedIn, username } = useSelector((state: RootState) => state.user);
     const { isLight } = useSelector((state: RootState) => state.theme);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -87,6 +92,16 @@ export default function CustomHeader() {
     }
     };
 
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleLoginClick = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleModalClose = () => {
+        setIsModalVisible(false);
+    };
+
 
     return (
         <Flex style={{ width: "100%" }} align="center" gap={8}>
@@ -130,6 +145,21 @@ export default function CustomHeader() {
                 </Button>
             )}
 
+            {user ? (
+                <Button icon={<GoogleOutlined />}
+                    style={{ backgroundColor: "transparent", color: "white" }} onClick={handleLogout}>Logout2
+                </Button>
+            ) : (
+                <Button icon={<GoogleOutlined />}
+                    style={{ backgroundColor: "transparent", color: "white" }} onClick={handleLoginClick}>Login with Google2
+                </Button>
+            )}
+
+            {/* <div style={{ padding: '20px' }}>
+                <GoogleLogin1 loggedIn={loggedIn} username={username} />
+                <GoogleLogin2 />
+            </div> */}
+
             <Switch
                 unCheckedChildren={<MoonFilled />}
                 checkedChildren={<SunFilled />}
@@ -137,6 +167,16 @@ export default function CustomHeader() {
                 onChange={(checked) => dispatch(setTheme(checked))}
                 style={{ backgroundColor: getSwitchBackgroundColor(isLight) }}
             />
+
+
+            
+            <GoogleLoginModal
+                        isVisible={isModalVisible}
+                        onClose={handleModalClose}
+                        loggedIn={false}
+                        username={null}
+                        />
+
         </Flex>
     );
 }

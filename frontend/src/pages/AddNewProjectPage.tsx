@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const AddNewProject = () => {
     const token = useSelector((state: RootState) => state.auth.token);
-    const serverUrl = "http://127.0.0.1:5001"
+    const serverUrl = "http://127.0.0.1:3000"
     const navigate = useNavigate();
     const [projectName, setProjectName] = useState("");
     const handleProjectNameChange = (e: ChangeEvent<HTMLInputElement>) => {

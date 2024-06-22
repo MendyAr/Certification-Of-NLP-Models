@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 export default function TopRequestsTable() {
     const token = useSelector((state: RootState) => state.auth.token);
-    const serverUrl = "http://127.0.0.1:5001"
+    const serverUrl = "http://127.0.0.1:3000"
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true); // Ensure loading state is defined
 

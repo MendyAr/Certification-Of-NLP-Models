@@ -1,10 +1,8 @@
-from flask import Flask, jsonify, request
-from google.auth.transport import requests
+from flask import jsonify
 from flask_cors import CORS
 import threading
-import json
 import os
-
+import json 
 import pathlib
 import requests
 from flask import Flask, session, abort, redirect, request, render_template
@@ -13,7 +11,6 @@ from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
 import google.auth.transport.requests
 from dotenv import load_dotenv
-
 
 import sys
 # Define the global path variable for the project root directory (backend directory)
@@ -26,16 +23,12 @@ from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
 
 
-app = Flask("Certifications-of-NLP")
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY_2')
+app = Flask(__name__, static_folder = '../../frontend/src', template_folder = '../../frontend/src')
+# app = Flask("Certifications-of-NLP")
+app.config['SECRET_KEY'] = "sfdsdfsdfsssf"
 CORS(app)
 
-# configure google auto sign parameters
-with open('GoogleAutoSignInfo.json', 'r') as file:
-    data = json.load(file)["web"]
-GOOGLE_CLIENT_ID = data["client_id"]
-
-# client_id= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
 # GOOGLE_CLIENT_ID = os.environ.get("CLIENT_ID")
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
@@ -54,7 +47,7 @@ flow2 = Flow.from_client_secrets_file(
 
 service = Service()
 
-@app.route('/googlelogin')
+@app.route('/googlelogin', methods=['GET'])
 def google_login():
     authorization_url, state = flow.authorization_url()
     session["state"] = state
@@ -109,13 +102,13 @@ def index():
     else:
         return render_template('index.html', logged_in=False)
 
-    @app.route("/register")
-    def register_page():
-        return redirect("/")
+@app.route("/register")
+def register_page():
+    return redirect("/")
 
-    @app.route('/signin')
-    def sign_in():
-        return render_template('signin.html')
+@app.route('/signin')
+def sign_in():
+    return render_template('signin.html')
 
 @app.route('/googlelogin_callback')
 def google_login_callback():
