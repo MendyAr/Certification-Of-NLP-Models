@@ -14,8 +14,8 @@ class Service:
         self.storage = Storage2.get_instance()
         self.hf_api = HuggingFaceAPI()
 
-    def get_top_evaluations(self):
-        results = self.storage.get_top_evals(10)
+    def get_top_evaluations(self, number_of_results=10):
+        results = self.storage.get_top_evals(number_of_results)
         top = []
         for r in results:
             dic = {"model": r.request.model.name,
