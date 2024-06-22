@@ -12,8 +12,20 @@ class Service:
         self.user_handler = UserHandler()
         self.storage = Storage2.get_instance()
 
-    def get_top_evaluations(self):
-        results = self.storage.get_top_evals(10)
+    def create_user(self, user_id):
+        try:
+            self.storage.create_user(user_id)
+        except:
+            print("User already exists")
+
+    def add_eval_request_to_scheduler(self, user_id, eval_request : Request):
+        self.user_handler.add_eval_request_to_scheduler(user_id, eval_request)
+
+    def get_number_of_evals(self):
+        return self.storage.get_number_of_evals()
+
+    def get_top_evaluations(self,number_of_evals = 10):
+        results = self.storage.get_top_evals(number_of_evals)
         top = []
         for r in results:
             dic = {"model": r.request.model.name,
@@ -22,14 +34,8 @@ class Service:
             top.append(dic)
         return top
 
-    def get_token(self, user_id):
-        pass
-
-    def remove_token(self, token):
-        pass
-
     def get_questionnaires(self):
-        return self.__get_available_questionnaires()
+        return self.get_available_questionnaires()
 
     def get_projects_name(self, user_id):
         return self.user_handler.get_projects_name(user_id)
@@ -55,7 +61,7 @@ class Service:
         self.__validate_project_name_format(project_name)
         self.__validate_questionnaire_name(new_questionnaire)
         self.user_handler.add_questionnaires(user_id, project_name, Questionnaire(new_questionnaire))
-
+    
     def delete_project(self, user_id, project_name):
         self.__validate_project_name_format(project_name)
         return self.user_handler.delete_project(user_id, project_name)
@@ -80,5 +86,6 @@ class Service:
         pass
 
     # returning a list of the supported questionnaires from the questionnaires module
-    def __get_available_questionnaires(self):
+    def get_available_questionnaires(self):
         return ["asi", "big5"]
+

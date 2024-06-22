@@ -134,6 +134,9 @@ class Storage2:
             Storage2._instance = Storage2()
         return Storage2._instance
 
+    def get_number_of_evals(self):
+        return self.session.query(Result_db).filter_by(result_score=None).count()
+
     def get_top_evals(self, number_of_results=10):
         top_results_db = (
             self.session.query(Result_db)
@@ -278,19 +281,11 @@ class Storage2:
         if not user_db:
             raise ValueError(f"No user found with user_id: {user_id}")
         return self.User_db_2_User(user_db)
-    
-    def create_user(self, user_id):
-        existing_user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
-        if existing_user:
-            raise ValueError(f"User with user_id {user_id} already exists")
-        new_user = User_db(user_id=user_id)
-        self.session.add(new_user)
-        self.session.commit()
 
     def check_if_has_result_2_eval(self, request: Request):
         result_dbs = self.session.query(Result_db).filter(
-            Result_db.request_model_name == request.model.name,
-            Result_db.request_questionnaire_name == request.questionnaire.name,
+            Result_db.request_model_name == request.model,
+            Result_db.request_questionnaire_name == request.questionnaire,
             Result_db.end_time != None
         ).order_by(Result_db.start_time.desc()).limit(1).all()
         
@@ -347,8 +342,8 @@ class Storage2:
 
     def Result_2_Result_db(self, result: Result):
         r_db = Result_db(
-            request_model_name=result.request.model.name,
-            request_questionnaire_name=result.request.questionnaire.name,
+            request_model_name=result.request.model,
+            request_questionnaire_name=result.request.questionnaire,
             start_time=result.start_time,
             result_score=result.result_score,
             end_time=result.end_time
@@ -499,8 +494,8 @@ class Storage2:
 
     def update_result_in_db(self, result: Result):
         existing_result_db = self.session.query(Result_db).filter(
-            Result_db.request_model_name == result.request.model.name,
-            Result_db.request_questionnaire_name == result.request.questionnaire.name,
+            Result_db.request_model_name == result.request.model,
+            Result_db.request_questionnaire_name == result.request.questionnaire,
             Result_db.start_time == result.start_time
         ).first()
         
@@ -615,10 +610,8 @@ class Storage2:
         self.session.commit()
 
     def read_user(self, user_id):
-        # user_db = self.session.query(User_db).filter(User_db.user_id == user_id).first()
-        # if not user_db:
-        #     return None
-        # return self.User_db_2_User(user_db)
+        if not isinstance(user_id, str):
+            raise ValueError("user_id must be a string")
         user_db = (
             self.session.query(User_db)
             .options(

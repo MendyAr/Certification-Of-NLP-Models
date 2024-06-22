@@ -38,6 +38,9 @@ relative_cache_directory = "models"
 models_cache = r"C:\Users\shiru\.cache\huggingface\hub"
 models_cache_hub_create = r"C:\Users\shiru\.cache\huggingface"
 
+models_cache = r"C:\Users\drort\.cache\huggingface\hub"
+models_cache_hub_create = r"C:\Users\drort\.cache\huggingface"
+
 mnli_models_names_array = [
                   'typeform/distilbert-base-uncased-mnli',
                   'ishan/distilbert-base-uncased-mnli',
