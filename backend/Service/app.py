@@ -2,7 +2,6 @@ from flask import jsonify
 from google.auth.transport import requests
 from flask_cors import CORS
 import threading
-import json
 import os
 
 import pathlib
@@ -27,10 +26,11 @@ from Evaluation.Scheduler import Scheduler
 
 
 app = Flask("Certifications-of-NLP")
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY_2')
-CORS(app)
+# app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY_50')
+app.config['SECRET_KEY'] = "dadhaisdaisdiluagdilualaudl"
+# CORS(app)
 
-client_id= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
+GOOGLE_CLIENT_ID= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
 # GOOGLE_CLIENT_ID = os.environ.get("CLIENT_ID")
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
@@ -256,7 +256,6 @@ def add_model():
         response.status_code = 200
         return response
     except Exception as e:
-        print("ERRRROR:", e)
         response = jsonify({"error": e})
         response.status_code = 500
         return response
@@ -290,7 +289,6 @@ def delete_project():
         response.status_code = 200
         return response
     except Exception as e:
-        print("ERRRROR:", e)
         response = jsonify({"error": e})
         response.status_code = 500
         return response
@@ -308,7 +306,6 @@ def delete_model():
         response.status_code = 200
         return response
     except Exception as e:
-        print("ERRRROR:", e)
         response = jsonify({"error": e})
         response.status_code = 500
         return response
