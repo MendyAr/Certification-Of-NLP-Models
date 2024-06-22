@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import jsonify
 from google.auth.transport import requests
 from flask_cors import CORS
 import threading
@@ -30,12 +30,7 @@ app = Flask("Certifications-of-NLP")
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY_2')
 CORS(app)
 
-# configure google auto sign parameters
-with open('GoogleAutoSignInfo.json', 'r') as file:
-    data = json.load(file)["web"]
-GOOGLE_CLIENT_ID = data["client_id"]
-
-# client_id= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
+client_id= "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com"
 # GOOGLE_CLIENT_ID = os.environ.get("CLIENT_ID")
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
@@ -80,13 +75,14 @@ def callback():
             audience=GOOGLE_CLIENT_ID
         )
 
-        conn = sqlite3.connect('users.sqlite3')
-        cursor = conn.cursor()
-        print(id_info)
-        print("landmark")
-        sql = "INSERT INTO users(username, user_email, user_oauth_id, user_oauth_platform) VALUES(?,?,?,?)"
-        cursor.execute(sql, (id_info.get("name"), id_info.get("email"), id_info.get("sub"), "google"))
-        conn.commit()
+        print("user added")
+        # conn = sqlite3.connect('users.sqlite3')
+        # cursor = conn.cursor()
+        # print(id_info)
+        # print("landmark")
+        # sql = "INSERT INTO users(username, user_email, user_oauth_id, user_oauth_platform) VALUES(?,?,?,?)"
+        # cursor.execute(sql, (id_info.get("name"), id_info.get("email"), id_info.get("sub"), "google"))
+        # conn.commit()
 
         return redirect("/")
     else:
@@ -143,13 +139,11 @@ def login_callback():
         request=token_request,
         audience=GOOGLE_CLIENT_ID
     )
-    conn  =  sqlite3.connect('users.sqlite3')
-    cursor = conn.cursor()
 
-    sql = "SELECT * FROM users WHERE user_oauth_id == ?"
-    cursor.execute(sql, (id_info.get("sub"),))
-    row = cursor.fetchall()
-    if row:
+    # sql = "SELECT * FROM users WHERE user_oauth_id == ?"
+    # cursor.execute(sql, (id_info.get("sub"),))
+    # row = cursor.fetchall()
+    if True: #if row
         session["google_id"] = id_info.get("sub")
         session["name"] = id_info.get("name")
         session["email"] = id_info.get("email")
