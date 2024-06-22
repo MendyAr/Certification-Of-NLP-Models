@@ -2,7 +2,7 @@ import os
 
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, Table, ForeignKeyConstraint
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker,joinedload
+from sqlalchemy.orm import relationship, sessionmaker,joinedload, subqueryload
 from datetime import datetime, timedelta
 import random
 from DataObjects.Request import Questionnaire, Model, Request
@@ -151,6 +151,28 @@ class Storage2:
         top_results = []
         for result_db in top_results_db:
             try:
+                if result_db.request is None:
+                    request_db = self.session.query(Request_db).filter_by(
+                        model_name=result_db.request_model_name,
+                        questionnaire_name=result_db.request_questionnaire_name
+                    ).first()
+                    if request_db is None:
+                        model_db = self.session.query(Model_db).filter_by(name=result_db.request_model_name).first()
+                        if model_db is None:
+                            model_db = Model_db(name=result_db.request_model_name)
+                            self.session.add(model_db)
+                            self.session.commit()
+                        questionnaire_db = self.session.query(Questionnaire_db).filter_by(name=result_db.request_questionnaire_name).first()
+                        if questionnaire_db is None:
+                            questionnaire_db = Questionnaire_db(name=result_db.request_questionnaire_name)
+                            self.session.add(questionnaire_db)
+                            self.session.commit()
+                        request_db = Request_db(model_name=model_db.name, questionnaire_name=questionnaire_db.name)
+                        self.session.add(request_db)
+                        self.session.commit()
+                    result_db.request = request_db
+                    self.session.commit()
+                # result_db.request is not None now!
                 result = self.Result_db_2_Result(result_db)
                 top_results.append(result)
             except ValueError as e:
