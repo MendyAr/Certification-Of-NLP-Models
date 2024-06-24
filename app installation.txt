@@ -1,6 +1,3 @@
-using vs. code,
-(download node. js)
-
 on windows running the server locally:
 Set-ExecutionPolicy Unrestricted
 A
@@ -14,22 +11,9 @@ npm install node
 npm start
 
 backend terminal:
-cd backend
-pip install flask
-pip install Flask-Cors
-pip install sqlalchemy
-pip install torch
-pip install pandas
-pip install scikit-learn
-pip install IPython
-pip install overrides
-pip install typeguard
-pip install transformers
-pip install seaborn
-pip install --upgrade google-auth
-
 python -m venv venv 
 venv\Scripts\activate
+cd backend
 python Service\app.py
 
 
