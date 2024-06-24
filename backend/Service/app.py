@@ -68,7 +68,7 @@ def login():
 def logout():
     response = None
     try:
-        token = request.json.get('token')
+        token = request.headers.get('Authorization')
         if token not in tokens:
             raise BadRequestException("Can not logout when not logged in")
         else:

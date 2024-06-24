@@ -13,15 +13,20 @@ class Service:
         self.user_handler = UserHandler()
         self.storage = Storage2.get_instance()
         self.hf_api = HuggingFaceAPI()
+        self.users = {}
 
     def register(self, email, password):
-        if self.storage.has_user_name(email):
+        # if self.storage.has_user_name(email):
+        if email in self.users:
             raise BadRequestException("Already registered, please login")
-        self.storage.create_user(email, password)
+        self.users[email] = password
+        # self.storage.create_user(email, password)
 
     def login(self, email, password):
-        if not self.storage.has_user(email, password):
-            raise BadRequestException("Invalid email or password")
+        # if not self.storage.has_user(email, password):
+        if email in self.users and self.users[email] == password:
+            return
+        raise BadRequestException("Invalid email or password")
 
     def get_top_evaluations(self, number_of_results=10):
         results = self.storage.get_top_evals(number_of_results)
