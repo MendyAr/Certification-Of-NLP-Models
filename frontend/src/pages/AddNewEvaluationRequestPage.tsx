@@ -109,10 +109,9 @@ const deleteQuestionnaireAction = async () => {
                     {
                         params: {
                             project: projectName,
-                            email: "user1@example.com",
                         },
                         headers: {
-                            Authorization: `Bearer ${token}`, 
+                            Authorization: `Bearer ${token}` 
                         },
                     }
                 );
@@ -129,11 +128,7 @@ const deleteQuestionnaireAction = async () => {
     const getAllQuestionnaires = () => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${serverUrl}/get-all-ques`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Add the token to the request headers
-                    },
-                });
+                const response = await axios.get(`${serverUrl}/get-all-ques`);
                 console.log("Response data:", response.data); // Debugging line
                 setAllQues(response.data.questionnaires);
             } catch (error) {
@@ -149,10 +144,9 @@ const deleteQuestionnaireAction = async () => {
             {
                 params: {
                     project: projectName,
-                    email: "user1@example.com",
                 },
                 headers: {
-                    Authorization: `Bearer ${token}`, // Add the token to the request headers
+                    Authorization: `Bearer ${token}` // Add the token to the request headers
                 },
             }
         );   
@@ -168,10 +162,9 @@ const deleteQuestionnaireAction = async () => {
             const response = await axios.post(`${serverUrl}/add-model`, { name: modelName, url: modelUrl }, 
             {params: {
                         project: projectName,
-                        email: "user1@example.com",
                     },
                     headers: {
-                        Authorization: `Bearer ${token}`, // Add the token to the request headers
+                        Authorization: `Bearer ${token}` // Add the token to the request headers
                     },
                 });
             console.log("Add model response:", response.data); // Debugging line
@@ -187,11 +180,10 @@ const deleteModel = async (modelNameToDelete: string) => {
         const response = await axios.delete(`${serverUrl}/delete-model`, {
             params: {
                 project: projectName,
-                email: "user1@example.com",
                 modelName: modelNameToDelete,
             },
             headers: {
-                Authorization: `Bearer ${token}`, // Add the token to the request headers
+                Authorization: `Bearer ${token}` // Add the token to the request headers
             },
         });
         console.log("Delete model response:", response.data); // Debugging line
@@ -208,11 +200,10 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
         const response = await axios.delete(`${serverUrl}/delete-ques`, {
             params: {
                 project: projectName,
-                email: "user1@example.com",
                 questionnaire: questionnaireToDelete,
             },
             headers: {
-                Authorization: `Bearer ${token}`, // Add the token to the request headers
+                Authorization: `Bearer ${token}` // Add the token to the request headers
             },
         });
         console.log("Delete questionnaire response:", response.data); // Debugging line
