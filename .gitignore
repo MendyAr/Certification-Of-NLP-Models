@@ -1,5 +1,3 @@
-/backend/venv/
-
-/backend/Storage/storage.db
-
-/venv
+!/backend/venv/
+!/venv/
+!/backend/Storage/storage.db
