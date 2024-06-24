@@ -10,9 +10,9 @@ from DataObjects.Result import Result
 from DataObjects.User_Request import UserRequest
 from Users.Project import Project
 import sys
-module_name = 'Users.User'
-if module_name not in sys.modules:
-    from Users.User import User
+# module_name = 'Users.User'
+# if module_name not in sys.modules:
+#     from Users.User import User
 
 
 from datetime import datetime, timedelta

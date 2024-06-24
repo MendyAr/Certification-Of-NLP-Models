@@ -1,9 +1,6 @@
 from flask import Flask, jsonify, request
-from google.oauth2 import id_token
-from google.auth.transport import requests
 from flask_cors import CORS
 import threading
-import json
 import os
 import sys
 
@@ -17,11 +14,6 @@ from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
 # from Evaluation.Scheduler import run_test_error_same_model_different_project_or_user
 from DataObjects.BadRequestException import BadRequestException
-
-# configure google auto sign parameters
-with open('GoogleAutoSignInfo.json', 'r') as file:
-    data = json.load(file)["web"]
-client_id = data["client_id"]
 
 # configure flask
 app = Flask(__name__)
@@ -50,19 +42,12 @@ def get_top_evaluations():
 
 
 @app.route('/login', methods=['POST'])
-def google_login():
+def login():
     response = None
     try:
         access_code = request.json.get('id_token')
         # user_id = verify_google_id_token_and_get_user_id(access_code)
-        user_id = 1 # check back and create one if token is good
-        if user_id == 1:
-            # do nothigs in back?
-            pass
-        else:
-            # no use like that so create one
-            service.create_user(user_id)
-        user_id = 123
+        user_id = 1  # check back and create one if token is good
         response = jsonify({"message": "login successfully", "user_id": user_id})
         response.status_code = 200
     except BadRequestException as e:
@@ -76,7 +61,7 @@ def google_login():
 
 
 @app.route('/logout', methods=['POST'])
-def google_logout():
+def logout():
     response = None
     try:
         response = jsonify({"message": "logout successfully"})
@@ -292,16 +277,6 @@ def delete_questionnaire():
         return response
 
 
-def verify_google_id_token_and_get_user_id(access_code):
-    if access_code is None:
-        raise BadRequestException("missing access code", 401)
-    # Verify the token with Google OAuth 2.0 server
-    id_info = id_token.verify_oauth2_token(access_code, requests.Request(), client_id)
-    # Extract user ID
-    user_id = id_info['sub']
-    return user_id
-
-
 def start_eval_thread():
     scheduler = Scheduler.get_instance()
     thread = threading.Thread(target=scheduler.run_eval_thread)
@@ -313,11 +288,5 @@ def main():
     app.run(debug=False, port=5001)
 
 
-# def test_main():
-#     scheduler = Scheduler.get_instance()
-#     run_test_error_same_model_different_project_or_user()
-#     pass
-
 if __name__ == '__main__':
     main()
-    # test_main()
