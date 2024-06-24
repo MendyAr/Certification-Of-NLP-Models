@@ -1,6 +1,7 @@
 import { Flex } from "antd";
 import MainTitle from "./MainTitle";
 import TopRequestsTable from "./TopRequestsTable";
+import React from 'react';
 
 export default function HomePage() {
     return (
