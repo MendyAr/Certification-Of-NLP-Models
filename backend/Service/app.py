@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+import jwt
+import datetime
 import threading
 import os
 import sys
@@ -12,24 +14,25 @@ sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
-# from Evaluation.Scheduler import run_test_error_same_model_different_project_or_user
 from DataObjects.BadRequestException import BadRequestException
 
 # configure flask
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 CORS(app)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 service = Service()
+tokens = {}  # Dictionary to store JWT tokens indexed by email
 
 
-# get top requested evaluations of the system
-@app.route('/top-requests', methods=['GET'])
-def get_top_evaluations():
+@app.route('/register', methods=['POST'])
+def register():
     response = None
     try:
-        top_evals = service.get_top_evaluations()
-        response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
+        email = request.json.get('email')
+        password = request.json.get('password')
+        service.register(email, password)
+        response = jsonify({"message": "registered successfully"})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
@@ -45,10 +48,11 @@ def get_top_evaluations():
 def login():
     response = None
     try:
-        access_code = request.json.get('id_token')
-        # user_id = verify_google_id_token_and_get_user_id(access_code)
-        user_id = 1  # check back and create one if token is good
-        response = jsonify({"message": "login successfully", "user_id": user_id})
+        email = request.json.get('email')
+        password = request.json.get('password')
+        service.login(email, password)
+        token = encode_token(email)
+        response = jsonify({"message": "logged in successfully", "token": token})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
@@ -64,7 +68,30 @@ def login():
 def logout():
     response = None
     try:
+        token = request.json.get('token')
+        if token not in tokens:
+            raise BadRequestException("Can not logout when not logged in")
+        else:
+            del tokens[token]
         response = jsonify({"message": "logout successfully"})
+        response.status_code = 200
+    except BadRequestException as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = e.error_code
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = 500
+    finally:
+        return response
+
+
+# get top requested evaluations of the system
+@app.route('/top-requests', methods=['GET'])
+def get_top_evaluations():
+    response = None
+    try:
+        top_evals = service.get_top_evaluations()
+        response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
@@ -99,7 +126,8 @@ def get_questionnaires():
 def get_projects_name():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         projects = service.get_projects_name(user_id)
         response = jsonify({"message": "got projects name successfully", "projects": projects})
         response.status_code = 200
@@ -118,7 +146,8 @@ def get_projects_name():
 def get_project_info():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         projects = service.get_project_info(user_id, project_name)
         response = jsonify({"message": "got project info successfully", "projects": projects})
@@ -138,7 +167,8 @@ def get_project_info():
 def get_project_evaluations():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         projects_evals = service.get_project_evaluations(user_id, project_name)
         response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
@@ -158,7 +188,8 @@ def get_project_evaluations():
 def add_project():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.json.get('name')
         service.add_project(user_id, project_name)
         response = jsonify({"message": "Project added successfully", "project": project_name})
@@ -178,7 +209,8 @@ def add_project():
 def add_model():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         new_model = request.json.get('name')
         service.add_model(user_id, project_name, new_model)
@@ -199,7 +231,8 @@ def add_model():
 def add_questionnaire():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         new_ques = request.json.get('ques')
         service.add_questionnaire(user_id, project_name, new_ques)
@@ -220,7 +253,8 @@ def add_questionnaire():
 def delete_project():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         service.delete_project(user_id, project_name)
         response = jsonify({"message": "Project deleted successfully", "project": project_name})
@@ -240,7 +274,8 @@ def delete_project():
 def delete_model():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         model = request.json.get('model_name')
         service.delete_model(user_id, project_name, model)
@@ -261,7 +296,8 @@ def delete_model():
 def delete_questionnaire():
     response = None
     try:
-        user_id = request.headers.get('Authorization')[7:]
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         ques = request.json.get('questionnaire')
         service.delete_questionnaire(user_id, project_name, ques)
@@ -275,6 +311,29 @@ def delete_questionnaire():
         response.status_code = 500
     finally:
         return response
+
+
+# Encodes an email address into a JWT token with a 1-hour expiration time.
+def encode_token(email):
+    # Set payload with email and expiration time (1 hour from now)
+    payload = {
+        'email': email,
+        'exp': datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=1)
+    }
+    # Encode the token using HS256 algorithm and secret key
+    encoded_token = jwt.encode(payload, os.environ.get('SECRET_KEY'), algorithm="HS256")
+    return encoded_token
+
+
+#  Decodes a JWT token, checks expiration, and extracts the email address
+def decode_token_and_get_email(token):
+    # Decode the token using HS256 algorithm and secret key
+    decoded_token = jwt.decode(token, os.environ.get('SECRET_KEY'), algorithms=["HS256"])
+    # Verify the token expiration
+    if decoded_token['exp'] < datetime.datetime.now(datetime.UTC).timestamp():
+        raise BadRequestException("Token expired, please login again")
+    email = decoded_token['email']
+    return email
 
 
 def start_eval_thread():
