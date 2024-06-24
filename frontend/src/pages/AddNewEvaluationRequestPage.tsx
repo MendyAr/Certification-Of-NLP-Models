@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { Checkbox, Col, Row, Button, Input, Form, Modal, Select, Flex } from "antd";
+import { Button, Input, Form, Modal, Select, Flex } from "antd";
 import MainTitle from "./MainTitle";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import axios from "axios";
@@ -9,10 +9,6 @@ import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 
 const { Option } = Select;
-
-const onChange = (checkedValues: CheckboxValueType[]) => {
-    console.log("checked = ", checkedValues);
-};
 
 const AddNewEvaluationRequest = () => {
     const token = useSelector((state: RootState) => state.auth.token);
@@ -83,9 +79,6 @@ const deleteQuestionnaireAction = async () => {
     const handleQuestionnaireCancel = () => {
         setIsQuestionnaireModalVisible(false);
         setSelectedQuestionnaire("");
-    };
-    const handleModelUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setModelUrl(e.target.value);
     };
     const handleModelNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         setModelName(e.target.value);
