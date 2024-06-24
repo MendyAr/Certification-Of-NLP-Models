@@ -18,11 +18,8 @@ export default function MyProjects() {
         const fetchProjects = async () => {
             try {
                 const response = await axios.get(`${serverUrl}/get-projects`, {
-                    params: {
-                        email: "user1@example.com"  // Replace with dynamic email if needed
-                    },
                     headers: {
-                        Authorization: `Bearer ${token}`, // Add the token to the request headers
+                        Authorization: `Bearer ${token}` // Add the token to the request headers
                     },
                 });
                 console.log("Projects response data:", response.data); // Debugging line
@@ -60,7 +57,7 @@ export default function MyProjects() {
                     project: projectNameToDelete,
                 },
                 headers: {
-                    Authorization: `Bearer ${token}`, // Add the token to the request headers
+                    Authorization: `Bearer ${token}` // Add the token to the request headers
                 },
             });
             console.log("Delete project response:", response.data); // Debugging line

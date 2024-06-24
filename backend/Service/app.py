@@ -23,23 +23,46 @@ CORS(app)
 service = Service()
 
 
-# get top requested evaluations of the system
-@app.route('/top-requests', methods=['GET'])
-def get_top_evaluations():
-    response = None
-    try:
-        top_evals = service.get_top_evaluations()
-        response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
-        response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
-    except Exception as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = 500
-    finally:
-        return response
+# # get top requested evaluations of the system
+# @app.route('/top-requests', methods=['GET'])
+# def get_top_evaluations():
+#     response = None
+#     try:
+#         top_evals = service.get_top_evaluations()
+#         response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
+#         response.status_code = 200
+#     except BadRequestException as e:
+#         response = jsonify({"error": str(e)})
+#         response.status_code = e.error_code
+#     except Exception as e:
+#         response = jsonify({"error": str(e)})
+#         response.status_code = 500
+#     finally:
+#         return response
 
+##################################
+# TODO: need a function that returning top evaluation request with results.
+data2 = [
+    {
+        "model": "NLP1",
+        "questionnaire": "ASI",
+        "result": "0.8",
+    },
+    {
+        "model": "NLP2",
+        "questionnaire": "BIG5",
+        "result": "0.56",
+    },
+    {
+        "model": "NLP3",
+        "questionnaire": "ASI",
+        "result": "0.9",
+    },
+]
+@app.route('/top-requests', methods=['GET'])
+def get_top_requests():
+    return jsonify(data2)
+#######################################
 
 @app.route('/login', methods=['POST'])
 def login():

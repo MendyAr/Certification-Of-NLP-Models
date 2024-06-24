@@ -19,10 +19,9 @@ export default function EvalRequestsTable() {
                     {
                         params: {
                             project: projectName,
-                            email: "user1@example.com",
                         },
                         headers: {
-                            Authorization: `Bearer ${token}`, // Add the token to the request headers
+                            Authorization: `Bearer ${token}` // Add the token to the request headers
                         },
                     }
                 );
