@@ -5,10 +5,10 @@ import React from 'react';
 import { RootState } from "../redux/store";
 import { setTheme } from "../redux/slices/ThemeSlice";
 import { MenuItem } from "../utils/Types";
-import { getMenuItem } from "../utils/Utils";
+// import { getMenuItem } from "../utils/Utils";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
+// import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { selectToken, setToken } from "../redux/slices/authSlice";
 import Modal from "antd/es/modal/Modal";
@@ -99,7 +99,6 @@ export default function CustomHeader() {
             const response = await axios.post(`${serverUrl}/login`, values);
             dispatch(setToken(response.data.token));
             // setUser(response.data.user_id);
-            dispatch(setToken(response.data.token));
             setIsLoginVisible(false);
             alert('Login Successful');
         } catch (error) {
@@ -110,7 +109,7 @@ export default function CustomHeader() {
 
     const handleRegister = async (values: any) => {
         try {
-            const response = await axios.post(`${serverUrl}/register`, values);
+            await axios.post(`${serverUrl}/register`, values);
             setIsRegisterVisible(false);
             alert('Registration Successful');
         } catch (error) {
@@ -129,7 +128,6 @@ export default function CustomHeader() {
             });
             dispatch(setToken(null));
             // setUser(null);
-            dispatch(setToken(null));
             alert('Logout Successful');
         } catch (error) {
             console.error('Error logging out', error);

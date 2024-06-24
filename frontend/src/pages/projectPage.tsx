@@ -1,12 +1,9 @@
 import { Button, Flex } from "antd";
 import MainTitle from "./MainTitle";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
+import { useNavigate, useParams } from "react-router-dom";
 import React from 'react';
 
 export default function Project() {
-    const token = useSelector((state: RootState) => state.auth.token);
     const navigate = useNavigate();
     const { projectName } = useParams();
 
