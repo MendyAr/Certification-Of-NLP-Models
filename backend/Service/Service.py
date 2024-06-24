@@ -14,6 +14,15 @@ class Service:
         self.storage = Storage2.get_instance()
         self.hf_api = HuggingFaceAPI()
 
+    def register(self, email, password):
+        if self.storage.has_user_name(email):
+            raise BadRequestException("Already registered, please login")
+        self.storage.create_user(email, password)
+
+    def login(self, email, password):
+        if not self.storage.has_user(email, password):
+            raise BadRequestException("Invalid email or password")
+
     def get_top_evaluations(self, number_of_results=10):
         results = self.storage.get_top_evals(number_of_results)
         top = []
@@ -66,7 +75,7 @@ class Service:
 
     def __validate_project_name_format(self, project_name):
         if project_name is None or project_name == "":
-            raise BadRequestException("Missing project name", 400)
+            raise BadRequestException("Missing project name")
 
     # check if the model is compatible for evaluation
     def __validate_model(self, model_name):
@@ -74,7 +83,7 @@ class Service:
 
     def __validate_questionnaire_name(self, questionnaire_name):
         if questionnaire_name not in self.__get_available_questionnaires():
-            raise BadRequestException(f"{questionnaire_name} not a valid questionnaire", 400)
+            raise BadRequestException(f"{questionnaire_name} not a valid questionnaire")
 
     # returning a list of the supported questionnaires from the questionnaires module
     def __get_available_questionnaires(self):
