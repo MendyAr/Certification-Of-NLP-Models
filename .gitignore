@@ -3,3 +3,4 @@
 !/backend/Storage/storage.db
 !/backend/Service/venv/
 _pycache_/
+__pycache__/
