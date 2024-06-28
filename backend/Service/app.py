@@ -12,7 +12,6 @@ sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
-# from Evaluation.Scheduler import run_test_error_same_model_different_project_or_user
 from DataObjects.BadRequestException import BadRequestException
 
 # configure flask
@@ -30,6 +29,28 @@ def get_top_evaluations():
     try:
         top_evals = service.get_top_evaluations()
         response = jsonify({"message": "got top evaluations successfully", "evals": top_evals})
+        response.status_code = 200
+    except BadRequestException as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = e.error_code
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = 500
+    finally:
+        return response
+
+
+# get a csv file with all the scores
+@app.route('/download_csv', methods=['GET'])
+def download_csv():
+    response = None
+    try:
+        csv_file = service.get_csv()
+        csv_file.seek(0)
+        response = make_response(csv_file.getvalue())
+        response.headers['Content-Disposition'] = 'attachment; filename=records.csv'
+        response.headers['Content-Type'] = 'text/csv'
+        response = jsonify({"message": "downloaded csv file successfully"})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
@@ -287,6 +308,11 @@ def main():
     start_eval_thread()
     app.run(debug=False, port=5001)
 
+
+# def test_main():
+#     scheduler = Scheduler.get_instance()
+#     run_test_error_same_model_different_project_or_user()
+#     pass
 
 if __name__ == '__main__':
     main()
