@@ -33,7 +33,7 @@ def start_eval_thread():
 def test_main():
     start_eval_thread()
     service = Service()
-    top_evals = service.get_top_evaluations()
+    top_evals = service.get_top_evaluations(100)
     users = ["tomer","rami","avihad","shir","mendi","shani","maor"]
     for user in users:
         service.create_user(user)

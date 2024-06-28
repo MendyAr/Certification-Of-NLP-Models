@@ -1,6 +1,7 @@
 import { Breadcrumb, Typography } from "antd";
 import { useMemo } from "react";
 import { useMatches, useNavigate } from "react-router-dom";
+import React from 'react';
 
 function BreadcrumbButton({ name }: { name: string }) {
   return <Typography style={{ cursor: "pointer" }}>{name}</Typography>;

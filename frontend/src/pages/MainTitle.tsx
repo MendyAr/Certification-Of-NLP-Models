@@ -1,4 +1,5 @@
 import { Flex, Typography } from "antd";
+import React from 'react';
 
 export default function MainTitle({
     title1,
