@@ -3,6 +3,8 @@ from Storage.Storage2 import *
 from DataObjects.Request import Model, Questionnaire
 from DataObjects.BadRequestException import BadRequestException
 from Service.HuggingFaceAPI import HuggingFaceAPI
+import csv
+import io
 
 
 # this class is responsible for delegating requests from app.py
@@ -23,6 +25,32 @@ class Service:
                    "result": r.result_score}
             top.append(dic)
         return top
+
+    def get_csv(self):
+        # records = self.storage.all_results()
+        records = [
+            {
+                "model": "NLP1",
+                "questionnaire": "ASI",
+                "result": "0.8",
+            },
+            {
+                "model": "NLP2",
+                "questionnaire": "BIG5",
+                "result": "0.56",
+            },
+            {
+                "model": "NLP3",
+                "questionnaire": "ASI",
+                "result": "0.9",
+            },
+        ]
+        csv_file = io.StringIO()
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(['questionnaire', 'model', 'result'])
+        for record in records:
+            csv_writer.writerow([record['questionnaire'], record['model'], record['result']])
+        return csv_file
 
     def get_questionnaires(self):
         return self.__get_available_questionnaires()
