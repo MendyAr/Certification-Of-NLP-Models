@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
+from dotenv import load_dotenv
 import jwt
 import datetime
 import threading
@@ -10,7 +11,11 @@ import sys
 GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Add the project root directory to the system path
 sys.path.insert(0, GLOBAL_PROJECT_ROOT)
-# Now you can import modules from your project using absolute imports
+# load .env.env file
+exist = load_dotenv("../../.env.env", verbose=True)
+if not exist:
+    raise FileNotFoundError(".env.env file not found")
+
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
@@ -22,7 +27,6 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 CORS(app)
 
 service = Service()
-tokens = {}  # Dictionary to store JWT tokens indexed by email
 
 
 @app.route('/register', methods=['POST'])
@@ -71,11 +75,8 @@ def logout():
     response = None
     try:
         token = request.headers.get('Authorization')
-        if token not in tokens:
-            raise BadRequestException("Can not logout when not logged in")
-        else:
-            del tokens[token]
-        response = jsonify({"message": "logout successfully"})
+        user_id = decode_token_and_get_email(token)
+        response = jsonify({"message": f"{user_id} logout successfully"})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
@@ -383,9 +384,10 @@ def main():
     start_eval_thread()
     app.run(debug=False, port=5001)
 
-
-def test_register():
-    service.register("meninian@gmail.com", "password1")
+#
+# def test_register():
+#     pass
+#
 
 if __name__ == '__main__':
     main()
