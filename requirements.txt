@@ -10,3 +10,5 @@ overrides
 typeguard
 transformers
 seaborn
+validate_email
+password-validator
