@@ -3,6 +3,8 @@ from Storage.Storage2 import *
 from DataObjects.Request import Model, Questionnaire
 from DataObjects.BadRequestException import BadRequestException
 from Service.HuggingFaceAPI import HuggingFaceAPI
+from validate_email import validate_email
+from password_validator import PasswordValidator
 import csv
 import io
 
@@ -15,20 +17,18 @@ class Service:
         self.user_handler = UserHandler()
         self.storage = Storage2.get_instance()
         self.hf_api = HuggingFaceAPI()
-        self.users = {}
 
     def register(self, email, password):
-        # if self.storage.has_user_name(email):
-        if email in self.users:
-            raise BadRequestException("Already registered, please login")
-        self.users[email] = password
-        # self.storage.create_user(email, password)
+        if not validate_email(email):
+            raise BadRequestException("Invalid email address")
+        if not self.__validate_password(password):
+            raise BadRequestException("Invalid password.\nPassword must be between 6-20 characters long, "
+                                       "must contains digits and must have no spaces.")
+        self.storage.create_user(email, password)
 
     def login(self, email, password):
-        # if not self.storage.has_user(email, password):
-        if email in self.users and self.users[email] == password:
-            return
-        raise BadRequestException("Invalid email or password")
+        if not self.storage.check_email_password(email, password):
+            raise BadRequestException("Incorrect email or password")
 
     def get_top_evaluations(self, number_of_results=10):
         results = self.storage.get_top_evals(number_of_results)
@@ -105,6 +105,16 @@ class Service:
     def delete_questionnaire(self, user_id, project_name, questionnaire):
         self.__validate_project_name_format(project_name)
         self.user_handler.remove_questionnaire(user_id, project_name, Questionnaire(questionnaire))
+
+    def __validate_password(self, password):
+        schema = PasswordValidator()
+        schema \
+            .min(6) \
+            .max(20) \
+            .has().digits() \
+            .has().no().spaces()
+
+        return schema.validate(password)
 
     def __validate_project_name_format(self, project_name):
         if project_name is None or project_name == "":

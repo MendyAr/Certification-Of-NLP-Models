@@ -39,29 +39,7 @@ def register():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
-        response.status_code = 500
-    finally:
-        return response
-
-
-
-# get a csv file with all the scores
-@app.route('/download_csv', methods=['GET'])
-def download_csv():
-    response = None
-    try:
-        csv_file = service.get_csv()
-        csv_file.seek(0)
-        response = make_response(csv_file.getvalue())
-        response.headers['Content-Disposition'] = 'attachment; filename=records.csv'
-        response.headers['Content-Type'] = 'text/csv'
-        response = jsonify({"message": "downloaded csv file successfully"})
-        response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
-    except Exception as e:
-        response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -82,6 +60,7 @@ def login():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -103,6 +82,30 @@ def logout():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
+        response.status_code = 500
+    finally:
+        return response
+
+
+# get a csv file with all the scores
+@app.route('/download_csv', methods=['GET'])
+def download_csv():
+    response = None
+    try:
+        csv_file = service.get_csv()
+        csv_file.seek(0)
+        response = make_response(csv_file.getvalue())
+        response.headers['Content-Disposition'] = 'attachment; filename=records.csv'
+        response.headers['Content-Type'] = 'text/csv'
+        response = jsonify({"message": "downloaded csv file successfully"})
+        response.status_code = 200
+    except BadRequestException as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = e.error_code
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -121,6 +124,7 @@ def get_top_evaluations():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -139,6 +143,7 @@ def get_questionnaires():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -159,6 +164,7 @@ def get_projects_name():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -180,6 +186,7 @@ def get_project_info():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -201,6 +208,7 @@ def get_project_evaluations():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -222,6 +230,7 @@ def add_project():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -244,6 +253,7 @@ def add_model():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -266,6 +276,7 @@ def add_questionnaire():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -287,6 +298,7 @@ def delete_project():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -309,6 +321,7 @@ def delete_model():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -331,6 +344,7 @@ def delete_questionnaire():
         response.status_code = e.error_code
     except Exception as e:
         response = jsonify({"error": str(e)})
+        print(str(e))
         response.status_code = 500
     finally:
         return response
@@ -370,5 +384,10 @@ def main():
     app.run(debug=False, port=5001)
 
 
+def test_register():
+    service.register("meninian@gmail.com", "password1")
+
 if __name__ == '__main__':
     main()
+    # test_register()
+    # test_login()
