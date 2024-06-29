@@ -1,5 +1,7 @@
-!/backend/venv/
-!/venv/
-!/backend/Storage/storage.db
-!/backend/Service/venv/
-_pycache_/
+backend/venv/
+backend/Storage/storage.db
+backend/Service/venv/
+/.idea/
+**/venv
+**/_pycache_/
+**/__pycache__/

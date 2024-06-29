@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 import jwt
 import datetime
@@ -18,8 +18,8 @@ from DataObjects.BadRequestException import BadRequestException
 
 # configure flask
 app = Flask(__name__)
-CORS(app)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+CORS(app)
 
 service = Service()
 tokens = {}  # Dictionary to store JWT tokens indexed by email
@@ -43,7 +43,30 @@ def register():
     finally:
         return response
 
-      
+
+
+# get a csv file with all the scores
+@app.route('/download_csv', methods=['GET'])
+def download_csv():
+    response = None
+    try:
+        csv_file = service.get_csv()
+        csv_file.seek(0)
+        response = make_response(csv_file.getvalue())
+        response.headers['Content-Disposition'] = 'attachment; filename=records.csv'
+        response.headers['Content-Type'] = 'text/csv'
+        response = jsonify({"message": "downloaded csv file successfully"})
+        response.status_code = 200
+    except BadRequestException as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = e.error_code
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = 500
+    finally:
+        return response
+
+
 @app.route('/login', methods=['POST'])
 def login():
     response = None
