@@ -391,5 +391,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # test_register()
+    # service.add_model("meninian@gmail.com", "project1", "NbAiLab/nb-bert-base-mnli")
     # test_login()
