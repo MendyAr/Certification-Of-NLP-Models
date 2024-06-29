@@ -1,6 +1,0 @@
-[{"user_name": "shir", "request": {"model": {"name": "Model1", "url": "http://example.com/model1", "version": "v1"},
-  "questionnaire": {"name": "Questionnaire1", "version": "v1"}}},
-  {"user_name": "shira", "request": {"model": {"name": "Model1", "url": "http://example.com/model1", "version": "v1"},
-    "questionnaire": {"name": "Questionnaire1", "version": "v1"}}},
-  {"user_name": "shir", "request": {"model": {"name": "Model2", "url": "http://example.com/model1", "version": "v1"},
-    "questionnaire": {"name": "Questionnaire1", "version": "v1"}}}]
