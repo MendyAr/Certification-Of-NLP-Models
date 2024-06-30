@@ -17,12 +17,10 @@ const AddNewProject = () => {
     const addProject = async () => {
         try {
             const response = await axios.post(`${serverUrl}/add-new-project`, { name: projectName }, 
-            {params: {
-                        email: "user1@example.com",
-                    },
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Add the token to the request headers
-                    },
+            {
+                headers: {
+                    Authorization: `${token}` // Add the token to the request headers
+                },
             });   
             console.log("Add project response:", response.data); // Debugging line
             navigate(`/my-projects/${projectName}/new-eval-request`);

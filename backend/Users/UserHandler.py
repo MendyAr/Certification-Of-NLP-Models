@@ -52,6 +52,5 @@ class UserHandler:
     def __fetch_user(self, user_id):
         user = self.storage.read_user(user_id)
         if user is None:
-            self.storage.create_user(user_id)
-            user = self.storage.read_user(user_id)
+            raise BadRequestException(f"User {user_id} does not exist")
         return user

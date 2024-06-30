@@ -1,5 +1,7 @@
 flask
 Flask-Cors
+PyJWT
+python-dotenv
 sqlalchemy
 torch
 pandas
@@ -9,3 +11,5 @@ overrides
 typeguard
 transformers
 seaborn
+validate_email
+password-validator

@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { Checkbox, Col, Row, Button, Input, Form, Modal, Select, Flex } from "antd";
+import { Button, Input, Form, Modal, Select, Flex } from "antd";
 import MainTitle from "./MainTitle";
 import { CheckboxValueType } from "antd/es/checkbox/Group";
 import axios from "axios";
@@ -9,10 +9,6 @@ import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 
 const { Option } = Select;
-
-const onChange = (checkedValues: CheckboxValueType[]) => {
-    console.log("checked = ", checkedValues);
-};
 
 const AddNewEvaluationRequest = () => {
     const token = useSelector((state: RootState) => state.auth.token);
@@ -84,9 +80,6 @@ const deleteQuestionnaireAction = async () => {
         setIsQuestionnaireModalVisible(false);
         setSelectedQuestionnaire("");
     };
-    const handleModelUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setModelUrl(e.target.value);
-    };
     const handleModelNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         setModelName(e.target.value);
     };
@@ -109,10 +102,9 @@ const deleteQuestionnaireAction = async () => {
                     {
                         params: {
                             project: projectName,
-                            email: "user1@example.com",
                         },
                         headers: {
-                            Authorization: `Bearer ${token}`, 
+                            Authorization: `${token}` 
                         },
                     }
                 );
@@ -129,11 +121,7 @@ const deleteQuestionnaireAction = async () => {
     const getAllQuestionnaires = () => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${serverUrl}/get-all-ques`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Add the token to the request headers
-                    },
-                });
+                const response = await axios.get(`${serverUrl}/get-all-ques`);
                 console.log("Response data:", response.data); // Debugging line
                 setAllQues(response.data.questionnaires);
             } catch (error) {
@@ -149,10 +137,9 @@ const deleteQuestionnaireAction = async () => {
             {
                 params: {
                     project: projectName,
-                    email: "user1@example.com",
                 },
                 headers: {
-                    Authorization: `Bearer ${token}`, // Add the token to the request headers
+                    Authorization: `${token}` // Add the token to the request headers
                 },
             }
         );   
@@ -168,10 +155,9 @@ const deleteQuestionnaireAction = async () => {
             const response = await axios.post(`${serverUrl}/add-model`, { name: modelName, url: modelUrl }, 
             {params: {
                         project: projectName,
-                        email: "user1@example.com",
                     },
                     headers: {
-                        Authorization: `Bearer ${token}`, // Add the token to the request headers
+                        Authorization: `${token}` // Add the token to the request headers
                     },
                 });
             console.log("Add model response:", response.data); // Debugging line
@@ -187,11 +173,10 @@ const deleteModel = async (modelNameToDelete: string) => {
         const response = await axios.delete(`${serverUrl}/delete-model`, {
             params: {
                 project: projectName,
-                email: "user1@example.com",
                 modelName: modelNameToDelete,
             },
             headers: {
-                Authorization: `Bearer ${token}`, // Add the token to the request headers
+                Authorization: `${token}` // Add the token to the request headers
             },
         });
         console.log("Delete model response:", response.data); // Debugging line
@@ -208,11 +193,10 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
         const response = await axios.delete(`${serverUrl}/delete-ques`, {
             params: {
                 project: projectName,
-                email: "user1@example.com",
                 questionnaire: questionnaireToDelete,
             },
             headers: {
-                Authorization: `Bearer ${token}`, // Add the token to the request headers
+                Authorization: `${token}` // Add the token to the request headers
             },
         });
         console.log("Delete questionnaire response:", response.data); // Debugging line

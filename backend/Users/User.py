@@ -80,4 +80,4 @@ class User:
 
     def __validate_project(self, project_name):
         if project_name not in self.projects.keys():
-            raise BadRequestException(f"project: {project_name} doesn't exist.", 401)
+            raise BadRequestException(f"Project {project_name} doesn't exist.", 401)

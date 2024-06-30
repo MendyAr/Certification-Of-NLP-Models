@@ -25,7 +25,7 @@ class HuggingFaceAPI:
         except ConnectionError as e:
             raise e
         except Exception:
-            raise BadRequestException(f"Model {model_name} doesn't match a model from HuggingFace", 400)
+            raise BadRequestException(f"Model {model_name} doesn't match any model from HuggingFace", 400)
 
     # compatible models are ones with configuration.label2id[entitlement] not -1
     # give this method only valid model names
