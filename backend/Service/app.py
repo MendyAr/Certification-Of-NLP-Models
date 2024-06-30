@@ -90,16 +90,16 @@ def logout():
 
 
 # get a csv file with all the scores
-@app.route('/download_csv', methods=['GET'])
+@app.route('/download-csv', methods=['POST'])
 def download_csv():
     response = None
     try:
-        csv_file = service.get_csv()
+        records = request.json
+        csv_file = service.get_csv(records)
         csv_file.seek(0)
         response = make_response(csv_file.getvalue())
         response.headers['Content-Disposition'] = 'attachment; filename=records.csv'
         response.headers['Content-Type'] = 'text/csv'
-        response = jsonify({"message": "downloaded csv file successfully"})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})

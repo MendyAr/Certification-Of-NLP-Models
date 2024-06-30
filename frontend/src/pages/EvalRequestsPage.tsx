@@ -11,7 +11,7 @@ export default function EvalRequests() {
         <Flex vertical justify="center" gap={50} style={{ height: "100%" }}>
             <MainTitle
                 title1={`Project: ${projectName}`}
-                title2="Previous Evaluation Requests"
+                title2="Evaluations Results"
             />
             <EvalRequestsTable />
         </Flex>

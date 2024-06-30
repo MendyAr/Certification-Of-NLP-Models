@@ -38,27 +38,57 @@ class Service:
                    "questionnaire": r.request.questionnaire.name,
                    "result": r.result_score}
             top.append(dic)
+        # records = [
+        # {
+        #     "model": "NLP1",
+        #     "questionnaire": "ASI",
+        #     "result": "0.8",
+        # },
+        # {
+        #     "model": "NLP2",
+        #     "questionnaire": "BIG5",
+        #     "result": "0.56",
+        # },
+        # {
+        #     "model": "NLP3",
+        #     "questionnaire": "ASI",
+        #     "result": "0.9",
+        # },
+        # {
+        #     "model": "NLP1",
+        #     "questionnaire": "ASI",
+        #     "result": "0.8",
+        # },
+        # {
+        #     "model": "NLP2",
+        #     "questionnaire": "BIG5",
+        #     "result": "0.56",
+        # },
+        # {
+        #     "model": "NLP3",
+        #     "questionnaire": "ASI",
+        #     "result": "0.9",
+        # },
+        # {
+        #     "model": "NLP1",
+        #     "questionnaire": "ASI",
+        #     "result": "0.8",
+        # },
+        # {
+        #     "model": "NLP2",
+        #     "questionnaire": "BIG5",
+        #     "result": "0.56",
+        # },
+        # {
+        #     "model": "NLP3",
+        #     "questionnaire": "ASI",
+        #     "result": "0.9",
+        # },
+        # ]
+        # return records
         return top
 
-    def get_csv(self):
-        # records = self.storage.all_results()
-        records = [
-            {
-                "model": "NLP1",
-                "questionnaire": "ASI",
-                "result": "0.8",
-            },
-            {
-                "model": "NLP2",
-                "questionnaire": "BIG5",
-                "result": "0.56",
-            },
-            {
-                "model": "NLP3",
-                "questionnaire": "ASI",
-                "result": "0.9",
-            },
-        ]
+    def get_csv(self, records):
         csv_file = io.StringIO()
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['questionnaire', 'model', 'result'])
@@ -131,4 +161,4 @@ class Service:
     # returning a list of the supported questionnaires from the questionnaires module
     def __get_available_questionnaires(self):
         # Todo
-        return ["asi", "big5"]
+        return ["ASI", "BIG5"]
