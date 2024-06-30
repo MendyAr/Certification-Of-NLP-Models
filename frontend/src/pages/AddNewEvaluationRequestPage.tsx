@@ -104,7 +104,7 @@ const deleteQuestionnaireAction = async () => {
                             project: projectName,
                         },
                         headers: {
-                            Authorization: `Bearer ${token}` 
+                            Authorization: `${token}` 
                         },
                     }
                 );
@@ -139,7 +139,7 @@ const deleteQuestionnaireAction = async () => {
                     project: projectName,
                 },
                 headers: {
-                    Authorization: `Bearer ${token}` // Add the token to the request headers
+                    Authorization: `${token}` // Add the token to the request headers
                 },
             }
         );   
@@ -157,7 +157,7 @@ const deleteQuestionnaireAction = async () => {
                         project: projectName,
                     },
                     headers: {
-                        Authorization: `Bearer ${token}` // Add the token to the request headers
+                        Authorization: `${token}` // Add the token to the request headers
                     },
                 });
             console.log("Add model response:", response.data); // Debugging line
@@ -176,7 +176,7 @@ const deleteModel = async (modelNameToDelete: string) => {
                 modelName: modelNameToDelete,
             },
             headers: {
-                Authorization: `Bearer ${token}` // Add the token to the request headers
+                Authorization: `${token}` // Add the token to the request headers
             },
         });
         console.log("Delete model response:", response.data); // Debugging line
@@ -196,7 +196,7 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
                 questionnaire: questionnaireToDelete,
             },
             headers: {
-                Authorization: `Bearer ${token}` // Add the token to the request headers
+                Authorization: `${token}` // Add the token to the request headers
             },
         });
         console.log("Delete questionnaire response:", response.data); // Debugging line
