@@ -19,7 +19,7 @@ const AddNewProject = () => {
             const response = await axios.post(`${serverUrl}/add-new-project`, { name: projectName }, 
             {
                 headers: {
-                    Authorization: `Bearer ${token}` // Add the token to the request headers
+                    Authorization: `${token}` // Add the token to the request headers
                 },
             });   
             console.log("Add project response:", response.data); // Debugging line

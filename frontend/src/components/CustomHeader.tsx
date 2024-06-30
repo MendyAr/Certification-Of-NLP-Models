@@ -123,7 +123,7 @@ export default function CustomHeader() {
             // Optional: Send a request to the backend to invalidate the token/session
             await axios.post(`${serverUrl}/logout`, {}, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `${token}`
                 }
             });
             dispatch(setToken(null));

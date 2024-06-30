@@ -1,11 +1,8 @@
 import { Table } from "antd";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 
 export default function TopRequestsTable() {
-    const token = useSelector((state: RootState) => state.auth.token);
     const serverUrl = "http://127.0.0.1:5001";
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true); // Ensure loading state is defined
@@ -15,16 +12,18 @@ export default function TopRequestsTable() {
             try {
                 const response = await axios.get(`${serverUrl}/top-requests`);
                 console.log("Response data top requests:", response.data); // Debugging line
-                setData(response.data); 
+                setData(response.data.evals); 
                 setLoading(false); 
             } catch (error) {
                 console.error("Error fetching data:", error);
                 setLoading(false);
             }
         };
-
         fetchData();
-    }, [token]); // Added token as a dependency to refetch if token changes
+    }, []); 
+
+    useEffect(() => {
+    }, [data]); // Log whenever `data` changes
 
     const columns = [
         {

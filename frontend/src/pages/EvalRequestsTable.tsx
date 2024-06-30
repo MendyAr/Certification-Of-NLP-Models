@@ -21,7 +21,7 @@ export default function EvalRequestsTable() {
                             project: projectName,
                         },
                         headers: {
-                            Authorization: `Bearer ${token}` // Add the token to the request headers
+                            Authorization: `${token}` // Add the token to the request headers
                         },
                     }
                 );
@@ -35,6 +35,9 @@ export default function EvalRequestsTable() {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+    }, [data]); // Log whenever `data` changes
 
     const columns = [
         {
