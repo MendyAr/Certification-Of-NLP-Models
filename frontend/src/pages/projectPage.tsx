@@ -31,7 +31,7 @@ export default function Project() {
                         navigate(`/my-projects/${projectName}/eval-requests`)
                     }
                 >
-                    Show Previous evaluation requests
+                    Show Evaluations Results
                 </Button>
             </Flex>
         </Flex>

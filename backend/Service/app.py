@@ -90,7 +90,7 @@ def logout():
 
 
 # get a csv file with all the scores
-@app.route('/download_csv', methods=['GET'])
+@app.route('/download-csv', methods=['GET'])
 def download_csv():
     response = None
     try:
@@ -99,7 +99,6 @@ def download_csv():
         response = make_response(csv_file.getvalue())
         response.headers['Content-Disposition'] = 'attachment; filename=records.csv'
         response.headers['Content-Type'] = 'text/csv'
-        response = jsonify({"message": "downloaded csv file successfully"})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})

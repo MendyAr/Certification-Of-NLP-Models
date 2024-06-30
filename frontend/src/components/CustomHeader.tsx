@@ -1,6 +1,6 @@
 import { Button, Dropdown, Flex, Form, Input, Menu, MenuProps, Switch, Typography} from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { GoogleOutlined, MoonFilled, SunFilled, UserOutlined } from "@ant-design/icons";
+import { GoogleOutlined, LoginOutlined, LogoutOutlined, MoonFilled, SolutionOutlined, SunFilled, UserOutlined } from "@ant-design/icons";
 import React from 'react';
 import { RootState } from "../redux/store";
 import { setTheme } from "../redux/slices/ThemeSlice";
@@ -155,12 +155,12 @@ export default function CustomHeader() {
                                 My Account
                             </Button>
                         </Dropdown>
-                    <Button icon={<GoogleOutlined />} style={{ backgroundColor: "transparent", color: "white" }} onClick={handleLogout}>Logout</Button>
+                    <Button icon={<LogoutOutlined />} style={{ backgroundColor: "transparent", color: "white" }} onClick={handleLogout}>Logout</Button>
                 </>
             ) : (
                 <>
-                    <Button icon={<GoogleOutlined />} style={{ backgroundColor: "transparent", color: "white" }} onClick={handleOpenLoginModal}>Log-in</Button>
-                    <Button icon={<GoogleOutlined />} style={{ backgroundColor: "transparent", color: "white" }} onClick={handleOpenRegisterModal}>Register</Button>
+                    <Button icon={<SolutionOutlined />} style={{ backgroundColor: "transparent", color: "white" }} onClick={handleOpenRegisterModal}>Register</Button>
+                    <Button icon={<LoginOutlined />} style={{ backgroundColor: "transparent", color: "white" }} onClick={handleOpenLoginModal}>Log-in</Button>
                 </>
             )}
 
