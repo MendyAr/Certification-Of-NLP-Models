@@ -381,7 +381,8 @@ def start_eval_thread():
 
 def main():
     start_eval_thread()
-    app.run(debug=False, port=5001)
+    app.run(debug=False, host='0.0.0.0', port=5001)
+
 
 #
 # def test_register():
