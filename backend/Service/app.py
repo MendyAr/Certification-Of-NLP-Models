@@ -28,7 +28,10 @@ CORS(app)
 
 service = Service()
 
-
+@app.before_request
+def log_request_info():
+    print('Request URL:', request.url)
+    
 @app.route('/register', methods=['POST'])
 def register():
     response = None
