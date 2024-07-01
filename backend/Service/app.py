@@ -384,7 +384,7 @@ def start_eval_thread():
 
 def main():
     start_eval_thread()
-    app.run(debug=False, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=5001)
 
 
 #
