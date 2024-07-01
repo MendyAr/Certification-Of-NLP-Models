@@ -3,18 +3,20 @@ from Storage.Storage2 import *
 
 from questionaire.proxy_qlatent.ASI import *
 from questionaire.proxy_qlatent.BIG5 import *
+from questionaire.Questionnaire_Agent import *
 
 class EvaluationEngine:
     def __init__(self):
         self.storage = Storage2.get_instance()
+        self.questionaire_agent = Questionnaire_Agent.get_instance()
         pass
 
     def run_eval_request(self, request : Request):
         score = 0
-        q = self.get_questionaire_by_name(request.questionnaire)
-        model_name = request.model
+        qs = self.questionaire_agent.get_questionnaire_by_name(request.questionnaire)
+        model = self.make_qmnli_questionaire(request.model)
         try:
-            score = q.eval_questionaire(model_name)
+            score = self.eval_questionaire(qs,model)
         except:
             score = -999
         last_result = self.storage.check_if_has_result_2_eval(request)
@@ -26,13 +28,47 @@ class EvaluationEngine:
         self.storage.update_result_in_db(last_result)
         return score
     
-    def get_questionaire_by_name(self,name):
-        if name == "asi":
-            return ASI()
-        if name == "big5":
-            return BIG5()
-        return None
+    
+    def eval_questionaire(self, qs, mnli):
+        results = []
+        for Q in qs:
+            Qs = self.split_question(Q,
+                                # index=Q.q_index,
+                                # scales=[Q.q_scale],
+                                index=["index"],
+                                scales=['frequency'],
+                                softmax=[True],
+                                filters={'unfiltered':{},
+                                        "positiveonly":Q().get_filter_for_postive_keywords()
+                                        },
+                                )
+            results.append(Qs[0].run(mnli).mean_score())
+        return np.mean(results)
 
+    def split_question(self, Q, index, scales, softmax, filters):
+        result = []
+        for s in scales:
+            q = QCACHE(Q(index=index, scale=s))
+            for sf in softmax:
+                for f in filters:
+                    if sf:            
+                        qsf = QSOFTMAX(q,dim=[index[0], s])
+                        qsf_f = QFILTER(qsf,filters[f],filtername=f)
+                        # print((index, s),sf,f)
+                        result.append(qsf_f)
+                    else:
+                        qsf = QPASS(q,descupdate={'softmax':''})
+                        qsf_f = QFILTER(qsf,filters[f],filtername=f)
+                        # print(s,sf,f)
+                        result.append(qsf_f)
+        return result
+
+    def make_qmnli_questionaire(self,model_name):
+        p = model_name.name
+        mnli = pipeline("zero-shot-classification",device=device, model=p)
+        mnli.model_identifier = p
+        return mnli
+    
     def get_all_questionaires_object_array(self):
         asi = ASI()
         big5 = BIG5()
@@ -45,19 +81,3 @@ class EvaluationEngine:
         # update the last opened result in the database
         self.storage.add_result(res); #same
         self.storage.save_results_to_file(); #same
-
-def test_eval():
-    e = EvaluationEngine()
-    q_names = ["asi","big5"]
-    scores = []
-    for model_name in mnli_models_names_array: 
-        for q_name in q_names:
-            m = Model(model_name,"somthing.web.site","1")
-            q = Questionnaire(q_name,"1")
-            r = Request(m,q)
-            score = e.run_eval_request(r)
-            scores.append((model_name,q_name,score))
-    print(scores)
-
-# if __name__ == "__main__":
-#     test_eval()

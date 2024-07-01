@@ -305,12 +305,14 @@ class Storage2:
         return self.User_db_2_User(user_db)
 
     def check_if_has_result_2_eval(self, request: Request):
-        result_dbs = self.session.query(Result_db).filter(
-            Result_db.request_model_name == request.model,
-            Result_db.request_questionnaire_name == request.questionnaire,
-            Result_db.end_time != None
-        ).order_by(Result_db.start_time.desc()).limit(1).all()
-        
+        try:
+            result_dbs = self.session.query(Result_db).filter(
+                Result_db.request_model_name == request.model,
+                Result_db.request_questionnaire_name == request.questionnaire,
+                Result_db.end_time != None
+            ).order_by(Result_db.start_time.desc()).limit(1).all()
+        except:
+            return None
         if len(result_dbs) > 0:
             return self.Result_db_2_Result(result_dbs[0])
         else:
@@ -520,14 +522,12 @@ class Storage2:
             Result_db.request_questionnaire_name == result.request.questionnaire,
             Result_db.start_time == result.start_time
         ).first()
-        
         if existing_result_db:
             existing_result_db.result_score = result.result_score
             existing_result_db.end_time = result.end_time
         else:
             new_result_db = self.Result_2_Result_db(result)
             self.session.add(new_result_db)
-        
         self.session.commit()
 
     def get_result_of_request(self, request: Request):
