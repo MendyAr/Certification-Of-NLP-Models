@@ -366,8 +366,8 @@ class Storage2:
 
     def Result_2_Result_db(self, result: Result):
         r_db = Result_db(
-            request_model_name=result.request.model,
-            request_questionnaire_name=result.request.questionnaire,
+            request_model_name=result.request.model.name,
+            request_questionnaire_name=result.request.questionnaire.name,
             start_time=result.start_time,
             result_score=result.result_score,
             end_time=result.end_time
@@ -518,8 +518,8 @@ class Storage2:
 
     def update_result_in_db(self, result: Result):
         existing_result_db = self.session.query(Result_db).filter(
-            Result_db.request_model_name == result.request.model,
-            Result_db.request_questionnaire_name == result.request.questionnaire,
+            Result_db.request_model_name == result.request.model.name,
+            Result_db.request_questionnaire_name == result.request.questionnaire.name,
             Result_db.start_time == result.start_time
         ).first()
         if existing_result_db:
