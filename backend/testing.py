@@ -73,12 +73,21 @@ def test_main():
         number_of_evals = service.get_number_of_evals()
         print(number_of_evals)
     
-
+def test_user_error():
+    from Storage.Storage2 import Storage2
+    storage = Storage2.get_instance()
+    service = Service()
+    # service.register("tomer@gmail.com", "12356789")
+    service.login("tomer@gmail.com", "12356789")
+    # user = storage.read_user("tomer@gmail.com")
+    # service.add_project("tomer@gmail.com", "project1")
+    user = storage.read_user("tomer@gmail.com")
+    pass
             
 
             
     
 
 if __name__ == '__main__':
-    test_main()
+    test_user_error()
     pass
