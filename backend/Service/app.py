@@ -28,7 +28,10 @@ CORS(app)
 
 service = Service()
 
-
+@app.before_request
+def log_request_info():
+    print('Request URL:', request.url)
+    
 @app.route('/register', methods=['POST'])
 def register():
     response = None
@@ -381,7 +384,7 @@ def start_eval_thread():
 
 def main():
     start_eval_thread()
-    app.run(debug=False, host='0.0.0.0', port=5001)
+    app.run(debug=True, host='0.0.0.0', port=5001)
 
 
 #
