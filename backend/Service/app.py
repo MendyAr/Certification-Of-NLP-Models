@@ -14,7 +14,8 @@ sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 # load .env.env file
 exist = load_dotenv(os.path.join(os.path.dirname(GLOBAL_PROJECT_ROOT), ".env.env"), verbose=True)
 if not exist:
-    raise FileNotFoundError(".env.env file not found")
+    raise FileNotFoundError(".env.example file not found")
+
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
@@ -378,7 +379,7 @@ def create_app():
             response.status_code = 500
         finally:
             return response
-    
+
     return app
 
 # Encodes an email address into a JWT token with a 1-hour expiration time.
@@ -404,10 +405,10 @@ def decode_token_and_get_email(token):
     return email
 
 
-def start_eval_thread():
-    scheduler = Scheduler.get_instance()
-    thread = threading.Thread(target=scheduler.run_eval_thread)
-    thread.start()
+# def start_eval_thread():
+#     scheduler = Scheduler.get_instance()
+#     thread = threading.Thread(target=scheduler.run_eval_thread)
+#     thread.start()
 
 
 def main():
