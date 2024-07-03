@@ -11,10 +11,10 @@ import sys
 GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Add the project root directory to the system path
 sys.path.insert(0, GLOBAL_PROJECT_ROOT)
-# load .env.env file
-exist = load_dotenv("../.env.env", verbose=True)
+# load .env.example file
+exist = load_dotenv("../.env.example", verbose=True)
 if not exist:
-    raise FileNotFoundError(".env.env file not found")
+    raise FileNotFoundError(".env.example file not found")
 
 
 from Service.Service import Service
@@ -384,7 +384,7 @@ def start_eval_thread():
 
 def main():
     start_eval_thread()
-    app.run(debug=True, host='0.0.0.0', port=5001)
+    app.run(debug=True, host=os.environ.get('HOST'), port=os.environ.get('BACKEND_PORT'))
 
 
 #

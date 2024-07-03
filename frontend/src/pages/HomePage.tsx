@@ -10,7 +10,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 
 export default function HomePage() {
     const token = useSelector((state: RootState) => state.auth.token);
-    const serverUrl = "http://132.73.84.52:5001"
+    const serverUrl = process.env.REACT_APP_BACKEND_URL;
 
     const extractCSV = async () => {
         try {

@@ -12,7 +12,7 @@ const { Option } = Select;
 
 const AddNewEvaluationRequest = () => {
     const token = useSelector((state: RootState) => state.auth.token);
-    const serverUrl = "http://132.73.84.52:5001"
+    const serverUrl = process.env.REACT_APP_BACKEND_URL;
     const { projectName } = useParams();
     const navigate = useNavigate();
     const [isModelModalVisible, setIsModelModalVisible] = useState(false);
