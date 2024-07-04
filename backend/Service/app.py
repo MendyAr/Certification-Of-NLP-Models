@@ -12,7 +12,7 @@ GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))
 # Add the project root directory to the system path
 sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 # load .env.env file
-exist = load_dotenv("../../.env.env", verbose=True)
+exist = load_dotenv(os.path.join(os.path.dirname(GLOBAL_PROJECT_ROOT), ".env.env"), verbose=True)
 if not exist:
     raise FileNotFoundError(".env.env file not found")
 
@@ -382,7 +382,7 @@ def start_eval_thread():
 
 def main():
     start_eval_thread()
-    app.run(debug=False, port=5001)
+    app.run(debug=False, host='0.0.0.0', port=5001)
 
 #
 # def test_register():
