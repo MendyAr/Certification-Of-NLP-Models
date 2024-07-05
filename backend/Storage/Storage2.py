@@ -146,6 +146,13 @@ class Storage2:
     def get_number_of_evals(self):
         return self.session.query(Result_db).filter_by(result_score=None).count()
 
+    def get_all_evaled_models(self):
+        models_results = self.session.query(Result_db).filter(Result_db.result_score!=None).all()
+        models_names = []
+        for model_result in models_results:
+            models_names.append(model_result.request_model_name)
+        return models_names
+
     def get_top_evals(self, number_of_results=10):
         top_results_db = (
             self.session.query(Result_db)

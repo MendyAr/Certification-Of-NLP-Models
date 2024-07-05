@@ -83,11 +83,39 @@ def test_user_error():
     # service.add_project("tomer@gmail.com", "project1")
     user = storage.read_user("tomer@gmail.com")
     pass
+
+def test_user_evaled_models():
+    from Storage.Storage2 import Storage2
+    storage = Storage2.get_instance()
+    m = Model(name="model1")
+    q = Questionnaire(name="asi")
+    request = Request(model=m, questionnaire=q)
+    result = Result(request=request, result_score=0.8, start_time=datetime.now())
+    result.end_time = result.start_time + timedelta(hours=1)
+    storage.add_result_to_db(result)
+    m = Model(name="model2")
+    q = Questionnaire(name="asi")
+    request = Request(model=m, questionnaire=q)
+    result = Result(request=request, result_score=0.8, start_time=datetime.now())
+    result.end_time = result.start_time + timedelta(hours=1)
+    storage.add_result_to_db(result)
+    models = storage.get_all_evaled_models()
+    for model in models:
+        print(model)
+    pass
+
+def test_get_the_models_fith_filter():
+    from Evaluation.Scheduler import Scheduler
+    scheduler = Scheduler.get_instance()
+    model = scheduler.get_next_request()
+    print(model)
+    pass
+    
             
 
             
     
 
 if __name__ == '__main__':
-    test_user_error()
+    test_get_the_models_fith_filter()
     pass
