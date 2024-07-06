@@ -84,6 +84,8 @@ class Scheduler:
         return result
 
     def eval_request(self):
+        print(len(self.agent_requests_list))
+        print(len(self.users_requests_list))
         next_eval_req , user_or_agent = self.get_next_request()
         if next_eval_req == -1:
             return False
@@ -106,8 +108,10 @@ class Scheduler:
                     self.get_minimal_amount_of_evals_to_limit += self.agent_min_restock_requests * self.multiplier_get_minimal_amount_of_evals_to_limit
                     models = self.agent.get_models(filterout = filterout, limit = self.get_minimal_amount_of_evals_to_limit)
                 requests = []
+                questionnaires = ["ASI", "BIG5"]
                 for m in models:
-                    requests.append(Request(Model(m),Questionnaire("q1")))
+                    for q in questionnaires:
+                        requests.append(Request(Model(m),Questionnaire(q)))
                 for r in requests:
                     self.agent_requests_list.append(UserRequest(["agent"], r, datetime.now(), 2))
             retry_num -= 1
@@ -153,7 +157,7 @@ class Scheduler:
     def run_eval_thread(self):
         while self._running_eval_thread:
             x = self.eval_request()
-            if x:
+            if not x:
                 print("run_eval_thread-is sleeping")
                 sleep(self._running_eval_thread_sleep_time)  # Adjust sleep time as needed
 

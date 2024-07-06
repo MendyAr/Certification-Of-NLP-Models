@@ -128,6 +128,7 @@ export default function CustomHeader() {
                 }
             });
             dispatch(setToken(null));
+            navigate(`/`)
             // setUser(null);
             alert('Logout Successful');
         } catch (error) {
