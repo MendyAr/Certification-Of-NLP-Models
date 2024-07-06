@@ -18,7 +18,8 @@ function getSwitchBackgroundColor(isLight: boolean) {
 }
 
 export default function CustomHeader() {
-    const serverUrl = "http://132.73.84.52:5001"
+    // const serverUrl = "http://132.73.84.52:5001"
+    const serverUrl = "http://127.0.0.1:5001";
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const token = useSelector(selectToken);

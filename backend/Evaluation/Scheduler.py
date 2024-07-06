@@ -1,3 +1,4 @@
+from time import sleep
 from Evaluation.EvaluationEngine import EvaluationEngine
 from Service.Agent import Agent
 from DataObjects.User_Request import UserRequest
@@ -25,7 +26,7 @@ class Scheduler:
             self.users_2_agent_ratio = 10 # for num of request eval agent req
             self.agent_min_restock_requests = 10 # len(agent_requests_list) < this val then restock
             self.agent = Agent()
-            self.get_minimal_amount_of_evals_to_limit = 100
+            self.get_minimal_amount_of_evals_to_limit = 10
             self.multiplier_get_minimal_amount_of_evals_to_limit = 2
             self.eval_engine = EvaluationEngine()
             self.cache_manager = Cache_Manager()
@@ -88,7 +89,7 @@ class Scheduler:
             return False
         if user_or_agent == 1:
             self.user_requests_counter += 1
-        self.cache_manager.add_to_queue(next_eval_req[0].model)
+        self.cache_manager.add_to_queue(next_eval_req[0].model.name)
         for req in next_eval_req:
             result_val = self.eval_engine.run_eval_request(req)
             # check of each user and send emails
@@ -154,7 +155,7 @@ class Scheduler:
             x = self.eval_request()
             if x:
                 print("run_eval_thread-is sleeping")
-                time.sleep(self._running_eval_thread_sleep_time)  # Adjust sleep time as needed
+                sleep(self._running_eval_thread_sleep_time)  # Adjust sleep time as needed
 
 class Tests:
     def __init__(self):

@@ -320,9 +320,12 @@ class Storage2:
         return self.User_db_2_User(user_db)
 
     def check_if_has_result_2_eval(self, request: Request):
+        name = request.model.name
+        if isinstance(request.model.name, dict):
+            name = request.model.name["name"]
         result_dbs = self.session.query(Result_db).filter(
-            Result_db.request_model_name == request.model,
-            Result_db.request_questionnaire_name == request.questionnaire,
+            Result_db.request_model_name == name,
+            Result_db.request_questionnaire_name == request.questionnaire.name,
             Result_db.end_time != None
         ).order_by(Result_db.start_time.desc()).limit(1).all()
 

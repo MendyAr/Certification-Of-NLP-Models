@@ -12,7 +12,7 @@ GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))
 # Add the project root directory to the system path
 sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 # load .env.env file
-exist = load_dotenv("../.env.env", verbose=True)
+exist = load_dotenv(os.path.join(os.path.dirname(GLOBAL_PROJECT_ROOT), ".env.env"), verbose=True)
 if not exist:
     raise FileNotFoundError(".env.env file not found")
 
@@ -93,11 +93,12 @@ def logout():
 
 
 # get a csv file with all the scores
-@app.route('/download-csv', methods=['GET'])
+@app.route('/download-csv', methods=['POST'])
 def download_csv():
     response = None
     try:
-        csv_file = service.get_csv()
+        records = request.json
+        csv_file = service.get_csv(records)
         csv_file.seek(0)
         response = make_response(csv_file.getvalue())
         response.headers['Content-Disposition'] = 'attachment; filename=records.csv'
@@ -243,23 +244,23 @@ def add_project():
 @app.route('/add-model', methods=['POST'])
 def add_model():
     response = None
-    try:
-        token = request.headers.get('Authorization')
-        user_id = decode_token_and_get_email(token)
-        project_name = request.args.get('project')
-        new_model = request.json.get('name')
-        service.add_model(user_id, project_name, new_model)
-        response = jsonify({"message": "Model added successfully", "model": new_model})
-        response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
-    except Exception as e:
-        response = jsonify({"error": str(e)})
-        print(str(e))
-        response.status_code = 500
-    finally:
-        return response
+    # try:
+    token = request.headers.get('Authorization')
+    user_id = decode_token_and_get_email(token)
+    project_name = request.args.get('project')
+    new_model = request.json.get('name')
+    service.add_model(user_id, project_name, new_model)
+    response = jsonify({"message": "Model added successfully", "model": new_model})
+    response.status_code = 200
+    # except BadRequestException as e:
+    #     response = jsonify({"error": str(e)})
+    #     response.status_code = e.error_code
+    # except Exception as e:
+    #     response = jsonify({"error": str(e)})
+    #     print(str(e))
+    #     response.status_code = 500
+    # finally:
+    return response
 
 
 # # add questionnaire to project
