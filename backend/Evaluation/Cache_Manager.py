@@ -51,7 +51,6 @@ class Cache_Manager:
 
     def add_to_queue(self,name):
         # name = name["name"]
-        print(name)
         folders_list = os.listdir(models_cache)
         to_add_fp = ""
         for f in folders_list:
@@ -60,7 +59,6 @@ class Cache_Manager:
             if not fp in vals and not ".lock" in f:
                 to_add_fp = fp
         if name not in list(self.models.keys()):
-            print(to_add_fp)
             if isinstance(name, dict):
                 name = name["name"]
             self.models[name] = to_add_fp

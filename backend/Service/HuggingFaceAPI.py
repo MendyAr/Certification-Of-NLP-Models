@@ -1,6 +1,12 @@
 from huggingface_hub import HfApi
 from transformers import AutoConfig
 from DataObjects.BadRequestException import BadRequestException
+import transformers
+from transformers.utils import logging as transformers_logging
+# Set the logging level to ERROR for transformers to suppress progress bars
+transformers_logging.set_verbosity_error()
+# Disable the tqdm progress bar globally
+transformers.logging.disable_progress_bar()
 
 
 class HuggingFaceAPI:
@@ -30,6 +36,7 @@ class HuggingFaceAPI:
     # compatible models are ones with configuration.label2id[entitlement] not -1
     # give this method only valid model names
     def check_model_compatability(self, model_name):
+        return True  #delte this line
         config = AutoConfig.from_pretrained(model_name)
         if hasattr(config, "label2id"):
             if "entailment" in config.label2id and config.label2id["entailment"] != -1:

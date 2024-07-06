@@ -27,9 +27,9 @@ class EvaluationEngine:
         return score
     
     def get_questionaire_by_name(self,name):
-        if name == "asi":
+        if name == "ASI":
             return ASI()
-        if name == "big5":
+        if name == "BIG5":
             return BIG5()
         return None
 

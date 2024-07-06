@@ -316,7 +316,7 @@ def delete_model():
         token = request.headers.get('Authorization')
         user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
-        model = request.json.get('model_name')
+        model = request.args.get('modelName')
         service.delete_model(user_id, project_name, model)
         response = jsonify({"message": "Model deleted successfully", "model": model})
         response.status_code = 200
@@ -337,11 +337,17 @@ def delete_questionnaire():
     response = None
     try:
         token = request.headers.get('Authorization')
+        print("1")
         user_id = decode_token_and_get_email(token)
+        print("2")
         project_name = request.args.get('project')
-        ques = request.json.get('questionnaire')
+        print("3")
+        ques = request.args.get('questionnaire')
+        print("4")
         service.delete_questionnaire(user_id, project_name, ques)
+        print("5")
         response = jsonify({"message": "Questionnaire deleted successfully", "ques": ques})
+        print("6")
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
