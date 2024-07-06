@@ -42,7 +42,9 @@ class HuggingFaceAPI:
     def get_matching_models_from_hf(self, limit=None):
         models = self.api.list_models(limit=limit, sort='downloads', language=['en'])
         models_list = []
+        list_count = 0
         for m in models:
+            list_count += 1
             try:
                 if self.check_model_compatability(m.id):
                     models_list.append({"name": m.id, "last_modified": m.last_modified})

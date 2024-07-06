@@ -109,7 +109,7 @@ class Project_db(Base):
     __tablename__ = 'projects'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'))
+    user_id = Column(Integer, ForeignKey('users.user_id'))
     user = relationship('User_db', back_populates='projects')
     models = relationship('Model_db', secondary=project_model_association, back_populates='projects')
     questionnaires = relationship('Questionnaire_db', secondary=project_questionnaire_association,
@@ -145,6 +145,13 @@ class Storage2:
 
     def get_number_of_evals(self):
         return self.session.query(Result_db).filter_by(result_score=None).count()
+
+    def get_all_evaled_models(self):
+        models_results = self.session.query(Result_db).filter(Result_db.result_score!=None).all()
+        models_names = []
+        for model_result in models_results:
+            models_names.append(model_result.request_model_name)
+        return models_names
 
     def get_top_evals(self, number_of_results=10):
         top_results_db = (
@@ -313,9 +320,12 @@ class Storage2:
         return self.User_db_2_User(user_db)
 
     def check_if_has_result_2_eval(self, request: Request):
+        name = request.model.name
+        if isinstance(request.model.name, dict):
+            name = request.model.name["name"]
         result_dbs = self.session.query(Result_db).filter(
-            Result_db.request_model_name == request.model,
-            Result_db.request_questionnaire_name == request.questionnaire,
+            Result_db.request_model_name == name,
+            Result_db.request_questionnaire_name == request.questionnaire.name,
             Result_db.end_time != None
         ).order_by(Result_db.start_time.desc()).limit(1).all()
 
@@ -374,8 +384,8 @@ class Storage2:
 
     def Result_2_Result_db(self, result: Result):
         r_db = Result_db(
-            request_model_name=result.request.model,
-            request_questionnaire_name=result.request.questionnaire,
+            request_model_name=result.request.model.name,
+            request_questionnaire_name=result.request.questionnaire.name,
             start_time=result.start_time,
             result_score=result.result_score,
             end_time=result.end_time
@@ -534,8 +544,8 @@ class Storage2:
 
     def update_result_in_db(self, result: Result):
         existing_result_db = self.session.query(Result_db).filter(
-            Result_db.request_model_name == result.request.model,
-            Result_db.request_questionnaire_name == result.request.questionnaire,
+            Result_db.request_model_name == result.request.model.name,
+            Result_db.request_questionnaire_name == result.request.questionnaire.name,
             Result_db.start_time == result.start_time
         ).first()
 

@@ -10,6 +10,7 @@ interface Eval {
 }
 
 export default function TopRequestsTable() {
+    // const serverUrl = "http://132.73.84.52:5001";
     const serverUrl = "http://127.0.0.1:5001";
     const [data, setData] = useState<Eval[]>([]);
     const [loading, setLoading] = useState(true);
