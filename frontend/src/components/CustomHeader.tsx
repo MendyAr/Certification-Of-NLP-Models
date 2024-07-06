@@ -1,14 +1,11 @@
 import { Button, Dropdown, Flex, Form, Input, Menu, MenuProps, Switch, Typography} from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { GoogleOutlined, LoginOutlined, LogoutOutlined, MoonFilled, SolutionOutlined, SunFilled, UserOutlined } from "@ant-design/icons";
-import React from 'react';
+import { LoginOutlined, LogoutOutlined, MoonFilled, SolutionOutlined, SunFilled, UserOutlined } from "@ant-design/icons";
+import React, { useEffect, useState } from 'react';
 import { RootState } from "../redux/store";
 import { setTheme } from "../redux/slices/ThemeSlice";
 import { MenuItem } from "../utils/Types";
-// import { getMenuItem } from "../utils/Utils";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-// import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { selectToken, setToken } from "../redux/slices/authSlice";
 import Modal from "antd/es/modal/Modal";
@@ -42,43 +39,17 @@ export default function CustomHeader() {
         },
     ];
 
-    // const login = useGoogleLogin({
-    // onSuccess: async (tokenResponse: TokenResponse) => {
-    //     try {
-    //     console.log(tokenResponse);
-    //     const res = await axios.post(${serverUrl}/login, { id_token: tokenResponse.access_token });
-    //     dispatch(setToken(tokenResponse.access_token));
-    //     console.log(res.data.user_id);
-    //     setUser(res.data.user_id);
-    //     alert('Login Successful');
-
-    //     } catch (error) {
-    //     console.error('Error logging in', error);
-    //     alert('Login Failed');
-    //     }
-    // },
-    // onError: (error) => {
-    //     console.error('Login failed', error);
-    //     alert('Login Failed');
-    // },
-    // });
-
-    // const handleLogout = async () => {
-    // try {
-    //     await axios.post(${serverUrl}/logout);
-    //     setUser(null);
-    //     dispatch(setToken(null));
-    //     alert('Logout Successful');
-    // } catch (error) {
-    //     console.error('Error logging out', error);
-    //     alert('Logout Failed');
-    // }
-    // };
-
     const [isLoginVisible, setIsLoginVisible] = useState(false);
     const [isRegisterVisible, setIsRegisterVisible] = useState(false);
     // const [user, setUser] = useState<string | null>(null);
 
+    useEffect(() => {
+        const storedToken = localStorage.getItem('token');
+        if (storedToken) {
+            dispatch(setToken(storedToken));
+        }
+    }, [dispatch]);
+    
     const handleOpenLoginModal = () => {
         setIsLoginVisible(true);
     };
@@ -98,8 +69,9 @@ export default function CustomHeader() {
     const handleLogin = async (values: any) => {
         try {
             const response = await axios.post(`${serverUrl}/login`, values);
-            dispatch(setToken(response.data.token));
-            // setUser(response.data.user_id);
+            const userToken = response.data.token;
+            localStorage.setItem('token', userToken);
+            dispatch(setToken(userToken));
             setIsLoginVisible(false);
             alert('Login Successful');
         } catch (error) {
@@ -127,8 +99,9 @@ export default function CustomHeader() {
                     Authorization: `${token}`
                 }
             });
+            localStorage.removeItem('token');
             dispatch(setToken(null));
-            navigate(`/`)
+            navigate(`/`);
             // setUser(null);
             alert('Logout Successful');
         } catch (error) {
