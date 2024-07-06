@@ -1,7 +1,7 @@
 import { Button, Form, Select, Table } from "antd";
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, ReloadOutlined } from "@ant-design/icons";
 
 interface Eval {
     questionnaire: string;
@@ -19,20 +19,22 @@ export default function TopRequestsTable() {
     const { Option } = Select;
 
     useEffect(() => {
-        const fetchData = async () => {
-            await getAllQuestionnaires();
-            try {
-                const response = await axios.get(`${serverUrl}/top-requests`);
-                console.log("Response data top requests:", response.data);
-                setData(response.data.evals);
-                setLoading(false);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                setLoading(false);
-            }
-        };
         fetchData();
+        getAllQuestionnaires();
     }, []);
+
+    const fetchData = async () => {
+    setLoading(true);
+        try {
+            const response = await axios.get(`${serverUrl}/top-requests`);
+            console.log("Response data top requests:", response.data);
+            setData(response.data.evals);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoading(false);
+        }
+    };
 
     const handleQuestionnaireChange = (value: string) => {
         console.log("Selected questionnaire:", value);
@@ -72,13 +74,34 @@ export default function TopRequestsTable() {
             title: "Result",
             dataIndex: "result",
             key: "result",
+            render: (text: string | number) => {
+                console.log("Result text:", text); // Debugging line
+                if (text === -999) return "Evaluation failed";
+                if (text === -9999) return "Model is not compatible, evaluation failed";
+                if (!text || text === "")  return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
+                return text;
+            },
         },
     ];
 
     const extractCSV = async () => {
         try {
-            // const response = await axios.get(`${serverUrl}/download-csv`, { responseType: 'blob' });
             const response = await axios.post(`${serverUrl}/download-csv`, filteredData, { responseType: 'blob' });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'records.csv');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (error) {
+            console.error("Error extracting CSV file", error);
+        }
+    };
+
+    const extractCSVAll = async () => {
+        try {
+            const response = await axios.post(`${serverUrl}/download-csv-all`, { responseType: 'blob' });
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
@@ -93,19 +116,24 @@ export default function TopRequestsTable() {
 
     return (
         <>
-            <Form.Item label="Select Questionnaire" style={{ width: "15%" }}>
-                <Select
-                    placeholder="Select a questionnaire"
-                    onChange={handleQuestionnaireChange}
-                    value={selectedQuestionnaire}
-                >
-                    {allQues.map((q, index) => (
-                        <Option value={q} key={index}>
-                            {q}
-                        </Option>
-                    ))}
-                </Select>
-            </Form.Item>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                <Form.Item label="Select Questionnaire" style={{ width: "15%" }}>
+                    <Select
+                        placeholder="Select a questionnaire"
+                        onChange={handleQuestionnaireChange}
+                        value={selectedQuestionnaire}
+                    >
+                        {allQues.map((q, index) => (
+                            <Option value={q} key={index}>
+                                {q}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+                <Button type="primary" icon={<ReloadOutlined />} onClick={fetchData}>
+                    Refresh
+                </Button>
+            </div>
 
             <Table
                 key={selectedQuestionnaire} // Force re-render when selectedQuestionnaire changes
@@ -117,7 +145,12 @@ export default function TopRequestsTable() {
             />
 
             <Button type="primary" htmlType="submit" onClick={extractCSV} style={{ marginTop: "20px" }}>
-                Download all results 
+                Download top results 
+                <DownloadOutlined style={{ marginLeft: 10 }} />
+            </Button>
+            <br/>
+            <Button type="primary" htmlType="submit" onClick={extractCSVAll} style={{ marginTop: "20px" }}>
+                Download all evaluations results 
                 <DownloadOutlined style={{ marginLeft: 10 }} />
             </Button>
         </>

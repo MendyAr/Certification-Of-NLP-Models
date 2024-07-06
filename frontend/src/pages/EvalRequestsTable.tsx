@@ -4,7 +4,7 @@ import axios from "axios";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, ReloadOutlined } from "@ant-design/icons";
 
 interface Eval {
     questionnaire: string;
@@ -24,29 +24,31 @@ export default function EvalRequestsTable() {
     const { Option } = Select;
 
     useEffect(() => {
-        const fetchData = async () => {
-            await getAllQuestionnaires();
-            try {
-                const response = await axios.get(`${serverUrl}/eval-requests`,
-                    {
-                        params: {
-                            project: projectName,
-                        },
-                        headers: {
-                            Authorization: `${token}` // Add the token to the request headers
-                        },
-                    }
-                );
-                console.log("Response data:", response.data); // Debugging line
-                setData(response.data.evals);
-                setLoading(false); // Update loading state
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                setLoading(false); // Update loading state in case of error
-            }
-        };
         fetchData();
+        getAllQuestionnaires();
     }, []);
+
+    const fetchData = async () => {
+    setLoading(true);
+        try {
+            const response = await axios.get(`${serverUrl}/eval-requests`,
+                {
+                    params: {
+                        project: projectName,
+                    },
+                    headers: {
+                        Authorization: `${token}` // Add the token to the request headers
+                    },
+                }
+            );
+            console.log("Response data:", response.data); // Debugging line
+            setData(response.data.evals);
+            setLoading(false); // Update loading state
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            setLoading(false); // Update loading state in case of error
+        }
+    };
 
     // useEffect(() => {
     // }, [data]); // Log whenever `data` changes
@@ -89,6 +91,13 @@ export default function EvalRequestsTable() {
             title: "Result",
             dataIndex: "result",
             key: "result",
+            render: (text: string | number) => {
+                console.log("Result text:", text); // Debugging line
+                if (text === -999) return "Evaluation failed";
+                if (text === -9999) return "Model is not compatible, evaluation failed";
+                if (!text || text === "")  return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
+                return text;
+            },
         },
     ];
 
@@ -110,6 +119,7 @@ export default function EvalRequestsTable() {
 
     return (
         <>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
             <Form.Item label="Select Questionnaire" style={{ width: "15%" }}>
                 <Select
                     placeholder="Select a questionnaire"
@@ -123,6 +133,10 @@ export default function EvalRequestsTable() {
                     ))}
                 </Select>
             </Form.Item>
+                <Button type="primary" icon={<ReloadOutlined />} onClick={fetchData}>
+                    Refresh
+                </Button>
+            </div>
 
             <Table
                 key={selectedQuestionnaire} // Force re-render when selectedQuestionnaire changes

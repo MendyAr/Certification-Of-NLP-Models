@@ -23,34 +23,34 @@ const AddNewEvaluationRequest = () => {
     const [selectedQuestionnaire, setSelectedQuestionnaire] = useState("");
 
     // State variables to manage the confirmation modals
-const [confirmDeleteModel, setConfirmDeleteModel] = useState(false);
-const [confirmDeleteQuestionnaire, setConfirmDeleteQuestionnaire] = useState(false);
-const [modelToDelete, setModelToDelete] = useState("");
-const [questionnaireToDelete, setQuestionnaireToDelete] = useState("");
+    const [confirmDeleteModel, setConfirmDeleteModel] = useState(false);
+    const [confirmDeleteQuestionnaire, setConfirmDeleteQuestionnaire] = useState(false);
+    const [modelToDelete, setModelToDelete] = useState("");
+    const [questionnaireToDelete, setQuestionnaireToDelete] = useState("");
 
-// Function to set the model to delete and show the confirmation modal
-const handleModelDelete = (modelNameToDelete: string) => {
-    setModelToDelete(modelNameToDelete);
-    setConfirmDeleteModel(true);
-};
+    // Function to set the model to delete and show the confirmation modal
+    const handleModelDelete = (modelNameToDelete: string) => {
+        setModelToDelete(modelNameToDelete);
+        setConfirmDeleteModel(true);
+    };
 
-// Function to set the questionnaire to delete and show the confirmation modal
-const handleQuestionnaireDelete = (questionnaireToDelete: string) => {
-    setQuestionnaireToDelete(questionnaireToDelete);
-    setConfirmDeleteQuestionnaire(true);
-};
+    // Function to set the questionnaire to delete and show the confirmation modal
+    const handleQuestionnaireDelete = (questionnaireToDelete: string) => {
+        setQuestionnaireToDelete(questionnaireToDelete);
+        setConfirmDeleteQuestionnaire(true);
+    };
 
-// Function to delete model
-const deleteModelAction = async () => {
-    await deleteModel(modelToDelete);
-    setConfirmDeleteModel(false); // Close the modal
-};
+    // Function to delete model
+    const deleteModelAction = async () => {
+        await deleteModel(modelToDelete);
+        setConfirmDeleteModel(false); // Close the modal
+    };
 
-// Function to delete questionnaire
-const deleteQuestionnaireAction = async () => {
-    await deleteQuestionnaire(questionnaireToDelete);
-    setConfirmDeleteQuestionnaire(false); // Close the modal
-};
+    // Function to delete questionnaire
+    const deleteQuestionnaireAction = async () => {
+        await deleteQuestionnaire(questionnaireToDelete);
+        setConfirmDeleteQuestionnaire(false); // Close the modal
+    };
     
     const showModelModal = () => {
         setIsModelModalVisible(true);
@@ -59,16 +59,16 @@ const deleteQuestionnaireAction = async () => {
         getAllQuestionnaires();
         setIsQuestionnaireModalVisible(true);
     };
-    const handleModelOk = () => {
+    const handleModelOk = async () => {
+        await addModel();
         console.log("Model URL:", modelUrl);
-        addModel();
         setModelUrl("");
         setModelName("");
         setIsModelModalVisible(false);
     };
-    const handleQuestionnaireOk = () => {
+    const handleQuestionnaireOk = async () => {
+        await addQues();
         console.log("Selected Questionnaire:", selectedQuestionnaire);
-        addQues();
         setIsQuestionnaireModalVisible(false);
         setSelectedQuestionnaire("");
     };
@@ -117,7 +117,10 @@ const deleteQuestionnaireAction = async () => {
             }
         };
         fetchData();
-    }, [isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel, projectName, token]);
+    }, [ isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel, projectName, token]);
+
+    useEffect(() => {
+    }, [isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel, projectName, token]); // Log whenever `data` changes
 
     const getAllQuestionnaires = () => {
         const fetchData = async () => {
@@ -132,41 +135,41 @@ const deleteQuestionnaireAction = async () => {
         fetchData();
     };
 
-    const addQues = async () => {
-        try {
-            const response = await axios.post(`${serverUrl}/add-ques`, { ques: selectedQuestionnaire }, 
-            {
-                params: {
+const addQues = async () => {
+    try {
+        const response = await axios.post(`${serverUrl}/add-ques`, { ques: selectedQuestionnaire }, 
+        {
+            params: {
+                project: projectName,
+            },
+            headers: {
+                Authorization: `${token}` // Add the token to the request headers
+            },
+        }
+    );   
+        console.log("Add questionnaire response:", response.data); // Debugging line
+        setIsQuestionnaireModalVisible(false);
+    } catch (error) {
+        console.error("Error adding questionnaire");
+    }
+};
+
+const addModel = async () => {
+    try {
+        const response = await axios.post(`${serverUrl}/add-model`, { name: modelName, url: modelUrl }, 
+        {params: {
                     project: projectName,
                 },
                 headers: {
                     Authorization: `${token}` // Add the token to the request headers
                 },
-            }
-        );   
-            console.log("Add questionnaire response:", response.data); // Debugging line
-            setIsQuestionnaireModalVisible(false);
-        } catch (error) {
-            console.error("Error adding questionnaire");
-        }
-    };
-
-    const addModel = async () => {
-        try {
-            const response = await axios.post(`${serverUrl}/add-model`, { name: modelName, url: modelUrl }, 
-            {params: {
-                        project: projectName,
-                    },
-                    headers: {
-                        Authorization: `${token}` // Add the token to the request headers
-                    },
-                });
-            console.log("Add model response:", response.data); // Debugging line
-            setIsModelModalVisible(false);
-        } catch (error) {
-            console.error("Error adding model");
-        }
-    };
+            });
+        console.log("Add model response:", response.data); // Debugging line
+        setIsModelModalVisible(false);
+    } catch (error) {
+        console.error("Error adding model");
+    }
+};
 
     // Function to delete a model by its name
 const deleteModel = async (modelNameToDelete: string) => {

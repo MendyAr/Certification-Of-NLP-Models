@@ -154,16 +154,27 @@ class Storage2:
         return models_names
 
     def get_top_evals(self, number_of_results=10):
-        top_results_db = (
-            self.session.query(Result_db)
-            .options(
-                joinedload(Result_db.request).joinedload(Request_db.model),
-                joinedload(Result_db.request).joinedload(Request_db.questionnaire)
+        if number_of_results == None:
+            top_results_db = (
+                self.session.query(Result_db)
+                .options(
+                    joinedload(Result_db.request).joinedload(Request_db.model),
+                    joinedload(Result_db.request).joinedload(Request_db.questionnaire)
+                )
+                .order_by(Result_db.result_score.desc())
+                .all()
             )
-            .order_by(Result_db.result_score.desc())
-            .limit(number_of_results)
-            .all()
-        )
+        else:
+            top_results_db = (
+                self.session.query(Result_db)
+                .options(
+                    joinedload(Result_db.request).joinedload(Request_db.model),
+                    joinedload(Result_db.request).joinedload(Request_db.questionnaire)
+                )
+                .order_by(Result_db.result_score.desc())
+                .limit(number_of_results)
+                .all()
+            )
         top_results = []
         for result_db in top_results_db:
             try:

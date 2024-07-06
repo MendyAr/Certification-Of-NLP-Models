@@ -9,7 +9,7 @@ export default function HomePage() {
             <Form.Item>
                 <MainTitle
                         title1="Top Evaluations"
-                        title2="Evaluations most requested by users"
+                        title2="Evaluations top results"
                 />
                 <TopRequestsTable />
             </Form.Item>

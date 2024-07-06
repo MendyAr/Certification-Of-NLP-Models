@@ -95,6 +95,16 @@ class Service:
         for record in records:
             csv_writer.writerow([record['questionnaire'], record['model'], record['result']])
         return csv_file
+    
+    def get_csv_all(self):
+        csv_file = io.StringIO()
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(['questionnaire', 'model', 'result'])
+        records = self.storage.get_top_evals(None)
+        for r in records:
+            csv_writer.writerow([r.request.questionnaire.name, r.request.model.name, r.result_score])
+        return csv_file
+
 
     def get_questionnaires(self):
         return self.__get_available_questionnaires()

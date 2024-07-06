@@ -115,6 +115,28 @@ def download_csv():
         return response
 
 
+# get a csv file with all the scores
+@app.route('/download-csv-all', methods=['POST'])
+def download_csv_all():
+    response = None
+    try:
+        csv_file = service.get_csv_all()
+        csv_file.seek(0)
+        response = make_response(csv_file.getvalue())
+        response.headers['Content-Disposition'] = 'attachment; filename=all_records.csv'
+        response.headers['Content-Type'] = 'text/csv'
+        response.status_code = 200
+    except BadRequestException as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = e.error_code
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        print(str(e))
+        response.status_code = 500
+    finally:
+        return response
+
+
 # get top requested evaluations of the system
 @app.route('/top-requests', methods=['GET'])
 def get_top_evaluations():
@@ -337,17 +359,11 @@ def delete_questionnaire():
     response = None
     try:
         token = request.headers.get('Authorization')
-        print("1")
         user_id = decode_token_and_get_email(token)
-        print("2")
         project_name = request.args.get('project')
-        print("3")
         ques = request.args.get('questionnaire')
-        print("4")
         service.delete_questionnaire(user_id, project_name, ques)
-        print("5")
         response = jsonify({"message": "Questionnaire deleted successfully", "ques": ques})
-        print("6")
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
