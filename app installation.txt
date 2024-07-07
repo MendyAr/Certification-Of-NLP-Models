@@ -2,17 +2,30 @@ on windows running the server locally:
 Set-ExecutionPolicy Unrestricted
 A
 
-create two terminals and enter these line
 run frontend server:
 cd frontend
 npm install
+npm audit fix
 for development: npm start
 for deployment: npm run build
                 npm install -g serve
                 serve -s build
 
 run backend server:
-create virtual environment if needed: python -m venv venv
-venv\Scripts\activate
+create virtual environment if needed:   cd Certification-of-NLP.../
+                                        python -m venv venv
+windows: venv\Scripts\activate
+linux: source venv/bin/activate
+install requirements if needed: pip install requirements.txt
 cd backend
 python Service\app.py
+
+
+userName: ssh stud@132.73.84.52
+pass:  xeGSKAqP
+
+
+DNS:
+nameserver 127.0.0.53
+options edns0 trust-ad
+search bgu.ac.il auth.ad.bgu.ac.il campus.ad.bgu.ac.il
