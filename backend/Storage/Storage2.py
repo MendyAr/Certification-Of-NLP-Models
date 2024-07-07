@@ -665,9 +665,12 @@ class Storage2:
     # ...............................Users...................................
     # .......................................................................
     def create_user(self, user_id, password):
-        existing_user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
-        if existing_user:
-            raise BadRequestException(f"User {user_id} already exists")
+        try:
+            existing_user = self.session.query(User_db).filter(User_db.user_id == user_id).first()
+        except Exception as e:
+            pass
+        # if existing_user:
+        #     raise BadRequestException(f"User {user_id} already exists")
         new_user = User_db(user_id=user_id, password=password)
         self.session.add(new_user)
         self.session.commit()

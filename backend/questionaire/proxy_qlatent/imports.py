@@ -1,7 +1,7 @@
 
 from  questionaire.qlatent.qmnli.qmnli import *
 import shutil
-
+import os
 
 def split_question(Q, index, scales, softmax, filters):
   result = []
@@ -35,11 +35,14 @@ frequency_weights:SCALE = {
 device = 0 if torch.cuda.is_available() else -1
 relative_cache_directory = "models"
 
-models_cache = r"C:\Users\drort\.cache\huggingface\hub"
-models_cache_hub_create = r"C:\Users\drort\.cache\huggingface"
+# models_cache = r"C:\Users\drort\.cache\huggingface\hub"
+# models_cache_hub_create = r"C:\Users\drort\.cache\huggingface"
+# models_cache = r"C:\Users\shiru\.cache\huggingface\hub"
+# models_cache_hub_create = r"C:\Users\shiru\.cache\huggingface"
 
-models_cache = r"C:\Users\shiru\.cache\huggingface\hub"
-models_cache_hub_create = r"C:\Users\shiru\.cache\huggingface"
+username = os.getlogin()
+models_cache = fr"C:\Users\{username}\.cache\huggingface\hub"
+models_cache_hub_create = fr"C:\Users\{username}\.cache\huggingface"
 
 mnli_models_names_array = [
                   'typeform/distilbert-base-uncased-mnli',

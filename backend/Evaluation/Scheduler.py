@@ -124,7 +124,8 @@ class Scheduler:
                 return self.get_next_request()
             return -1 , -1
         if len(self.users_requests_list) == 0 and len(self.agent_requests_list) > 0:
-            self.try_restock_agent()
+            if len(self.agent_requests_list) > self.agent_min_restock_requests:
+                self.try_restock_agent()
             return self.agent_requests_list[0].requests , 2
         if len(self.users_requests_list) > 0 and len(self.agent_requests_list) == 0:
             return self.users_requests_list[0].requests , 1

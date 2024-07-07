@@ -11,12 +11,16 @@ class EvaluationEngine:
 
     def run_eval_request(self, request : Request):
         score = 0
-        q = self.get_questionaire_by_name(request.questionnaire)
-        model_name = request.model
+        q = self.get_questionaire_by_name(request.questionnaire.name)
+        model_name = request.model.name
         try:
             score = q.eval_questionaire(model_name)
         except:
             score = -999
+            from Service.HuggingFaceAPI import HuggingFaceAPI
+            hf = HuggingFaceAPI()
+            if not hf.check_model_compatability(model_name):
+                score = -9999
         last_result = self.storage.check_if_has_result_2_eval(request)
         if last_result is not None:
             last_result.score = score

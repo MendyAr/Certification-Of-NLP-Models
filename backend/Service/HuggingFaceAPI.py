@@ -17,7 +17,8 @@ class HuggingFaceAPI:
     def validate_model(self, model_name):
         self.validate_model_name(model_name)
         try:
-            if not self.check_model_compatability(model_name):
+            if False:
+            # if not self.check_model_compatability(model_name):
                 raise BadRequestException(f"Model {model_name} isn't compatible for evaluation", 400)
         except ConnectionError as e:
             raise e
@@ -36,7 +37,6 @@ class HuggingFaceAPI:
     # compatible models are ones with configuration.label2id[entitlement] not -1
     # give this method only valid model names
     def check_model_compatability(self, model_name):
-        return True  #delte this line
         config = AutoConfig.from_pretrained(model_name)
         if hasattr(config, "label2id"):
             if "entailment" in config.label2id and config.label2id["entailment"] != -1:
@@ -53,8 +53,8 @@ class HuggingFaceAPI:
         for m in models:
             list_count += 1
             try:
-                if self.check_model_compatability(m.id):
-                    models_list.append({"name": m.id, "last_modified": m.last_modified})
+                # if self.check_model_compatability(m.id):
+                models_list.append({"name": m.id, "last_modified": m.last_modified})
             except Exception:
                 pass
         return models_list

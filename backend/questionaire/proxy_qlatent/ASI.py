@@ -1098,7 +1098,7 @@ class ASI:
             if n != -999:
                 sum_arr_clean.append(n)
         # sum_arr = [x for x in sum_arr if x != -999] # clean errors
-        mean = np.mean(sum_arr_clean)
+        mean = np.mean(sum_arr)
         self.score = mean
         return mean
     

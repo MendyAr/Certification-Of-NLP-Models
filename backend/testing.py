@@ -31,12 +31,18 @@ def start_eval_thread():
     thread.start()
 
 def test_main():
-    start_eval_thread()
+    # start_eval_thread()
     service = Service()
-    top_evals = service.get_top_evaluations(100)
-    users = ["tomer","rami","avihad","shir","mendi","shani","maor"]
-    for user in users:
-        service.create_user(user)
+    scheduler = Scheduler.get_instance()
+    scheduler.eval_request()
+    scheduler.eval_request()
+    scheduler.eval_request()
+    scheduler.eval_request()
+    scheduler.eval_request()
+    # top_evals = service.get_top_evaluations(100)
+    users = ["tomer@gmail.com","rami@gmail.com","avihad@gmail.com","shir@gmail.com","mendi@gmail.com","shani@gmail.com","maor@gmail.com"]
+    # for user in users:
+    #     service.register(user,"123456")
     projects = ["project1","project2","project3","project4","project5"]
     models = ["facebook/bart-large-mnli",
               "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
@@ -48,7 +54,7 @@ def test_main():
               "FacebookAI/roberta-large-mnli",
               "MoritzLaurer/multilingual-MiniLMv2-L6-mnli-xnli"
               ]
-    questionnaires = service.get_available_questionnaires()
+    questionnaires = ["ASI","BIG5"]
     for project in projects:
         user_id = random.choice(users)
         try:
@@ -63,11 +69,12 @@ def test_main():
                 service.add_model(user_id, project, m)
                 service.add_questionnaire(user_id, project, q)
             except:
-                service.add_eval_request_to_scheduler(user_id, Request(m, q))
+                # service.add_eval_request_to_scheduler(user_id, Request(m, q))
                 print("error")
             number_of_evals = service.get_number_of_evals()
             print(number_of_evals)
-    
+            scheduler.eval_request()
+        
     number_of_evals = service.get_number_of_evals()
     while  number_of_evals> 0:
         number_of_evals = service.get_number_of_evals()
@@ -111,11 +118,8 @@ def test_get_the_models_fith_filter():
     print(model)
     pass
     
-            
 
-            
-    
 
 if __name__ == '__main__':
-    test_get_the_models_fith_filter()
+    test_main()
     pass
