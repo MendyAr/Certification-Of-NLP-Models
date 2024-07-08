@@ -1,14 +1,17 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
-import { Button, Input, Form, Modal, Select, Flex } from "antd";
+import { Button, Input, Form, Modal, Select, message, Flex } from "antd";
 import MainTitle from "./MainTitle";
-import { CheckboxValueType } from "antd/es/checkbox/Group";
-import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import axios, { AxiosError } from "axios";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 
 const { Option } = Select;
+
+interface ErrorResponse {
+    error: string;
+}
 
 const AddNewEvaluationRequest = () => {
     const token = useSelector((state: RootState) => state.auth.token);
@@ -99,37 +102,41 @@ const AddNewEvaluationRequest = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${serverUrl}/project-info`,
-                    {
+                const response = await axios.get(`${serverUrl}/project-info`, {
                         params: {
                             project: projectName,
                         },
                         headers: {
-                            Authorization: `${token}` 
+                            Authorization: `${token}`, 
                         },
-                    }
-                );
+                    });
                 console.log("Response data:", response.data); // Debugging line
                 setModels(response.data.projects.models);
-                setQues(response.data.projects.ques)
+                setQues(response.data.projects.ques);
             } catch (error) {
                 console.error("Error fetching data:", error);
+                const axiosError = error as AxiosError<ErrorResponse>;
+                const errorMessage = axiosError.response?.data?.error || 'Error fetching project info';
+                message.error(`Error: ${errorMessage}`);
             }
         };
         fetchData();
     }, [ isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel, projectName, token]);
 
-    useEffect(() => {
-    }, [isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel, projectName, token]); // Log whenever `data` changes
+    // useEffect(() => {
+    // }, [isModelModalVisible, isQuestionnaireModalVisible, confirmDeleteQuestionnaire, confirmDeleteModel, projectName, token]); // Log whenever `data` changes
 
     const getAllQuestionnaires = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${serverUrl}/get-all-ques`);
-                console.log("Response data:", response.data); // Debugging line
+            console.log("Response data:", response.data);
                 setAllQues(response.data.questionnaires);
             } catch (error) {
-                console.error("Error fetching data:", error);
+            console.error("Error fetching questionnaires:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error fetching questionnaires';
+            message.error(`Error: ${errorMessage}`);
             }
         };
         fetchData();
@@ -137,37 +144,43 @@ const AddNewEvaluationRequest = () => {
 
 const addQues = async () => {
     try {
-        const response = await axios.post(`${serverUrl}/add-ques`, { ques: selectedQuestionnaire }, 
-        {
+        const response = await axios.post(`${serverUrl}/add-ques`, { ques: selectedQuestionnaire }, {
             params: {
                 project: projectName,
             },
             headers: {
-                Authorization: `${token}` // Add the token to the request headers
+                Authorization: `${token}`, // Add the token to the request headers
             },
-        }
-    );   
-        console.log("Add questionnaire response:", response.data); // Debugging line
+        });   
+            console.log("Add questionnaire response:", response.data);
+            setQues([...ques, selectedQuestionnaire]); //??
         setIsQuestionnaireModalVisible(false);
     } catch (error) {
-        console.error("Error adding questionnaire");
+            console.error("Error adding questionnaire:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error adding questionnaire';
+            message.error(`Error: ${errorMessage}`);
     }
 };
 
 const addModel = async () => {
     try {
-        const response = await axios.post(`${serverUrl}/add-model`, { name: modelName, url: modelUrl }, 
-        {params: {
-                    project: projectName,
-                },
-                headers: {
-                    Authorization: `${token}` // Add the token to the request headers
-                },
-            });
-        console.log("Add model response:", response.data); // Debugging line
+        const response = await axios.post(`${serverUrl}/add-model`, { name: modelName, url: modelUrl }, {
+            params: {
+                project: projectName,
+            },
+            headers: {
+                Authorization: `${token}`, // Add the token to the request headers
+            },
+        });
+        console.log("Add model response:", response.data);
+        setModels([...models, { name: modelName }]); //??
         setIsModelModalVisible(false);
     } catch (error) {
-        console.error("Error adding model");
+            console.error("Error adding model:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error adding model';
+            message.error(`Error: ${errorMessage}`);
     }
 };
 
@@ -180,14 +193,17 @@ const deleteModel = async (modelNameToDelete: string) => {
                 modelName: modelNameToDelete,
             },
             headers: {
-                Authorization: `${token}` // Add the token to the request headers
+                Authorization: `${token}`, // Add the token to the request headers
             },
         });
         console.log("Delete model response:", response.data); // Debugging line
         // Update the models state after successful deletion
         setModels(models.filter(model => model.name !== modelNameToDelete));
     } catch (error) {
-        console.error("Error deleting model");
+            console.error("Error deleting model:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error deleting model';
+            message.error(`Error: ${errorMessage}`);
     }
 };
 
@@ -200,20 +216,23 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
                 questionnaire: questionnaireToDelete,
             },
             headers: {
-                Authorization: `${token}` // Add the token to the request headers
+                Authorization: `${token}`, // Add the token to the request headers
             },
         });
         console.log("Delete questionnaire response:", response.data); // Debugging line
         // Update the ques state after successful deletion
         setQues(ques.filter(q => q !== questionnaireToDelete));
     } catch (error) {
-        console.error("Error deleting questionnaire");
+            console.error("Error deleting questionnaire:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error deleting questionnaire';
+            message.error(`Error: ${errorMessage}`);
     }
 };
 
     return (
         <div style={{ padding: "20px" }}>
-            <div style={{display: "flex", justifyContent: "space-between", marginBottom: "20px"}}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
                 <div style={{ width: "45%" }}>
                     <Flex align="left">
                         <MainTitle title1="Select Model" title2="" />
@@ -249,7 +268,7 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
             </div>
             <Form layout="vertical" style={{ marginTop: "20px", width: "100%" }}>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit"  onClick={() => navigate(`/my-projects/${projectName}/eval-requests`)} >
+                    <Button type="primary" htmlType="submit" onClick={() => navigate(`/my-projects/${projectName}/eval-requests`)}>
                         Create Evaluation Requests
                     </Button>
                 </Form.Item>
@@ -260,7 +279,7 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
             <Modal title="Add Model" open={isModelModalVisible} onOk={handleModelOk} onCancel={handleModelCancel} okText="Add to Project">
                 <Form layout="vertical">
                     <Form.Item label="Model Name">
-                        <Input placeholder="Enter model name" value={modelName} onChange={handleModelNameChange}/>
+                        <Input placeholder="Enter model name" value={modelName} onChange={handleModelNameChange} />
                     </Form.Item>
                     {/* <Form.Item label="Model URL">
                         <Input placeholder="Enter model URL" value={modelUrl} onChange={handleModelUrlChange}/>

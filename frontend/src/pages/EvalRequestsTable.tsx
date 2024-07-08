@@ -1,6 +1,6 @@
-import { Button, Form, Select, Table } from "antd";
+import { Button, Form, Select, Table, message } from "antd";
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,10 @@ interface Eval {
     questionnaire: string;
     model: string;
     result: string;
+}
+
+interface ErrorResponse {
+    error: string;
 }
 
 export default function EvalRequestsTable() {
@@ -31,8 +35,7 @@ export default function EvalRequestsTable() {
     const fetchData = async () => {
     setLoading(true);
         try {
-            const response = await axios.get(`${serverUrl}/eval-requests`,
-                {
+            const response = await axios.get(`${serverUrl}/eval-requests`, {
                     params: {
                         project: projectName,
                     },
@@ -46,7 +49,10 @@ export default function EvalRequestsTable() {
             setLoading(false); // Update loading state
         } catch (error) {
             console.error("Error fetching data:", error);
-            setLoading(false); // Update loading state in case of error
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error fetching data';
+            message.error(`Error: ${errorMessage}`);
+            setLoading(false);
         }
     };
 
@@ -65,6 +71,9 @@ export default function EvalRequestsTable() {
             setAllQues(["All", ...response.data.questionnaires]);
         } catch (error) {
             console.error("Error fetching data:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error fetching questionnaires';
+            message.error(`Error: ${errorMessage}`);
         }
     };
 
@@ -95,7 +104,7 @@ export default function EvalRequestsTable() {
                 console.log("Result text:", text); // Debugging line
                 if (text === -999) return "Evaluation failed";
                 if (text === -9999) return "Model is not compatible, evaluation failed";
-                if (!text || text === "")  return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
+                if (!text || text === "") return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
                 return text;
             },
         },
@@ -114,6 +123,9 @@ export default function EvalRequestsTable() {
             link.remove();
         } catch (error) {
             console.error("Error extracting CSV file", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error extracting CSV file';
+            message.error(`Error: ${errorMessage}`);
         }
     };
 
@@ -148,7 +160,7 @@ export default function EvalRequestsTable() {
             />
 
             <Button type="primary" htmlType="submit" onClick={extractCSV} style={{ marginTop: "20px" }}>
-                Download all results 
+                Download project results 
                 <DownloadOutlined style={{ marginLeft: 10 }} />
             </Button>
         </>

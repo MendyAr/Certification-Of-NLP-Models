@@ -77,9 +77,9 @@ def login():
 def logout():
     response = None
     try:
-        token = request.headers.get('Authorization')
-        user_id = decode_token_and_get_email(token)
-        response = jsonify({"message": f"{user_id} logout successfully"})
+        # token = request.headers.get('Authorization')
+        # user_id = decode_token_and_get_email(token)
+        response = jsonify({"message": f"logout successfully"})
         response.status_code = 200
     except BadRequestException as e:
         response = jsonify({"error": str(e)})
@@ -266,23 +266,23 @@ def add_project():
 @app.route('/add-model', methods=['POST'])
 def add_model():
     response = None
-    # try:
-    token = request.headers.get('Authorization')
-    user_id = decode_token_and_get_email(token)
-    project_name = request.args.get('project')
-    new_model = request.json.get('name')
-    service.add_model(user_id, project_name, new_model)
-    response = jsonify({"message": "Model added successfully", "model": new_model})
-    response.status_code = 200
-    # except BadRequestException as e:
-    #     response = jsonify({"error": str(e)})
-    #     response.status_code = e.error_code
-    # except Exception as e:
-    #     response = jsonify({"error": str(e)})
-    #     print(str(e))
-    #     response.status_code = 500
-    # finally:
-    return response
+    try:
+        token = request.headers.get('Authorization')
+        user_id = decode_token_and_get_email(token)
+        project_name = request.args.get('project')
+        new_model = request.json.get('name')
+        service.add_model(user_id, project_name, new_model)
+        response = jsonify({"message": "Model added successfully", "model": new_model})
+        response.status_code = 200
+    except BadRequestException as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = e.error_code
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        print(str(e))
+        response.status_code = 500
+    finally:
+        return response
 
 
 # # add questionnaire to project
