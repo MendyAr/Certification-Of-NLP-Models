@@ -52,7 +52,7 @@ class EvaluationEngine:
 
 def test_eval():
     e = EvaluationEngine()
-    q_names = ["asi","big5"]
+    q_names = ["ASI","BIG5"]
     scores = []
     for model_name in mnli_models_names_array: 
         for q_name in q_names:

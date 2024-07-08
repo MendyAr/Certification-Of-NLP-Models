@@ -1,12 +1,16 @@
-import { Button, Form, Select, Table } from "antd";
+import { Button, Form, Select, Table, message } from "antd";
 import React, { useState, useEffect, useMemo } from "react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { DownloadOutlined, ReloadOutlined } from "@ant-design/icons";
 
 interface Eval {
     questionnaire: string;
     model: string;
     result: string;
+}
+
+interface ErrorResponse {
+    error: string;
 }
 
 export default function TopRequestsTable() {
@@ -32,6 +36,9 @@ export default function TopRequestsTable() {
             setLoading(false);
         } catch (error) {
             console.error("Error fetching data:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error fetching data';
+            message.error(`Error: ${errorMessage}`);
             setLoading(false);
         }
     };
@@ -48,6 +55,9 @@ export default function TopRequestsTable() {
             setAllQues(["All", ...response.data.questionnaires]);
         } catch (error) {
             console.error("Error fetching data:", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error fetching questionnaires';
+            message.error(`Error: ${errorMessage}`);
         }
     };
 
@@ -78,7 +88,7 @@ export default function TopRequestsTable() {
                 console.log("Result text:", text); // Debugging line
                 if (text === -999) return "Evaluation failed";
                 if (text === -9999) return "Model is not compatible, evaluation failed";
-                if (!text || text === "")  return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
+                if (!text || text === "") return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
                 return text;
             },
         },
@@ -96,6 +106,9 @@ export default function TopRequestsTable() {
             link.remove();
         } catch (error) {
             console.error("Error extracting CSV file", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error extracting CSV file';
+            message.error(`Error: ${errorMessage}`);
         }
     };
 
@@ -111,6 +124,9 @@ export default function TopRequestsTable() {
             link.remove();
         } catch (error) {
             console.error("Error extracting CSV file", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error extracting CSV file';
+            message.error(`Error: ${errorMessage}`);
         }
     };
 

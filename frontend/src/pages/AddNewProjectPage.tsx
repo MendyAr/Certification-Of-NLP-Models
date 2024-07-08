@@ -1,9 +1,13 @@
 import React, { useState, ChangeEvent } from "react";
-import { Button, Input, Form } from "antd";
+import { Button, Input, Form, message } from "antd";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
+
+interface ErrorResponse {
+    error: string;
+}
 
 const AddNewProject = () => {
     const token = useSelector((state: RootState) => state.auth.token);
@@ -26,7 +30,10 @@ const AddNewProject = () => {
             console.log("Add project response:", response.data); // Debugging line
             navigate(`/my-projects/${projectName}/new-eval-request`);
         } catch (error) {
-            console.error("Error adding questionnaire");
+            console.error("Error adding project", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error adding project';
+            message.error(`Error: ${errorMessage}`);
         }
     };
 

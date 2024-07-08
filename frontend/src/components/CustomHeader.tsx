@@ -6,12 +6,16 @@ import { RootState } from "../redux/store";
 import { setTheme } from "../redux/slices/ThemeSlice";
 import { MenuItem } from "../utils/Types";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { selectToken, setToken } from "../redux/slices/authSlice";
 import Modal from "antd/es/modal/Modal";
 
 function getSwitchBackgroundColor(isLight: boolean) {
     return isLight ? "#dcb92b" : "#4469cb";
+}
+
+interface ErrorResponse {
+    error: string;
 }
 
 export default function CustomHeader() {
@@ -76,7 +80,9 @@ export default function CustomHeader() {
             alert('Login Successful');
         } catch (error) {
             console.error('Error logging in', error);
-            alert('Login Failed');
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Login Failed';
+            alert(`Login Failed: ${errorMessage}`);
         }
     };
 
@@ -87,18 +93,16 @@ export default function CustomHeader() {
             alert('Registration Successful');
         } catch (error) {
             console.error('Error registering', error);
-            alert('Registration Failed');
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Registration Failed';
+            alert(`Registration Failed: ${errorMessage}`);
         }
     };
 
     const handleLogout = async () => {
         try {
             // Optional: Send a request to the backend to invalidate the token/session
-            await axios.post(`${serverUrl}/logout`, {}, {
-                headers: {
-                    Authorization: `${token}`
-                }
-            });
+            await axios.post(`${serverUrl}/logout`);
             localStorage.removeItem('token');
             dispatch(setToken(null));
             navigate(`/`);
@@ -116,12 +120,6 @@ export default function CustomHeader() {
                 Models Bias Detector
             </Typography.Title>
             <Menu theme="dark" mode="horizontal" items={items} style={{ flex: 1, minWidth: 0 }}/>
-
-            {/* <Dropdown menu={{ items: itemsMyAccount }} placement="bottomLeft" arrow>
-                <Button style={{ backgroundColor: "transparent", color: "white" }} icon={<UserOutlined />}>
-                    My Account
-                </Button>
-            </Dropdown> */}
 
             {token ? (
                 <>
