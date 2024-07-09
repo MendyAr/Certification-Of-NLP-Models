@@ -123,10 +123,12 @@ class Storage2:
         if self._instance is not None:
             raise Exception("Singleton class cannot be instantiated multiple times")
         else:
-            def get_session(create_new=False):  # !!!!! DELETE THIS DATABASE !!!!! if create_new=True
+            def get_session():  # !!!!! DELETE THIS DATABASE !!!!! if create_new=True
+                create_new = os.getenv('RESET_DB', 'False').lower() in ['true', '1', 't', 'y', 'yes']
                 if create_new:
-                    if os.path.exists("backend/Storage/storage.db"):
-                        os.remove("backend/Storage/storage.db")
+                    db_path = os.path.join(current_dir, "storage.db")
+                    if os.path.exists(db_path):
+                        os.remove(db_path)
                     engine = create_engine(DATABASE_URL)
                     Base.metadata.create_all(engine)
                 else:

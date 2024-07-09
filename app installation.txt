@@ -5,8 +5,8 @@ A
 create two terminals and enter these line
 frontend terminal:
 cd frontend
-npm install
-npm install node
+first installation: npm install
+                    npm audit fix (--force)
 npm start
 
 backend terminal:
@@ -17,7 +17,7 @@ python Service\app.py
 
 
 frontend server url:
-http://localhost:3001/
+http://localhost:3000/
 
 backend server url:
 http://localhost:5001/
