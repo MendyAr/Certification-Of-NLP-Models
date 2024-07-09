@@ -8,6 +8,8 @@ import { store } from "./redux/store";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
+const clientId = "876377932534-j7to6fa1ssrk9lcq8ji83b90pkna8l8i.apps.googleusercontent.com";
+
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
