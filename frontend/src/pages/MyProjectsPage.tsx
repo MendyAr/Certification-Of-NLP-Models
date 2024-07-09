@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Modal, Row, Space } from "antd";
+import { Button, Col, Modal, Row, Space, message } from "antd";
 import MainTitle from "./MainTitle";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { RootState } from '../redux/store';
 import { useSelector } from 'react-redux';
 import { MinusCircleOutlined } from '@ant-design/icons';
+
+interface ErrorResponse {
+    error: string;
+}
 
 export default function MyProjects() {
     const token = useSelector((state: RootState) => state.auth.token);
@@ -27,7 +31,10 @@ export default function MyProjects() {
                 setProjects(response.data.projects);
                 setLoading(false);
             } catch (error) {
-                console.error("Error fetching projects");
+                console.error("Error fetching projects", error);
+                const axiosError = error as AxiosError<ErrorResponse>;
+                const errorMessage = axiosError.response?.data?.error || 'Error fetching projects';
+                message.error(`Error: ${errorMessage}`);
                 setLoading(false);
             }
         };
@@ -65,7 +72,10 @@ export default function MyProjects() {
             // Update the project state after successful deletion
             setProjects(projects.filter(project => project !== projectNameToDelete));
         } catch (error) {
-            console.error("Error deleting project");
+            console.error("Error deleting project", error);
+            const axiosError = error as AxiosError<ErrorResponse>;
+            const errorMessage = axiosError.response?.data?.error || 'Error deleting project';
+            message.error(`Error: ${errorMessage}`);
         }
     };
 

@@ -77,10 +77,7 @@ def create_app():
     def logout():
         response = None
         try:
-            token = request.headers.get('Authorization')
-            user_id = decode_token_and_get_email(token)
-            response = jsonify({"message": f"{user_id} logout successfully"})
-            response.status_code = 200
+            response = jsonify({"message": "logout successfully"})
         except BadRequestException as e:
             response = jsonify({"error": str(e)})
             response.status_code = e.error_code
@@ -396,7 +393,7 @@ def start_eval_thread():
 
 
 def main():
-    create_app().run(debug=False, host='0.0.0.0', port=5001)
+    create_app().run(debug=False, port=5001)
 
 
 if __name__ == '__main__':

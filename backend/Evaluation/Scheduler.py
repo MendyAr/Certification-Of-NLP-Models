@@ -40,6 +40,8 @@ class Scheduler:
         return Scheduler._instance
 
     def add_request(self, eval_request: Request, user_name):
+        print("start add request: ",len(self.agent_requests_list))
+        print("start add request: ",len(self.users_requests_list))
         result = self.storage.check_if_has_result_2_eval(eval_request)
         # Check for if there is an agent request with the same model or questionnaire
         agent_request_to_move = None
@@ -81,6 +83,8 @@ class Scheduler:
         result = Result(eval_request, -999, dt)
         self.storage.add_result_to_db(result)
         self.save()
+        print("end add request: ",len(self.agent_requests_list))
+        print("end add request: ",len(self.users_requests_list))
         return result
 
     def eval_request(self):
