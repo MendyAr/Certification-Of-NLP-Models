@@ -5,9 +5,12 @@ A
 create two terminals and enter these line
 frontend terminal:
 cd frontend
-first installation: npm install
-                    npm audit fix (--force)
+(npm install)
+(npm install node)
 npm start
+npm audit fix (--force)
+npm run build
+(serve -s build -l 80)
 
 backend terminal:
 python -m venv venv 
@@ -17,7 +20,10 @@ python Service\app.py
 
 
 frontend server url:
-http://localhost:3000/
+http://localhost:3001/
 
 backend server url:
 http://localhost:5001/
+
+
+http://nlp-cetrification.cs.bgu.ac.il/
