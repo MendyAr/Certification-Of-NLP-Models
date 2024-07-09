@@ -393,7 +393,7 @@ def start_eval_thread():
 
 
 def main():
-    create_app().run(debug=False, port=5001)
+    create_app().run(debug=False, host='0.0.0.0', port=5001)
 
 
 if __name__ == '__main__':
