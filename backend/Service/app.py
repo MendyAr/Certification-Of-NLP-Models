@@ -12,21 +12,27 @@ GLOBAL_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))
 # Add the project root directory to the system path
 sys.path.insert(0, GLOBAL_PROJECT_ROOT)
 # load .env.env file
-exist = load_dotenv(os.path.join(os.path.dirname(GLOBAL_PROJECT_ROOT), ".env.example"), verbose=True)
+exist = load_dotenv(os.path.join(os.path.dirname(GLOBAL_PROJECT_ROOT), ".env.env"), verbose=True)
 if not exist:
-    raise FileNotFoundError(".env.example file not found")
+    raise FileNotFoundError(".env.env file not found")
 
 from Service.Service import Service
 from Evaluation.Scheduler import Scheduler
 from DataObjects.BadRequestException import BadRequestException
 
-# configure flask
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-app.config['EVAL_FLAG'] = False
-CORS(app)
 
-service = Service()
+def create_app():
+    # configure flask
+    app = Flask(__name__)
+    app.config['FLASK_SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
+    CORS(app)
+
+    start_eval_thread()
+    service = Service()
+
+    @app.before_request
+    def log_request_info():
+        print('Request URL:', request.url)
 
     @app.route('/register', methods=['POST'])
     def register():
@@ -212,7 +218,6 @@ service = Service()
             user_id = decode_token_and_get_email(token)
             project_name = request.args.get('project')
             projects_evals = service.get_project_evaluations(user_id, project_name)
-            # print("projects eavals: ", projects_evals)
             response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
             response.status_code = 200
         except BadRequestException as e:
@@ -355,28 +360,8 @@ service = Service()
         finally:
             return response
 
-    @app.route('/eval-engine', methods=['GET'])
-    def eval_engine():
-        response = None
-        try:
-            if not app.config['EVAL_FLAG']:
-                scheduler = Scheduler.get_instance()
-                app.config['EVAL_FLAG'] = True
-                scheduler.run_eval_thread()
-                response = jsonify({"message": "Eval engine stopped"})
-            else:
-                response = jsonify({"message": "Eval engine working"})
-        except BadRequestException as e:
-            response = jsonify({"error": str(e)})
-            response.status_code = e.error_code
-        except Exception as e:
-            response = jsonify({"error": str(e)})
-            print(str(e))
-            response.status_code = 500
-        finally:
-            return response
-
     return app
+
 
 # Encodes an email address into a JWT token with a 1-hour expiration time.
 def encode_token(email):
@@ -408,8 +393,7 @@ def start_eval_thread():
 
 
 def main():
-    create_app().run(debug=True, port=5001)
-
+    create_app().run(debug=False, host='0.0.0.0', port=5001)
 
 
 if __name__ == '__main__':
