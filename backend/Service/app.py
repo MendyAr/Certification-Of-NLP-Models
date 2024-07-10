@@ -392,8 +392,15 @@ def start_eval_thread():
     thread.start()
 
 
+# use for running with gunicorn production server
+def app_factory(*args, **kwargs):
+    print(args)
+    print(kwargs)
+    return create_app()
+
+
 def main():
-    create_app().run(debug=False, host='0.0.0.0', port=5001)
+    create_app().run(debug=True, port=5001)
 
 
 if __name__ == '__main__':
