@@ -40,9 +40,9 @@ relative_cache_directory = "models"
 # models_cache = r"C:\Users\shiru\.cache\huggingface\hub"
 # models_cache_hub_create = r"C:\Users\shiru\.cache\huggingface"
 
-username = os.getlogin()
-models_cache = fr"C:\Users\{username}\.cache\huggingface\hub"
-models_cache_hub_create = fr"C:\Users\{username}\.cache\huggingface"
+# username = os.getlogin()
+models_cache = fr"/home/stud/.cache/huggingface/hub"
+models_cache_hub_create = fr"/home/stud/.cache/huggingface/hub"
 
 mnli_models_names_array = [
                   'typeform/distilbert-base-uncased-mnli',
