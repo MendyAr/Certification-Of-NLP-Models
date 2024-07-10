@@ -21,7 +21,7 @@ from Evaluation.Scheduler import Scheduler
 from DataObjects.BadRequestException import BadRequestException
 
 
-def create_app():
+def create_app(*args, **kwargs):
     # configure flask
     app = Flask(__name__)
     app.config['FLASK_SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
@@ -390,13 +390,6 @@ def start_eval_thread():
     scheduler = Scheduler.get_instance()
     thread = threading.Thread(target=scheduler.run_eval_thread)
     thread.start()
-
-
-# use for running with gunicorn production server
-def app_factory(*args, **kwargs):
-    print(args)
-    print(kwargs)
-    return create_app()
 
 
 def main():
