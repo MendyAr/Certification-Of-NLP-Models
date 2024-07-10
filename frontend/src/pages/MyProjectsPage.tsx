@@ -13,7 +13,7 @@ interface ErrorResponse {
 
 export default function MyProjects() {
     const token = useSelector((state: RootState) => state.auth.token);
-    const serverUrl = "http://132.73.84.52:5001";
+    const serverUrl = "https://132.73.84.52:5001";
     const [projects, setProjects] = useState<string[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();

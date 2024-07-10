@@ -15,7 +15,7 @@ interface ErrorResponse {
 
 const AddNewEvaluationRequest = () => {
     const token = useSelector((state: RootState) => state.auth.token);
-    const serverUrl = process.env.REACT_APP_BACKEND_URL;
+    const serverUrl = "https://132.73.84.52:5001"
     const { projectName } = useParams();
     const navigate = useNavigate();
     const [isModelModalVisible, setIsModelModalVisible] = useState(false);

@@ -5,4 +5,4 @@ backend/Service/venv/
 **/venv
 **/_pycache_/
 **/__pycache__/
-.env.env
+#.env.env
