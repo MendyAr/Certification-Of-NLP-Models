@@ -13,3 +13,4 @@ transformers
 seaborn
 validate_email
 password-validator
+gunicorn
