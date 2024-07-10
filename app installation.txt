@@ -1,29 +1,17 @@
-on windows running the server locally:
-Set-ExecutionPolicy Unrestricted
-A
+# Useful when installing first time on a machine (after git clone command)
+# Then see Readme_Server.txt for further actions
 
-create two terminals and enter these line
-frontend terminal:
+
+# frontend initial installation and building:
 cd frontend
-(npm install)
-(npm install node)
-npm start
+npm install
 npm audit fix (--force)
 npm run build
-(serve -s build -l 80)
 
-backend terminal:
+# when modifying frontend code rebuild:
+npm run build
+
+# backend initial installation:
 python -m venv venv 
-venv\Scripts\activate
-cd backend
-python Service\app.py
-
-
-frontend server url:
-http://localhost:3001/
-
-backend server url:
-http://localhost:5001/
-
-
-http://nlp-cetrification.cs.bgu.ac.il/
+source venv/bin/activate
+pip install -r requirements.txt
