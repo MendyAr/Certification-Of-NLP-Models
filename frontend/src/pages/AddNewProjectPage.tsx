@@ -11,7 +11,7 @@ interface ErrorResponse {
 
 const AddNewProject = () => {
     const token = useSelector((state: RootState) => state.auth.token);
-    const serverUrl = "https://132.73.84.52:5001"
+    const serverUrl = "https://nlp-cetrification.cs.bgu.ac.il/api"
     const navigate = useNavigate();
     const [projectName, setProjectName] = useState("");
     const handleProjectNameChange = (e: ChangeEvent<HTMLInputElement>) => {
