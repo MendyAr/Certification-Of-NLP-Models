@@ -46,17 +46,18 @@ class HuggingFaceAPI:
         return False
 
     # return a list of compatible models
-    def get_matching_models_from_hf(self, limit=None):
-        models = self.api.list_models(limit=limit, sort='downloads', language=['en'])
+    def get_matching_models_from_hf(self, limit=None, included_model_names=["nli", "bert"]):
         models_list = []
-        list_count = 0
-        for m in models:
-            list_count += 1
-            try:
-                # if self.check_model_compatability(m.id):
-                models_list.append({"name": m.id, "last_modified": m.last_modified})
-            except Exception:
-                pass
+        for imn in included_model_names:
+            models = self.api.list_models(limit=limit, sort='downloads', language=['en'], model_name=imn)
+            list_count = 0
+            for m in models:
+                list_count += 1
+                try:
+                    # if self.check_model_compatability(m.id):
+                    models_list.append({"name": m.id, "last_modified": m.last_modified})
+                except Exception:
+                    pass
         return models_list
 
 

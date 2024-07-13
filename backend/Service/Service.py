@@ -38,54 +38,6 @@ class Service:
                    "questionnaire": r.request.questionnaire.name,
                    "result": r.result_score}
             top.append(dic)
-        # records = [
-        # {
-        #     "model": "NLP1",
-        #     "questionnaire": "ASI",
-        #     "result": "0.8",
-        # },
-        # {
-        #     "model": "NLP2",
-        #     "questionnaire": "BIG5",
-        #     "result": "0.56",
-        # },
-        # {
-        #     "model": "NLP3",
-        #     "questionnaire": "ASI",
-        #     "result": "0.9",
-        # },
-        # {
-        #     "model": "NLP1",
-        #     "questionnaire": "ASI",
-        #     "result": "0.8",
-        # },
-        # {
-        #     "model": "NLP2",
-        #     "questionnaire": "BIG5",
-        #     "result": "0.56",
-        # },
-        # {
-        #     "model": "NLP3",
-        #     "questionnaire": "ASI",
-        #     "result": "0.9",
-        # },
-        # {
-        #     "model": "NLP1",
-        #     "questionnaire": "ASI",
-        #     "result": "0.8",
-        # },
-        # {
-        #     "model": "NLP2",
-        #     "questionnaire": "BIG5",
-        #     "result": "0.56",
-        # },
-        # {
-        #     "model": "NLP3",
-        #     "questionnaire": "ASI",
-        #     "result": "0.9",
-        # },
-        # ]
-        # return records
         return top
 
     def get_csv(self, records):
