@@ -29,6 +29,7 @@ def create_app(*args, **kwargs):
     CORS(app)
 
     service = Service()
+    start_eval_thread()
 
     @app.route('/register', methods=['POST'])
     def register():
@@ -356,26 +357,26 @@ def create_app(*args, **kwargs):
         finally:
             return response
 
-    @app.route('/eval-engine', methods=['GET'])
-    def eval_engine():
-        response = None
-        try:
-            if not app.config['EVAL_FLAG']:
-                scheduler = Scheduler.get_instance()
-                app.config['EVAL_FLAG'] = True
-                scheduler.run_eval_thread()
-                response = jsonify({"message": "Eval engine stopped"})
-            else:
-                response = jsonify({"message": "Eval engine working"})
-        except BadRequestException as e:
-            response = jsonify({"error": str(e)})
-            response.status_code = e.error_code
-        except Exception as e:
-            response = jsonify({"error": str(e)})
-            print(str(e))
-            response.status_code = 500
-        finally:
-            return response
+    # @app.route('/eval-engine', methods=['GET'])
+    # def eval_engine():
+    #     response = None
+    #     try:
+    #         if not app.config['EVAL_FLAG']:
+    #             scheduler = Scheduler.get_instance()
+    #             app.config['EVAL_FLAG'] = True
+    #             scheduler.run_eval_thread()
+    #             response = jsonify({"message": "Eval engine stopped"})
+    #         else:
+    #             response = jsonify({"message": "Eval engine working"})
+    #     except BadRequestException as e:
+    #         response = jsonify({"error": str(e)})
+    #         response.status_code = e.error_code
+    #     except Exception as e:
+    #         response = jsonify({"error": str(e)})
+    #         print(str(e))
+    #         response.status_code = 500
+    #     finally:
+    #         return response
 
     return app
 
@@ -400,6 +401,12 @@ def decode_token_and_get_email(token):
         raise BadRequestException("Token expired, please login again")
     email = decoded_token['email']
     return email
+
+
+def start_eval_thread():
+    scheduler = Scheduler.get_instance()
+    thread = threading.Thread(target=scheduler.run_eval_thread)
+    thread.start()
 
 
 def main():

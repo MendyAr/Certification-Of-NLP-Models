@@ -166,11 +166,11 @@ class Scheduler:
         pass
 
     def run_eval_thread(self):
-        print("eval thread")
+        print("evaluation thread is running")
         while self._running_eval_thread:
             x = self.eval_request()
             if not x:
-                print("run_eval_thread-is sleeping")
+                print("evaluation thread is sleeping")
                 sleep(self._running_eval_thread_sleep_time)  # Adjust sleep time as needed
 
     def recover_user_request(self):
