@@ -37,13 +37,17 @@ class HuggingFaceAPI:
     # compatible models are ones with configuration.label2id[entitlement] not -1
     # give this method only valid model names
     def check_model_compatability(self, model_name):
-        config = AutoConfig.from_pretrained(model_name)
-        if hasattr(config, "label2id"):
-            if "entailment" in config.label2id and config.label2id["entailment"] != -1:
-                return True
-            elif "ENTAILMENT" in config.label2id and config.label2id["ENTAILMENT"] != -1:
-                return True
-        return False
+        try:
+            config = AutoConfig.from_pretrained(model_name)
+            if hasattr(config, "label2id"):
+                if "entailment" in config.label2id and config.label2id["entailment"] != -1:
+                    return True
+                elif "ENTAILMENT" in config.label2id and config.label2id["ENTAILMENT"] != -1:
+                    return True
+            return False
+        except:
+            return False
+    
 
     # return a list of compatible models
     def get_matching_models_from_hf(self, limit=None):

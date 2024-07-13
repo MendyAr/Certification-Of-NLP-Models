@@ -32,6 +32,7 @@ class User:
             results.append({"model": r.model.name,
                             "questionnaire": r.questionnaire.name,
                             "result": self.storage.get_result_of_request(r)})
+        print(results)
         return results
 
     def add_project(self, project_name):

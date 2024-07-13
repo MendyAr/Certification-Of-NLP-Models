@@ -360,8 +360,24 @@ def create_app():
         finally:
             return response
 
+    @app.route('/test', methods=['GET'])
+    def test():
+        response = None
+        try:
+            scheduler = Scheduler.get_instance()
+            scheduler.run_eval_thread()
+            response = jsonify({"message": "test!!"})
+        except BadRequestException as e:
+            response = jsonify({"error": str(e)})
+            response.status_code = e.error_code
+        except Exception as e:
+            response = jsonify({"error": str(e)})
+            print(str(e))
+            response.status_code = 500
+        finally:
+            return response
+    
     return app
-
 
 # Encodes an email address into a JWT token with a 1-hour expiration time.
 def encode_token(email):
@@ -394,6 +410,7 @@ def start_eval_thread():
 
 def main():
     create_app().run(debug=False, port=5001)
+
 
 
 if __name__ == '__main__':
