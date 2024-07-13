@@ -339,9 +339,34 @@ class Storage2:
         result_dbs = self.session.query(Result_db).filter(
             Result_db.request_model_name == name,
             Result_db.request_questionnaire_name == request.questionnaire.name,
-            Result_db.end_time != None,
+            Result_db.end_time == None,
             Result_db.result_score == -99999
         ).order_by(Result_db.start_time.desc()).limit(1).all()
+
+        if len(result_dbs) > 0:
+            return self.Result_db_2_Result(result_dbs[0])
+        else:
+            return None
+        
+    def get_waiting_request(self):
+        result_dbs = self.session.query(Result_db).filter(
+            Result_db.end_time == None,
+            Result_db.result_score == -99999
+        ).all()
+        results = []
+        for rdb in result_dbs:
+            results.append(self.Result_db_2_Result(rdb))
+        return results
+        
+    def check_if_has_result_2_eval_new(self, request: Request):
+        name = request.model.name
+        if isinstance(request.model.name, dict):
+            name = request.model.name["name"]
+        result_dbs = self.session.query(Result_db).filter(
+            Result_db.request_model_name == name,
+            Result_db.request_questionnaire_name == request.questionnaire.name,
+            Result_db.end_time != None,
+        ).order_by(Result_db.end_time.desc()).limit(1).all()
 
         if len(result_dbs) > 0:
             return self.Result_db_2_Result(result_dbs[0])
@@ -407,11 +432,11 @@ class Storage2:
         return r_db
 
     def Result_db_2_Result(self, result_db: Result_db):
-        if result_db.request is None or result_db.request.model is None or result_db.request.questionnaire is None:
+        if result_db is None or result_db.request_model_name is None or result_db.request_questionnaire_name is None:
             raise ValueError(
-                f"Incomplete request data in Result_db with result_score {result_db.result_score} and start_time {result_db.start_time}")
-        model = Model(name=result_db.request.model.name)
-        questionnaire = Questionnaire(name=result_db.request.questionnaire.name)
+                f"Incomplete request data in Result_db with result_score {result_db.result_score} and start_time {result_db.start_time}, {result_db.request_questionnaire_name}, {result_db.request_model_name}")
+        model = Model(name=result_db.request_model_name)
+        questionnaire = Questionnaire(name=result_db.request_questionnaire_name)
         request = Request(model=model, questionnaire=questionnaire)
         result = Result(request=request, result_score=result_db.result_score, start_time=result_db.start_time)
         result.end_time = result_db.end_time
@@ -582,10 +607,11 @@ class Storage2:
             Result_db.request_questionnaire_name == request.questionnaire.name,
             Result_db.end_time != None
         ).order_by(Result_db.end_time.desc()).first()
-        print(Result_db)
         if result_db is None:
             print("result db is none")
             return None
+        print("fff", result_db.request_model_name)
+        print("fff", result_db.request_questionnaire_name)
         return self.Result_db_2_Result(result_db)
 
     # .......................................................................

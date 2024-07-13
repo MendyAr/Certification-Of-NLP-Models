@@ -25,14 +25,11 @@ def create_app():
     # configure flask
     app = Flask(__name__)
     app.config['FLASK_SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
+    app.config['EVAL_FLAG'] = False
     CORS(app)
 
-    start_eval_thread()
+    # start_eval_thread()
     service = Service()
-
-    @app.before_request
-    def log_request_info():
-        print('Request URL:', request.url)
 
     @app.route('/register', methods=['POST'])
     def register():
@@ -218,6 +215,7 @@ def create_app():
             user_id = decode_token_and_get_email(token)
             project_name = request.args.get('project')
             projects_evals = service.get_project_evaluations(user_id, project_name)
+            # print("projects eavals: ", projects_evals)
             response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
             response.status_code = 200
         except BadRequestException as e:
@@ -360,13 +358,17 @@ def create_app():
         finally:
             return response
 
-    @app.route('/test', methods=['GET'])
-    def test():
+    @app.route('/eval-engine', methods=['GET'])
+    def eval_engine():
         response = None
         try:
-            scheduler = Scheduler.get_instance()
-            scheduler.run_eval_thread()
-            response = jsonify({"message": "test!!"})
+            if not app.config['EVAL_FLAG']:
+                scheduler = Scheduler.get_instance()
+                app.config['EVAL_FLAG'] = True
+                scheduler.run_eval_thread()
+                response = jsonify({"message": "Eval engine stopped"})
+            else:
+                response = jsonify({"message": "Eval engine working"})
         except BadRequestException as e:
             response = jsonify({"error": str(e)})
             response.status_code = e.error_code
@@ -409,7 +411,7 @@ def start_eval_thread():
 
 
 def main():
-    create_app().run(debug=False, port=5001)
+    create_app().run(debug=True, port=5001)
 
 
 

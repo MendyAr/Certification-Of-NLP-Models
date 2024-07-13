@@ -29,9 +29,15 @@ class User:
         self.__validate_project(project_name)
         results = []
         for r in self.projects[project_name].get_requests():
+            # score = self.storage.get_result_of_request(r)
+            score = self.storage.check_if_has_result_2_eval_new(r)
+            if score is None:
+                score = None
+            else:
+                score = score.result_score
             results.append({"model": r.model.name,
                             "questionnaire": r.questionnaire.name,
-                            "result": self.storage.get_result_of_request(r)})
+                            "result": score})
         print(results)
         return results
 
