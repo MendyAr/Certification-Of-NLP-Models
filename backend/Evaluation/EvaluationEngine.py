@@ -27,6 +27,7 @@ class EvaluationEngine:
         else:
             start_time = datetime.now()
             last_result = Result(request, score,start_time)
+        last_result.end_time = datetime.now()
         self.storage.update_result_in_db(last_result)
         return score
     

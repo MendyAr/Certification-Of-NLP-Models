@@ -1,3 +1,4 @@
+import requests
 from flask import Flask, jsonify, request, make_response
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -227,15 +228,16 @@ def get_project_evaluations():
         user_id = decode_token_and_get_email(token)
         project_name = request.args.get('project')
         projects_evals = service.get_project_evaluations(user_id, project_name)
+        print(projects_evals)
         response = jsonify({"message": "got project evaluations successfully", "evals": projects_evals})
         response.status_code = 200
-    except BadRequestException as e:
-        response = jsonify({"error": str(e)})
-        response.status_code = e.error_code
-    except Exception as e:
-        response = jsonify({"error": str(e)})
-        print(str(e))
-        response.status_code = 500
+    # except BadRequestException as e:
+    #     response = jsonify({"error": str(e)})
+    #     response.status_code = e.error_code
+    # except Exception as e:
+    #     response = jsonify({"error": str(e)})
+    #     print(str(e))
+    #     response.status_code = 500
     finally:
         return response
 
@@ -374,6 +376,23 @@ def delete_questionnaire():
         response.status_code = 500
     finally:
         return response
+    
+@app.route('/test', methods=['GET'])
+def test():
+    response = None
+    try:
+        scheduler = Scheduler.get_instance()
+        scheduler.run_eval_thread()
+        response = jsonify({"message": "test!!"})
+    except BadRequestException as e:
+        response = jsonify({"error": str(e)})
+        response.status_code = e.error_code
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        print(str(e))
+        response.status_code = 500
+    finally:
+        return response
 
 
 # Encodes an email address into a JWT token with a 1-hour expiration time.
@@ -406,8 +425,18 @@ def start_eval_thread():
 
 
 def main():
-    start_eval_thread()
+    # start_eval_thread()
     app.run(debug=True, host='0.0.0.0', port=5001)
+    # url = "http://127.0.0.1:5001/test"
+    # try:
+    #     response = requests.get(url, timeout=30)
+    #     response.raise_for_status()  # Raise an exception for HTTP errors
+    #     data = response.json()
+    #     print("Response data:", data)
+    # except requests.exceptions.HTTPError as http_err:
+    #     print(f"HTTP error occurred (test request): {http_err}")
+    # except requests.exceptions.RequestException as req_err:
+    #     print(f"Request error occurred (test request): {req_err}")
 
 
 #

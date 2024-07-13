@@ -88,6 +88,7 @@ export default function TopRequestsTable() {
                 console.log("Result text:", text); // Debugging line
                 if (text === -999) return "Evaluation failed";
                 if (text === -9999) return "Model is not compatible, evaluation failed";
+                if (text === -99999) return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
                 if (!text || text === "") return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
                 return text;
             },
