@@ -25,14 +25,10 @@ def create_app(*args, **kwargs):
     # configure flask
     app = Flask(__name__)
     app.config['FLASK_SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
+    app.config['EVAL_FLAG'] = False
     CORS(app)
 
-    start_eval_thread()
     service = Service()
-
-    @app.before_request
-    def log_request_info():
-        print('Request URL:', request.url)
 
     @app.route('/register', methods=['POST'])
     def register():
@@ -360,8 +356,28 @@ def create_app(*args, **kwargs):
         finally:
             return response
 
-    return app
+    @app.route('/eval-engine', methods=['GET'])
+    def eval_engine():
+        response = None
+        try:
+            if not app.config['EVAL_FLAG']:
+                scheduler = Scheduler.get_instance()
+                app.config['EVAL_FLAG'] = True
+                scheduler.run_eval_thread()
+                response = jsonify({"message": "Eval engine stopped"})
+            else:
+                response = jsonify({"message": "Eval engine working"})
+        except BadRequestException as e:
+            response = jsonify({"error": str(e)})
+            response.status_code = e.error_code
+        except Exception as e:
+            response = jsonify({"error": str(e)})
+            print(str(e))
+            response.status_code = 500
+        finally:
+            return response
 
+    return app
 
 # Encodes an email address into a JWT token with a 1-hour expiration time.
 def encode_token(email):
@@ -384,12 +400,6 @@ def decode_token_and_get_email(token):
         raise BadRequestException("Token expired, please login again")
     email = decoded_token['email']
     return email
-
-
-def start_eval_thread():
-    scheduler = Scheduler.get_instance()
-    thread = threading.Thread(target=scheduler.run_eval_thread)
-    thread.start()
 
 
 def main():
