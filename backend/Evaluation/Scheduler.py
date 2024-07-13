@@ -21,7 +21,8 @@ class Scheduler:
         else:
             self.storage = Storage2.get_instance()
             self.users_requests_list = self.storage.load_user_requests_scheduler_list_from_db()
-            self.agent_requests_list = self.storage.load_agent_requests_scheduler_list_from_db()
+            self.agent_requests_list = []
+            self.recover_user_request()
             self.user_requests_counter = 0
             self.users_2_agent_ratio = 10 # for num of request eval agent req
             self.agent_min_restock_requests = 10 # len(agent_requests_list) < this val then restock
@@ -67,6 +68,8 @@ class Scheduler:
                     ur.requests.append(eval_request)
                     self.sort_requests_list()
                 result = self.storage.check_if_has_result_2_eval(eval_request)
+                resultt = Result(eval_request, -99999, datetime.now())
+                self.storage.add_result_to_db(resultt)
                 self.save()
                 return result
         # There is no user that wants that request so add it to the agent list
@@ -94,7 +97,7 @@ class Scheduler:
         next_eval_req , user_or_agent = self.get_next_request()
         if next_eval_req == -1:
             return False
-        print(next_eval_req[0].model.name)
+        print("eval: ", next_eval_req[0].model.name, " - ",next_eval_req[0].questionnaire.name )
         if user_or_agent == 1:
             self.user_requests_counter += 1
         self.cache_manager.add_to_queue(next_eval_req[0].model.name)
@@ -103,6 +106,7 @@ class Scheduler:
             # check of each user and send emails
         self.cache_manager.check_and_update_cache()
         self.remove_next_request(user_or_agent)
+        self.save
         return True
     
     def try_restock_agent(self, retry_num = 0):
@@ -162,11 +166,21 @@ class Scheduler:
         pass
 
     def run_eval_thread(self):
+        print("eval thread")
         while self._running_eval_thread:
             x = self.eval_request()
             if not x:
                 print("run_eval_thread-is sleeping")
                 sleep(self._running_eval_thread_sleep_time)  # Adjust sleep time as needed
+
+    def recover_user_request(self):
+        results = self.storage.get_waiting_request()
+        for res in results:
+            r = Request(Model(res.request.model.name), Questionnaire(res.request.questionnaire.name))
+            self.agent_requests_list.append(UserRequest(["agent"], r, datetime.now(), 2))
+        
+        
+        
 
 class Tests:
     def __init__(self):

@@ -102,7 +102,16 @@ class Service:
         csv_writer.writerow(['questionnaire', 'model', 'result'])
         records = self.storage.get_top_evals(None)
         for r in records:
-            csv_writer.writerow([r.request.questionnaire.name, r.request.model.name, r.result_score])
+            score = None
+            if r.result_score == -99999:
+                score = "Waiting for evaluation"
+            elif r.result_score == -9999:
+                score = "Model is incompatible for evaluation"
+            elif r.result_score == -999:
+                score = "Evaluation failed"
+            else:
+                score = r.result_score
+            csv_writer.writerow([r.request.questionnaire.name, r.request.model.name, score])
         return csv_file
 
 

@@ -23,10 +23,10 @@ class EvaluationEngine:
                 score = -9999
         last_result = self.storage.check_if_has_result_2_eval(request)
         if last_result is not None:
-            last_result.score = score
+            last_result.result_score = score
         else:
             start_time = datetime.now()
-            last_result = Result(request, score,start_time)
+            last_result = Result(request, score, start_time)
         last_result.end_time = datetime.now()
         self.storage.update_result_in_db(last_result)
         return score
