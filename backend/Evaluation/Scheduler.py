@@ -67,6 +67,7 @@ class Scheduler:
                     ur.requests.append(eval_request)
                     self.sort_requests_list()
                 result = self.storage.check_if_has_result_2_eval(eval_request)
+                self.save()
                 return result
         # There is no user that wants that request so add it to the agent list
         dt = datetime.now()
@@ -80,7 +81,7 @@ class Scheduler:
         else:
             self.users_requests_list.append(ur)
             self.sort_requests_list()
-        result = Result(eval_request, -999, dt)
+        result = Result(eval_request, -99999, dt)
         self.storage.add_result_to_db(result)
         self.save()
         print("end add request: ",len(self.agent_requests_list))
@@ -93,6 +94,7 @@ class Scheduler:
         next_eval_req , user_or_agent = self.get_next_request()
         if next_eval_req == -1:
             return False
+        print(next_eval_req[0].model.name)
         if user_or_agent == 1:
             self.user_requests_counter += 1
         self.cache_manager.add_to_queue(next_eval_req[0].model.name)
@@ -155,8 +157,8 @@ class Scheduler:
         self.save()
      
     def save(self):
-        # self.storage.save_agent_requests_scheduler_list_to_file(self.agent_requests_list)
-        # self.storage.save_user_requests_scheduler_list_to_file(self.users_requests_list)
+        # self.storage.save_agent_requests_scheduler_list_to_db(self.agent_requests_list)
+        # self.storage.save_user_requests_scheduler_list_to_db(self.users_requests_list)
         pass
 
     def run_eval_thread(self):
