@@ -1,8 +1,11 @@
+import json
+import os
 from huggingface_hub import HfApi
 from transformers import AutoConfig
 from DataObjects.BadRequestException import BadRequestException
 import transformers
 from transformers.utils import logging as transformers_logging
+
 # Set the logging level to ERROR for transformers to suppress progress bars
 transformers_logging.set_verbosity_error()
 # Disable the tqdm progress bar globally
@@ -18,7 +21,7 @@ class HuggingFaceAPI:
         self.validate_model_name(model_name)
         try:
             if False:
-            # if not self.check_model_compatability(model_name):
+                # if not self.check_model_compatability(model_name):
                 raise BadRequestException(f"Model {model_name} isn't compatible for evaluation", 400)
         except ConnectionError as e:
             raise e
@@ -47,13 +50,15 @@ class HuggingFaceAPI:
             return False
         except:
             return False
-    
 
     # return a list of compatible models
     # this also define the models the agent.py giving to the scheduler
-    def get_matching_models_from_hf(self, limit=None, included_model_names=["nli", "bert"]):
+    def get_matching_models_from_hf(self, limit=None):
+        model_to_include_list = json.loads(os.environ['HF_MODEL_NAME_FILTER'])
+        print(model_to_include_list)
+        print(type(model_to_include_list))
         models_list = []
-        for imn in included_model_names:
+        for imn in model_to_include_list:
             models = self.api.list_models(limit=limit, sort='downloads', language=['en'], model_name=imn)
             list_count = 0
             for m in models:
@@ -65,7 +70,6 @@ class HuggingFaceAPI:
                     pass
         return models_list
 
-
 # if __name__ == '__main__':
-    # api = HuggingFaceAPI()
-    # api.validate_model("facebook/bart-large-mnli")
+# api = HuggingFaceAPI()
+# api.validate_model("facebook/bart-large-mnli")

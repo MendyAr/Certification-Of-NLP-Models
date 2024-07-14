@@ -114,9 +114,10 @@ class Scheduler:
             if len(self.agent_requests_list) < self.agent_min_restock_requests:
                 filterout = self.storage.get_all_evaled_models()
                 models = self.agent.get_models(filterout=filterout, limit=self.get_minimal_amount_of_evals_to_limit)
-                print(f"received {len(models)} models from agent")
+                print(f"received {len(models)} new models from agent")
                 if self.agent_min_restock_requests > len(models):
                     self.get_minimal_amount_of_evals_to_limit += self.agent_min_restock_requests * self.multiplier_get_minimal_amount_of_evals_to_limit
+                    print("updating agent request size to ", self.get_minimal_amount_of_evals_to_limit)
                     models = self.agent.get_models(filterout=filterout, limit=self.get_minimal_amount_of_evals_to_limit)
                 requests = []
                 questionnaires = ["ASI", "BIG5"]
