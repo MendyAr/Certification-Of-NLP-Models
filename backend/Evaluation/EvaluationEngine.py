@@ -24,6 +24,7 @@ class EvaluationEngine:
 
             thread = threading.Thread(target=self.eval_block(q, model_name))
             thread.start()
+            print("before")
             thread.join(timeout=5)
             print("here")
             if thread.is_alive():
