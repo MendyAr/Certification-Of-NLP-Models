@@ -149,7 +149,7 @@ class Storage2:
         return self.session.query(Result_db).filter_by(result_score=None).count()
 
     def get_all_evaled_models(self):
-        models_results = self.session.query(Result_db).filter(Result_db.result_score!=None).all()
+        models_results = self.session.query(Result_db).filter(Result_db.result_score is not None).all()
         models_names = []
         for model_result in models_results:
             models_names.append(model_result.request_model_name)

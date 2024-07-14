@@ -16,6 +16,7 @@ class HuggingFaceAPI:
 
     def __init__(self):
         self.api = HfApi()
+        self.model_to_include_list = json.loads(os.environ['HF_MODEL_NAME_FILTER'])
 
     def validate_model(self, model_name):
         self.validate_model_name(model_name)
@@ -54,9 +55,8 @@ class HuggingFaceAPI:
     # return a list of compatible models
     # this also define the models the agent.py giving to the scheduler
     def get_matching_models_from_hf(self, limit=None):
-        model_to_include_list = json.loads(os.environ['HF_MODEL_NAME_FILTER'])
         models_list = []
-        for imn in model_to_include_list:
+        for imn in self.model_to_include_list:
             models = self.api.list_models(limit=limit, sort='downloads', language=['en'], model_name=imn)
             list_count = 0
             for m in models:
@@ -65,9 +65,13 @@ class HuggingFaceAPI:
                     # if self.check_model_compatability(m.id):
                     models_list.append({"name": m.id, "last_modified": m.last_modified})
                 except Exception:
-                    pass
-        return models_list
+                    print("HF API error")
+        # filtering duplicates
+        unique_models_dict = {item["name"]: item for item in models_list}
+        unique_models_list = list(unique_models_dict.values())
+        return unique_models_list
 
+#
 # if __name__ == '__main__':
-# api = HuggingFaceAPI()
-# api.validate_model("facebook/bart-large-mnli")
+#     api = HuggingFaceAPI()
+#     print(len(api.get_matching_models_from_hf()))
