@@ -55,8 +55,6 @@ class HuggingFaceAPI:
     # this also define the models the agent.py giving to the scheduler
     def get_matching_models_from_hf(self, limit=None):
         model_to_include_list = json.loads(os.environ['HF_MODEL_NAME_FILTER'])
-        print(model_to_include_list)
-        print(type(model_to_include_list))
         models_list = []
         for imn in model_to_include_list:
             models = self.api.list_models(limit=limit, sort='downloads', language=['en'], model_name=imn)
