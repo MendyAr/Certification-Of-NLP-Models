@@ -4,11 +4,13 @@ from questionaire.proxy_qlatent.ASI import *
 from questionaire.proxy_qlatent.BIG5 import *
 import threading
 import os
+from concurrent.futures import ThreadPoolExecutor
 
 
 class EvaluationEngine:
     def __init__(self):
         self.storage = Storage2.get_instance()
+        self.executor = ThreadPoolExecutor(max_workers=1)
         string_timeout = os.environ.get("EVALUATION_TIMED_OUT")
         try:
             self.evaluation_timeout = int(string_timeout)
@@ -16,21 +18,20 @@ class EvaluationEngine:
         except (TypeError, ValueError) as e:
             print(f"Error converting environment {string_timeout} variable to integer: {e}")
 
+
     def run_eval_request(self, request: Request):
         self.score = 0
         q = self.get_questionaire_by_name(request.questionnaire.name)
         model_name = request.model.name
         try:
-
-            thread = threading.Thread(target=self.eval_block(q, model_name))
-            thread.start()
+            future = self.executor.submit(q.eval_questionaire, model_name)
             print("before")
-            thread.join(timeout=5)
+            future.result(timeout=5)
             print("here")
-            if thread.is_alive():
-                print(f"evaluation timed out: {request.model.name} - {request.questionnaire.name}")
-                raise Exception
             self.score = q.eval_questionaire(model_name)
+        except TimeoutError:
+            print(f"evaluation timed out: {request.model.name} - {request.questionnaire.name}")
+            self.score = -999
         except:
             self.score = -999
             from Service.HuggingFaceAPI import HuggingFaceAPI
