@@ -21,13 +21,15 @@ class EvaluationEngine:
         q = self.get_questionaire_by_name(request.questionnaire.name)
         model_name = request.model.name
         try:
+
             thread = threading.Thread(target=self.eval_block(q, model_name))
             thread.start()
-            thread.join(timeout=self.evaluation_timeout)
+            thread.join(timeout=5)
             print("here")
             if thread.is_alive():
                 print(f"evaluation timed out: {request.model.name} - {request.questionnaire.name}")
                 raise Exception
+            self.score = q.eval_questionaire(model_name)
         except:
             self.score = -999
             from Service.HuggingFaceAPI import HuggingFaceAPI
