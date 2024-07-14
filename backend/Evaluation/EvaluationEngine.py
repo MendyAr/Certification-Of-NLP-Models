@@ -25,10 +25,7 @@ class EvaluationEngine:
         model_name = request.model.name
         try:
             future = self.executor.submit(q.eval_questionaire, model_name)
-            print("before")
-            future.result(timeout=5)
-            print("here")
-            self.score = q.eval_questionaire(model_name)
+            self.score = future.result(timeout=self.evaluation_timeout)
         except TimeoutError:
             print(f"evaluation timed out: {request.model.name} - {request.questionnaire.name}")
             self.score = -999
@@ -47,9 +44,6 @@ class EvaluationEngine:
         last_result.end_time = datetime.now()
         self.storage.update_result_in_db(last_result)
         return self.score
-
-    def eval_block(self, q, model_name):
-        self.score = q.eval_questionaire(model_name)
 
     def get_questionaire_by_name(self, name):
         if name == "ASI":
