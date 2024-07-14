@@ -24,6 +24,7 @@ class EvaluationEngine:
             thread = threading.Thread(target=self.eval_block(q, model_name))
             thread.start()
             thread.join(timeout=self.evaluation_timeout)
+            print("here")
             if thread.is_alive():
                 print(f"evaluation timed out: {request.model.name} - {request.questionnaire.name}")
                 raise Exception
