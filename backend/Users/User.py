@@ -38,7 +38,6 @@ class User:
             results.append({"model": r.model.name,
                             "questionnaire": r.questionnaire.name,
                             "result": score})
-        print(results)
         return results
 
     def add_project(self, project_name):
