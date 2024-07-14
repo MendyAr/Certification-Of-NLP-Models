@@ -393,6 +393,6 @@ def main():
 
 
 if __name__ == '__main__':
-    from transformers.utils.hub import move_cache
-    print(move_cache())
-    # main()
+    # from transformers.utils.hub import move_cache
+    # print(move_cache())
+    main()

@@ -92,12 +92,12 @@ class Scheduler:
         return result
 
     def eval_request(self):
-        print(len(self.agent_requests_list))
-        print(len(self.users_requests_list))
+        print("agent model list size: ", len(self.agent_requests_list))
+        print("users model list size: ", len(self.users_requests_list))
         next_eval_req, user_or_agent = self.get_next_request()
         if next_eval_req == -1:
             return False
-        print("eval: ", next_eval_req[0].model.name, " - ", next_eval_req[0].questionnaire.name)
+        print("evaluating: ", next_eval_req[0].model.name, " - ", next_eval_req[0].questionnaire.name)
         if user_or_agent == 1:
             self.user_requests_counter += 1
         self.cache_manager.add_to_queue(next_eval_req[0].model.name)
@@ -114,6 +114,7 @@ class Scheduler:
             if len(self.agent_requests_list) < self.agent_min_restock_requests:
                 filterout = self.storage.get_all_evaled_models()
                 models = self.agent.get_models(filterout=filterout, limit=self.get_minimal_amount_of_evals_to_limit)
+                print(f"received {len(models)} models from agent")
                 if self.agent_min_restock_requests > len(models):
                     self.get_minimal_amount_of_evals_to_limit += self.agent_min_restock_requests * self.multiplier_get_minimal_amount_of_evals_to_limit
                     models = self.agent.get_models(filterout=filterout, limit=self.get_minimal_amount_of_evals_to_limit)

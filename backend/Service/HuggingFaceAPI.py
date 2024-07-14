@@ -50,6 +50,7 @@ class HuggingFaceAPI:
     
 
     # return a list of compatible models
+    # this also define the models the agent.py giving to the scheduler
     def get_matching_models_from_hf(self, limit=None, included_model_names=["nli", "bert"]):
         models_list = []
         for imn in included_model_names:

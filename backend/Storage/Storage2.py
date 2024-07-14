@@ -589,29 +589,22 @@ class Storage2:
         ).first()
 
         if existing_result_db:
-            print("exisiting request")
             existing_result_db.result_score = result.result_score
             existing_result_db.end_time = result.end_time
         else:
-            print("new request")
             new_result_db = self.Result_2_Result_db(result)
             self.session.add(new_result_db)
 
         self.session.commit()
 
     def get_result_of_request(self, request: Request):
-        print(request.model.name)
-        print(request.questionnaire.name)
         result_db = self.session.query(Result_db).filter(
             Result_db.request_model_name == request.model.name,
             Result_db.request_questionnaire_name == request.questionnaire.name,
             Result_db.end_time != None
         ).order_by(Result_db.end_time.desc()).first()
         if result_db is None:
-            print("result db is none")
             return None
-        print("fff", result_db.request_model_name)
-        print("fff", result_db.request_questionnaire_name)
         return self.Result_db_2_Result(result_db)
 
     # .......................................................................
