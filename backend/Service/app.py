@@ -25,7 +25,6 @@ def create_app(*args, **kwargs):
     # configure flask
     app = Flask(__name__)
     app.config['FLASK_SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
-    app.config['EVAL_FLAG'] = False
     CORS(app)
 
     service = Service()
@@ -357,28 +356,8 @@ def create_app(*args, **kwargs):
         finally:
             return response
 
-    # @app.route('/eval-engine', methods=['GET'])
-    # def eval_engine():
-    #     response = None
-    #     try:
-    #         if not app.config['EVAL_FLAG']:
-    #             scheduler = Scheduler.get_instance()
-    #             app.config['EVAL_FLAG'] = True
-    #             scheduler.run_eval_thread()
-    #             response = jsonify({"message": "Eval engine stopped"})
-    #         else:
-    #             response = jsonify({"message": "Eval engine working"})
-    #     except BadRequestException as e:
-    #         response = jsonify({"error": str(e)})
-    #         response.status_code = e.error_code
-    #     except Exception as e:
-    #         response = jsonify({"error": str(e)})
-    #         print(str(e))
-    #         response.status_code = 500
-    #     finally:
-    #         return response
-
     return app
+
 
 # Encodes an email address into a JWT token with a 1-hour expiration time.
 def encode_token(email):
@@ -414,4 +393,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from transformers.utils.hub import move_cache
+    print(move_cache())
+    # main()
