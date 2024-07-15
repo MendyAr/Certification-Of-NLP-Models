@@ -36,6 +36,13 @@ sudo tail -f /var/log/nginx/access.log
 
 Watch gunicorn log:
 sudo journalctl -u gunicorn -f (-f for real time watch)
+nano /var/log/gunicorn/gunicorn.log
+nano /var/log/gunicorn/gunicorn-error.log
+
+
+Running the Gunicorn on the cmd to inspect prints on the run (useful for debugging):
+sudo source venv/bin/activate
+gunicorn --workers 1 --bind 0.0.0.0:5001 'backend.Service.app:create_app()'
 
 **********
 
