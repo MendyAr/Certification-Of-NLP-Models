@@ -11,13 +11,13 @@ For information about how to install the app on a linux machine and manage the p
 
 ## Evaluation score meaning
 Error score shown when the evaluation module couldn't complete the evaluation.  
-"Evaluation failed" - Possible causes:   
-evaluation module failed to evaluate (exception occurred in the evaluating module).  
+"Evaluation failed" - possible causes:   
+evaluation module failed to evaluate due to exception in the evaluation module.  
 model took too long to be evaluated, more than "evaluation_timed_out" [value](.env.env), which is used to avoid the following error.   
 model is too large to be evaluated on this machine (out of memory error).
 
-"Model is incompatible for evaluation" - Possible causes:  
-evaluation module failed to evaluate (exception occurred in the evaluating module) and also the model configuration doesn't have the "label2id" key with "entailment" != -1   
+"Model is incompatible for evaluation" - possible causes:  
+evaluation module failed to evaluate due to exception in the evaluation module and also the model configuration doesn't have the "label2id" key with "entailment" != -1   
 
 
 
