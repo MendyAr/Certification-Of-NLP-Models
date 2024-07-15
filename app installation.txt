@@ -16,8 +16,3 @@ python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-
-# configuring .env.env file:
-# RESET_DB - set True to reset the db on application execution (then set back to false to avoid additional reset)
-# HF_MODEL_NAME_FILTER - the Agent returns models that has one of these keywords in its name, for automatic evaluation
-# EVALUATION_TIMED_OUT - after this timeout, evaluation will stop and consider the model as "Failed to evaluate" (is used to solved out of memory bug in model evaluation)
