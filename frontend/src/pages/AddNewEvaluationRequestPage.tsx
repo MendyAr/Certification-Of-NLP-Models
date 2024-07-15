@@ -279,6 +279,7 @@ const deleteQuestionnaire = async (questionnaireToDelete: string) => {
                 <Form layout="vertical">
                     <Form.Item label="Model Name">
                         <Input placeholder="Enter model name" value={modelName} onChange={handleModelNameChange} />
+                        <a href={"https://huggingface.co/models"} target="_blank" rel="noopener noreferrer">HuggingFace models repository</a>
                     </Form.Item>
                     {/* <Form.Item label="Model URL">
                         <Input placeholder="Enter model URL" value={modelUrl} onChange={handleModelUrlChange}/>

@@ -78,6 +78,10 @@ export default function TopRequestsTable() {
             title: "Model",
             dataIndex: "model",
             key: "model",
+            render: (model: string) => {
+            const url = `https://huggingface.co/${model}`;
+            return <a href={url} target="_blank" rel="noopener noreferrer">{model}</a>;
+            }
         },
         {
             title: "Result",
@@ -89,6 +93,13 @@ export default function TopRequestsTable() {
                 if (text === -9999) return "Model is not compatible, evaluation failed";
                 if (text === -99999) return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
                 if (!text || text === "") return <span style={{ color: "blue" }}>Waiting for evaluation</span>;
+                if (typeof text === "string") {
+                    text = parseFloat(text);
+                }
+
+                if (typeof text === "number") {
+                    text = text.toFixed(5);
+                }
                 return text;
             },
         },

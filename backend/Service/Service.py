@@ -30,7 +30,7 @@ class Service:
         if not self.storage.check_email_password(email, password):
             raise BadRequestException("Incorrect email or password")
 
-    def get_top_evaluations(self, number_of_results=10):
+    def get_top_evaluations(self, number_of_results=10000):
         results = self.storage.get_top_evals(number_of_results)
         top = []
         for r in results:

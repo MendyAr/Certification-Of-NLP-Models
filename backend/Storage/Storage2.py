@@ -155,7 +155,7 @@ class Storage2:
             models_names.append(model_result.request_model_name)
         return models_names
 
-    def get_top_evals(self, number_of_results=10):
+    def get_top_evals(self, number_of_results=10000):
         if number_of_results == None:
             top_results_db = (
                 self.session.query(Result_db)
