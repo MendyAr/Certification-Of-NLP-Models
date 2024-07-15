@@ -364,7 +364,7 @@ def encode_token(email):
     # Set payload with email and expiration time (1 hour from now)
     payload = {
         'email': email,
-        'exp': datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=1)
+        'exp': datetime.datetime.now(datetime.UTC) + datetime.timedelta(hours=24)
     }
     # Encode the token using HS256 algorithm and secret key
     encoded_token = jwt.encode(payload, os.environ.get('FLASK_SECRET_KEY'), algorithm="HS256")
