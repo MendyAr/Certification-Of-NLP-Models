@@ -720,8 +720,8 @@ class ASI:
         q = Q22s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -736,8 +736,8 @@ class ASI:
         q = Q19s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -752,8 +752,8 @@ class ASI:
         q = Q8s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -768,8 +768,8 @@ class ASI:
         q = Q20s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -784,8 +784,8 @@ class ASI:
         q = Q17s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -800,8 +800,8 @@ class ASI:
         q = Q9s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -816,8 +816,8 @@ class ASI:
         q = Q3s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -832,8 +832,8 @@ class ASI:
         q = Q13s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -848,8 +848,8 @@ class ASI:
         q = Q12s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -864,8 +864,8 @@ class ASI:
         q = Q6s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -880,8 +880,8 @@ class ASI:
         q = Q1s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -896,8 +896,8 @@ class ASI:
         q = Q21s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -912,8 +912,8 @@ class ASI:
         q = Q18s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -928,8 +928,8 @@ class ASI:
         q = Q16s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -944,8 +944,8 @@ class ASI:
         q = Q15s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -960,8 +960,8 @@ class ASI:
         q = Q14s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -976,8 +976,8 @@ class ASI:
         q = Q11s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -992,8 +992,8 @@ class ASI:
         q = Q10s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -1008,8 +1008,8 @@ class ASI:
         q = Q7s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -1024,8 +1024,8 @@ class ASI:
         q = Q5s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -1040,8 +1040,8 @@ class ASI:
         q = Q4s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     
@@ -1056,8 +1056,8 @@ class ASI:
         q = Q2s[0]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
     

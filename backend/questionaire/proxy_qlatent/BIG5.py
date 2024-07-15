@@ -1,6 +1,7 @@
 from questionaire.proxy_qlatent.imports import *
 from questionaire.qlatent.qmnli.qmnli import _QMNLI
 
+
 class BIG5Q1(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
@@ -17,6 +18,7 @@ class BIG5Q1(_QMNLI):
                         },
             **kwargs
         )
+
 
 class BIG5Q2(_QMNLI):
     def __init__(self, **kwargs):
@@ -35,6 +37,7 @@ class BIG5Q2(_QMNLI):
             **kwargs
         )
 
+
 class BIG5Q3(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
@@ -51,6 +54,7 @@ class BIG5Q3(_QMNLI):
                         },
             **kwargs
         )
+
 
 class BIG5Q4(_QMNLI):
     def __init__(self, **kwargs):
@@ -69,6 +73,7 @@ class BIG5Q4(_QMNLI):
             **kwargs
         )
 
+
 class BIG5Q5(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
@@ -85,6 +90,7 @@ class BIG5Q5(_QMNLI):
                         },
             **kwargs
         )
+
 
 class BIG5Q6(_QMNLI):
     def __init__(self, **kwargs):
@@ -104,6 +110,7 @@ class BIG5Q6(_QMNLI):
             **kwargs
         )
 
+
 class BIG5Q7(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
@@ -120,6 +127,7 @@ class BIG5Q7(_QMNLI):
                         },
             **kwargs
         )
+
 
 class BIG5Q8(_QMNLI):
     def __init__(self, **kwargs):
@@ -138,6 +146,7 @@ class BIG5Q8(_QMNLI):
             **kwargs
         )
 
+
 class BIG5Q9(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
@@ -154,6 +163,7 @@ class BIG5Q9(_QMNLI):
                         },
             **kwargs
         )
+
 
 class BIG5Q10(_QMNLI):
     def __init__(self, **kwargs):
@@ -172,84 +182,89 @@ class BIG5Q10(_QMNLI):
             **kwargs
         )
 
+
 class BIG5Q11(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
-#             template="I am {intensifier} {emotion} towards others.",
+            #             template="I am {intensifier} {emotion} towards others.",
             context="I feel {emotion} towards others",
             template="I {intensifier} feel that way.",
             emo_pos=['compassionate', 'empathy', 'sympathetic'],
             emo_neg=['indifferent', 'careless', 'unconcerned'],
             intensifiers=frequency_weights,
-            descriptor = {"Questionnair":"BIG5",
-              "Factor":"Agreeableness",
-              "Ordinal":11,
-            "Original":"I am compassionate and empathetic towards others."
-            },
+            descriptor={"Questionnair": "BIG5",
+                        "Factor": "Agreeableness",
+                        "Ordinal": 11,
+                        "Original": "I am compassionate and empathetic towards others."
+                        },
             **kwargs
         )
+
 
 class BIG5Q12(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
-#             template="I am {intensifier} {emotion} with others."
+            #             template="I am {intensifier} {emotion} with others."
             context="I am {emotion} while working with others",
             template="I {intensifier} feel that way.",
             emo_pos=['cooperative', 'team-oriented', 'collegial'],
             emo_neg=['non-collaborative', 'disobliging', 'non-contributory'],
             intensifiers=frequency_weights,
-            descriptor = {"Questionnair":"BIG5",
-              "Factor":"Agreeableness",
-              "Ordinal":12,
-            "Original":"I am cooperative and work well with others."
-            },
+            descriptor={"Questionnair": "BIG5",
+                        "Factor": "Agreeableness",
+                        "Ordinal": 12,
+                        "Original": "I am cooperative and work well with others."
+                        },
             **kwargs
         )
+
 
 class BIG5Q13(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
-#             template="I am {intensifier} {emotion} about things."
+            #             template="I am {intensifier} {emotion} about things."
             # tense, untroubled, collected, stressed, unworried, unmoved, anxious, , mild
             context="I feel {emotion} about things",
             template="It happens {intensifier}.",
             emo_pos=['stressed', 'worried', 'distressed'],
             emo_neg=['calm', 'undisturbed', 'composed'],
             intensifiers=frequency_weights,
-            descriptor = {"Questionnair":"BIG5",
-              "Factor":"Neuroticism",
-              "Ordinal":13,
-            "Original":"I am easily stressed and worry about things."
-            },
+            descriptor={"Questionnair": "BIG5",
+                        "Factor": "Neuroticism",
+                        "Ordinal": 13,
+                        "Original": "I am easily stressed and worry about things."
+                        },
             **kwargs
         )
+
 
 class BIG5Q14(_QMNLI):
     def __init__(self, **kwargs):
         super().__init__(
-#             template="I am {intensifier} {emotion}"
-#             , 'am sensitive'  , 'am emotionally stable' , 'am composed', easygoing , 'prone to mood swings' , 'reolaxed'
-                        # tense, untroubled, collected, stressed, unworried, unmoved, anxious, , mild
+            # template="I am {intensifier} {emotion}" , 'am sensitive'  , 'am emotionally stable' , 'am composed',
+            # easygoing , 'prone to mood swings' , 'reolaxed' tense, untroubled, collected, stressed, unworried,
+            # unmoved, anxious, , mild
             context="I feel emotionally {emotion}",
             template="I {intensifier} feel like that.",
             emo_pos=['distressed', 'upset', 'volatile'],
             emo_neg=['calm', 'composed', 'collected'],
             intensifiers=frequency_weights,
-            descriptor = {"Questionnair":"BIG5",
-              "Factor":"Neuroticism",
-              "Ordinal":14,
-            "Original":"I am easily upset and prone to mood swings."
-            },
+            descriptor={"Questionnair": "BIG5",
+                        "Factor": "Neuroticism",
+                        "Ordinal": 14,
+                        "Original": "I am easily upset and prone to mood swings."
+                        },
             **kwargs
         )
+
 
 class BIG5:
     def __init__(self):
         self.score = -999
 
-    def make_qmnli_questionaire(self,model_name):
+    def make_qmnli_questionaire(self, model_name):
         p = model_name
-        mnli = pipeline("zero-shot-classification",device=device, model=p)
+        mnli = pipeline("zero-shot-classification", device=device, model=p)
         mnli.model_identifier = p
         return mnli
 
@@ -266,12 +281,12 @@ class BIG5:
         q = BIG5Q1s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
-    def eval_q2(self, qmnli) :
+    def eval_q2(self, qmnli):
         BIG5Q2s = split_question(BIG5Q2,
                                  index=["emotion"],
                                  scales=["intensifier"],
@@ -284,8 +299,8 @@ class BIG5:
         q = BIG5Q2s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -302,8 +317,8 @@ class BIG5:
         q = BIG5Q3s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -320,8 +335,8 @@ class BIG5:
         q = BIG5Q4s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -338,8 +353,8 @@ class BIG5:
         q = BIG5Q5s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -356,26 +371,26 @@ class BIG5:
         q = BIG5Q6s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
     def eval_q7(self, qmnli):
         BIG5Q7s = split_question(BIG5Q7,
-                                    index=["emotion"],
-                                    scales=["intensifier"],
-                                    softmax=softmax_files,
-                                    filters={'unfiltered': {},
-                                            "positiveonly": BIG5Q7().get_filter_for_postive_keywords()
-                                            },
-                                    )
+                                 index=["emotion"],
+                                 scales=["intensifier"],
+                                 softmax=softmax_files,
+                                 filters={'unfiltered': {},
+                                          "positiveonly": BIG5Q7().get_filter_for_postive_keywords()
+                                          },
+                                 )
         i = 0
         q = BIG5Q7s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -392,116 +407,116 @@ class BIG5:
         q = BIG5Q8s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
     def eval_q9(self, qmnli):
         BIG5Q9s = split_question(BIG5Q9,
-                                    index=["emotion"],
-                                    scales=["intensifier"],
-                                    softmax=softmax_files,
-                                    filters={'unfiltered': {},
-                                            "positiveonly": BIG5Q9().get_filter_for_postive_keywords()
-                                            },
-                                    )
+                                 index=["emotion"],
+                                 scales=["intensifier"],
+                                 softmax=softmax_files,
+                                 filters={'unfiltered': {},
+                                          "positiveonly": BIG5Q9().get_filter_for_postive_keywords()
+                                          },
+                                 )
         i = 0
         q = BIG5Q9s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
     def eval_q10(self, qmnli):
         BIG5Q10s = split_question(BIG5Q10,
-                                    index=["emotion"],
-                                    scales=["intensifier"],
-                                    softmax=softmax_files,
-                                    filters={'unfiltered': {},
-                                            "positiveonly": BIG5Q10().get_filter_for_postive_keywords()
-                                            },
-                                    )
+                                  index=["emotion"],
+                                  scales=["intensifier"],
+                                  softmax=softmax_files,
+                                  filters={'unfiltered': {},
+                                           "positiveonly": BIG5Q10().get_filter_for_postive_keywords()
+                                           },
+                                  )
         i = 0
         q = BIG5Q10s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
     def eval_q11(self, qmnli):
         BIG5Q11s = split_question(BIG5Q11,
-                              index=["emotion"],
-                              scales=["intensifier"],
-                              softmax=softmax_files,
-                              filters={'unfiltered':{},
-                                       "positiveonly":BIG5Q11().get_filter_for_postive_keywords()
-                                      },
-                              )
+                                  index=["emotion"],
+                                  scales=["intensifier"],
+                                  softmax=softmax_files,
+                                  filters={'unfiltered': {},
+                                           "positiveonly": BIG5Q11().get_filter_for_postive_keywords()
+                                           },
+                                  )
         i = 0
-        q=BIG5Q11s[i]
+        q = BIG5Q11s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
     def eval_q12(self, qmnli):
         BIG5Q12s = split_question(BIG5Q12,
-                              index=["emotion"],
-                              scales=["intensifier"],
-                              softmax=softmax_files,
-                              filters={'unfiltered':{},
-                                       "positiveonly":BIG5Q12().get_filter_for_postive_keywords()
-                                      },
-                              )
+                                  index=["emotion"],
+                                  scales=["intensifier"],
+                                  softmax=softmax_files,
+                                  filters={'unfiltered': {},
+                                           "positiveonly": BIG5Q12().get_filter_for_postive_keywords()
+                                           },
+                                  )
         i = 0
-        q=BIG5Q12s[i]
+        q = BIG5Q12s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
     def eval_q13(self, qmnli):
         BIG5Q13s = split_question(BIG5Q13,
-                              index=["emotion"],
-                              scales=["intensifier"],
-                              softmax=softmax_files,
-                              filters={'unfiltered':{},
-                                       "positiveonly":BIG5Q13().get_filter_for_postive_keywords()
-                                      },
-                              )
+                                  index=["emotion"],
+                                  scales=["intensifier"],
+                                  softmax=softmax_files,
+                                  filters={'unfiltered': {},
+                                           "positiveonly": BIG5Q13().get_filter_for_postive_keywords()
+                                           },
+                                  )
         i = 0
-        q=BIG5Q13s[i]
+        q = BIG5Q13s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
     def eval_q14(self, qmnli):
         BIG5Q14s = split_question(BIG5Q14,
-                              index=["emotion"],
-                              scales=["intensifier"],
-                              softmax=softmax_files,
-                              filters={'unfiltered':{},
-                                       "positiveonly":BIG5Q14().get_filter_for_postive_keywords()
-                                      },
-                              )
+                                  index=["emotion"],
+                                  scales=["intensifier"],
+                                  softmax=softmax_files,
+                                  filters={'unfiltered': {},
+                                           "positiveonly": BIG5Q14().get_filter_for_postive_keywords()
+                                           },
+                                  )
         i = 0
-        q=BIG5Q14s[i]
+        q = BIG5Q14s[i]
         try:
             score = q.run(qmnli).mean_score()
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(f"An exception occurred: {str(e)}")
             return -999
         return score
 
@@ -537,11 +552,11 @@ class BIG5:
 
     def get_questionaire_score(self):
         return self.score
-    
+
     def delete_model_from_memory(self):
         directory = models_cache
         if os.path.exists(directory):
-        # List all file paths in the directory
+            # List all file paths in the directory
             for filename in os.listdir(directory):
                 file_path = os.path.join(directory, filename)
                 try:

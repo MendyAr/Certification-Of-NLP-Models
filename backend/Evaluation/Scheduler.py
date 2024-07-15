@@ -25,7 +25,7 @@ class Scheduler:
             self.recover_user_request()
             self.user_requests_counter = 0
             self.users_2_agent_ratio = 10  # for num of request eval agent req
-            self.agent_min_restock_requests = 10  # len(agent_requests_list) < this val then restock
+            self.agent_min_restock_requests = 100  # len(agent_requests_list) < this val then restock
             self.agent = Agent()
             self.get_minimal_amount_of_evals_to_limit = 10
             self.multiplier_get_minimal_amount_of_evals_to_limit = 2
