@@ -1,6 +1,6 @@
 import os
 
-from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, Table, ForeignKeyConstraint
+from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, DateTime, Table, ForeignKeyConstraint, and_
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker, joinedload, subqueryload
 from datetime import datetime, timedelta
@@ -169,11 +169,15 @@ class Storage2:
         else:
             top_results_db = (
                 self.session.query(Result_db)
+                .filter(and_(Result_db.result_score is not None,
+                             Result_db.result_score != -99999,
+                             Result_db.result_score != -9999,
+                             Result_db.result_score != -999))
                 .options(
                     joinedload(Result_db.request).joinedload(Request_db.model),
                     joinedload(Result_db.request).joinedload(Request_db.questionnaire)
                 )
-                .order_by(Result_db.result_score.desc())
+                .order_by(Result_db.end_time.desc())
                 .limit(number_of_results)
                 .all()
             )
