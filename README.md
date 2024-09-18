@@ -8,7 +8,7 @@ For information about building and developing the app see app installation.txt
 
 For information about how to install the app on a linux machine and manage the production servers see Readme Servers.txt.
  
-#Important notes for developers
+# Important notes for developers
 ## Evaluation score meaning
 Error score shown when the evaluation module couldn't complete the evaluation.  
 "Evaluation failed" - possible causes:   
