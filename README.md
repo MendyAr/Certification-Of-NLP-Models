@@ -1,14 +1,13 @@
 # Certifications-Of-NLP-Models
 https://nlp-cetrification.cs.bgu.ac.il/  
 
-This web application is a platform that allows users to certificate NLP models,
-working with HuggingFace models and questionnaire to evaluate models' biases.
+This web application is a platform allowing users to certificate NLP models,
+working on Transformers and HuggingFace models to evaluate biases using questionnaires.
 
 For information about building and developing the app see app installation.txt
-
 For information about how to install the app on a linux machine and manage the production servers see Readme Servers.txt.
  
-# Important notes for developers
+# Important notes for users and developers
 ## Evaluation score meaning
 Error score shown when the evaluation module couldn't complete the evaluation.  
 "Evaluation failed" - possible causes:   
