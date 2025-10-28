@@ -1,6 +1,4 @@
 # Certifications-Of-NLP-Models
-https://nlp-cetrification.cs.bgu.ac.il/  
-
 This web application is a platform allowing users to certificate NLP models,
 working on Transformers and HuggingFace models to evaluate biases using questionnaires.
 
